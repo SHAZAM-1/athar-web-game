@@ -15,13 +15,13 @@ The first playable experiment is **The Whispering Realm**. Discover the hidden t
 
 ## Requirements
 
-- Node.js 20 or newer
+- Node.js 22 or newer
 - npm
 
 ## Run locally
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -33,6 +33,7 @@ Vite prints the local development URL in the terminal.
 npm run typecheck
 npm test
 npm run build
+npm audit --audit-level=moderate
 ```
 
 ## Project direction
@@ -43,7 +44,7 @@ The intended direction is calm, luminous, atmospheric, and original. Each realm 
 
 ## Preview deployment
 
-A GitHub Actions workflow builds and deploys the validated prototype to GitHub Pages when changes reach `main`. Enable **Settings → Pages → Build and deployment → Source: GitHub Actions** if Pages is not already enabled for this repository. The workflow will publish the preview URL when deployment succeeds.
+The GitHub Actions workflow validates and deploys the prototype to GitHub Pages when changes reach `main`. **One-time repository setup is required:** an administrator must open **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**. The workflow token available to automation cannot enable Pages for this repository, so the workflow intentionally does not attempt that privileged operation. After this setting is saved, rerun the **Deploy preview to GitHub Pages** workflow from the Actions tab. The published URL will appear in the successful deployment run.
 
 ## Status
 
