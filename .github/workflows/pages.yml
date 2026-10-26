@@ -28,7 +28,16 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install
+        # npm occasionally fails while building its dependency graph on a fresh runner.
+        # Retry after clearing npm's cache; the explicit audit step below remains the security gate.
+        run: |
+          for attempt in 1 2 3; do
+            npm install --no-audit --no-fund && exit 0
+            echo "npm install failed (attempt $attempt/3); clearing cache before retry."
+            npm cache clean --force
+            sleep "$attempt"
+          done
+          exit 1
       - name: Security audit
         run: npm audit --audit-level=moderate
       - name: Typecheck
