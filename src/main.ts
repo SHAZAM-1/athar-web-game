@@ -139,7 +139,6 @@ const game = new Phaser.Game({
 
 let audioContext: AudioContext | null = null;
 let ambientGain: GainNode | null = null;
-let oscillators: OscillatorNode[] = [];
 
 async function setAmbientSound(enabled: boolean): Promise<boolean> {
   if (!('AudioContext' in window)) return false;
@@ -150,13 +149,12 @@ async function setAmbientSound(enabled: boolean): Promise<boolean> {
     ambientGain.gain.value = 0.012;
     ambientGain.connect(audioContext.destination);
 
-    oscillators = [110, 164.81].map((frequency) => {
+    [110, 164.81].forEach((frequency) => {
       const oscillator = audioContext!.createOscillator();
       oscillator.type = 'sine';
       oscillator.frequency.value = frequency;
       oscillator.connect(ambientGain!);
       oscillator.start();
-      return oscillator;
     });
   }
 
@@ -191,5 +189,4 @@ window.addEventListener('pagehide', () => {
   void audioContext?.close();
   audioContext = null;
   ambientGain = null;
-  oscillators = [];
 });
