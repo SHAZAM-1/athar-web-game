@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "policy": "Exact-match only. No fuzzy replacements. Every proposed patch must pass the branch's quality gates.",
+  "rules": [
+    {
+      "id": "whispering-hint-lightobjects-typo",
+      "file": "src/main.ts",
+      "before": "Touch the drifting lightObjects in the right order. Watch closely.",
+      "after": "Touch the drifting lights in the right order. Watch closely.",
+      "description": "Correct a known player-facing hint typo previously fixed in Athar.",
+      "risk": "low",
+      "validation": ["npm run typecheck", "npm test", "npm run build"],
+      "sourceIncident": "player-facing-hint-typo",
+      "enabled": true
+    }
+  ]
+}

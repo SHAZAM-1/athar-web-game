@@ -36,6 +36,19 @@ npm run build
 npm audit --audit-level=moderate
 ```
 
+## Project Doctor
+
+Athar includes a repository-scoped **Project Doctor** that checks every remote branch in isolated Git worktrees. It runs dependency installation, security audit, TypeScript typecheck, unit tests, production build, and whitespace validation. It also matches known failure signatures against the project's incident memory.
+
+```bash
+npm run doctor          # Check the current branch
+npm run doctor:branches # Check all fetched remote branches
+```
+
+GitHub Actions runs it on branch pushes and weekly. Each run uploads a JSON diagnosis report and any patches produced by reviewed exact-match safe-fix recipes. It never pushes to branches, commits, opens PRs, or merges automatically. Unknown failures are reported with evidence and conservative next steps. See [the Project Doctor policy](./tools/project-doctor/POLICY.md) for its scope and safety rules.
+
+The Doctor is deliberately bounded and deterministic, not an LLM: it learns from the project's verified incident memory and only proposes exact, pre-approved fixes. Unknown code failures are not "fixed" by guesswork.
+
 ## Project direction
 
 Athar's long-term roadmap contains 12 distinct realms. The first prototype is deliberately limited to one realm; the Crystal and Abyssal realms will follow only after the core loop passes usability, quality, and performance checks.

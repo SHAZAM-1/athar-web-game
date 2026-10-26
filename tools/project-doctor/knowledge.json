@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "project": "Athar",
+  "principles": [
+    "Prefer the smallest verified fix over broad refactors.",
+    "Do not weaken type checks, tests, security audit, or build gates to make a run green.",
+    "Do not add dependencies or expand gameplay scope as an incidental repair.",
+    "Keep fixes isolated and validate them before proposing them.",
+    "Unknown root causes require evidence and reproduction; do not guess."
+  ],
+  "cases": [
+    {
+      "id": "phaser-scene-lights-collision",
+      "title": "Phaser Scene property name collision",
+      "signatures": [
+        "cannot redeclare block-scoped variable 'lights'",
+        "property 'lights' in type",
+        "scene.lights"
+      ],
+      "rootCause": "A custom scene field named lights collided with Phaser's inherited Scene.lights manager.",
+      "resolution": "Rename the game-specific collection to lightObjects and rerun typecheck, tests, and build.",
+      "confidence": "high",
+      "status": "resolved-and-verified",
+      "nextStep": "Use a domain-specific property name rather than shadowing inherited Phaser Scene members."
+    },
+    {
+      "id": "vitest-tinypool-audit",
+      "title": "Vulnerable test-runner dependency tree",
+      "signatures": [
+        "tinypool",
+        "critical severity vulnerability",
+        "moderate severity vulnerability"
+      ],
+      "rootCause": "The original Vitest dependency tree included vulnerable versions in the test-runner dependency chain.",
+      "resolution": "Upgrade Vitest to the reviewed compatible version, then rerun npm audit, typecheck, unit tests, and production build.",
+      "confidence": "high",
+      "status": "resolved-and-verified",
+      "nextStep": "Keep the explicit moderate-or-higher audit gate; do not suppress advisories just to pass CI."
+    },
+    {
+      "id": "github-pages-permission",
+      "title": "GitHub Pages cannot be enabled by workflow token",
+      "signatures": [
+        "resource not accessible by integration",
+        "pages site",
+        "configure-pages"
+      ],
+      "rootCause": "The workflow token lacks the repository-level permission required to enable Pages for this repository.",
+      "resolution": "A repository administrator must set Settings → Pages → Build and deployment → Source to GitHub Actions.",
+      "confidence": "high",
+      "status": "external-action-required",
+      "nextStep": "Do not keep retrying privileged enablement from CI. Enable Pages manually, then rerun deployment."
+    },
+    {
+      "id": "npm-edgesout-install",
+      "title": "npm dependency graph construction error",
+      "signatures": [
+        "cannot read properties of null (reading 'edgesout')",
+        "edgesout"
+      ],
+      "rootCause": "npm 10.9.9 repeatedly crashed while constructing its dependency graph in the GitHub runner, including after three install attempts and cache clears. This points to the npm installer/dependency-resolution path, not a demonstrated TypeScript or game-code defect; the underlying cause is not yet proven.",
+      "resolution": "The current mitigation upgrades CI to npm 11 before installing and keeps bounded retries. If the crash persists, generate and review a package-lock.json, then use npm ci for reproducible dependency resolution.",
+      "confidence": "medium",
+      "status": "mitigation-under-validation",
+      "nextStep": "Verify the npm version and installation result in the next CI/Doctor run. Do not mark this incident resolved until a clean install and all quality gates pass."
+    }
+  ]
+}
