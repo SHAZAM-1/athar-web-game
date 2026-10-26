@@ -3,7 +3,7 @@ import './style.css';
 import { advanceDiscovery } from './discovery';
 
 class WhisperingScene extends Phaser.Scene {
-  private lights: Phaser.GameObjects.Arc[] = [];
+  private lightObjects: Phaser.GameObjects.Arc[] = [];
   private rune!: Phaser.GameObjects.Graphics;
   private halo!: Phaser.GameObjects.Arc;
   private progress = 0;
@@ -82,7 +82,7 @@ class WhisperingScene extends Phaser.Scene {
       { x: width * 0.68, y: height * 0.62, color: 0xb8a8ff },
     ];
 
-    this.lights = positions.map(({ x, y, color }, index) => {
+    this.lightObjects = positions.map(({ x, y, color }, index) => {
       const glow = this.add.circle(x, y, 11, color, 0.09);
       const light = this.add.circle(x, y, 4, color, 0.95);
       const hitArea = this.add.zone(x, y, 48, 48).setInteractive({ useHandCursor: true });
@@ -100,7 +100,7 @@ class WhisperingScene extends Phaser.Scene {
     });
 
     this.hint = document.getElementById('world-hint') as HTMLElement;
-    this.hint.textContent = 'Touch the drifting lights in the right order. Watch closely.';
+    this.hint.textContent = 'Touch the drifting lightObjects in the right order. Watch closely.';
   }
 
   private tapLight(index: number) {
@@ -110,13 +110,13 @@ class WhisperingScene extends Phaser.Scene {
 
     if (result.solved) {
       this.rune.setAlpha(1);
-      this.lights.forEach((light) => light.setAlpha(1));
+      this.lightObjects.forEach((light) => light.setAlpha(1));
       this.tweens.add({ targets: this.rune, alpha: 0.65, duration: 650, yoyo: true, repeat: 1 });
       this.tweens.add({ targets: this.halo, scale: 1.9, alpha: 0.2, duration: 900, yoyo: true, ease: 'Sine.out' });
       return;
     }
 
-    this.tweens.add({ targets: this.lights[index], scale: 1.8, duration: 180, yoyo: true, ease: 'Sine.out' });
+    this.tweens.add({ targets: this.lightObjects[index], scale: 1.8, duration: 180, yoyo: true, ease: 'Sine.out' });
   }
 }
 
