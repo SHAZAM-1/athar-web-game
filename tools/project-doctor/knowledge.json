@@ -58,11 +58,11 @@
         "cannot read properties of null (reading 'edgesout')",
         "edgesout"
       ],
-      "rootCause": "npm failed while building its internal dependency graph during installation. The log alone does not prove an application-code defect; it may be a transient npm/cache/metadata issue.",
-      "resolution": "Retry installation with a clean npm cache and inspect the npm debug log. If reproducible, stabilize the dependency tree with a reviewed lockfile and use npm ci.",
+      "rootCause": "npm 10.9.9 repeatedly crashed while constructing its dependency graph in the GitHub runner, including after three install attempts and cache clears. This points to the npm installer/dependency-resolution path, not a demonstrated TypeScript or game-code defect; the underlying cause is not yet proven.",
+      "resolution": "The current mitigation upgrades CI to npm 11 before installing and keeps bounded retries. If the crash persists, generate and review a package-lock.json, then use npm ci for reproducible dependency resolution.",
       "confidence": "medium",
-      "status": "mitigation-added-needs-repeat-observation",
-      "nextStep": "Check subsequent workflow runs. Do not claim the root cause is permanently solved based on retries alone."
+      "status": "mitigation-under-validation",
+      "nextStep": "Verify the npm version and installation result in the next CI/Doctor run. Do not mark this incident resolved until a clean install and all quality gates pass."
     }
   ]
 }
