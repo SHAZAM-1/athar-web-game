@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit --pretty",
     "test": "vitest run",
     "doctor": "node tools/project-doctor/doctor.mjs --current",
-    "doctor:branches": "node tools/project-doctor/doctor.mjs --all-branches"
+    "doctor:branches": "node tools/project-doctor/doctor.mjs --all-branches",
+    "doctor:self-test": "node tools/project-doctor/self-test.mjs"
   },
   "dependencies": {
     "phaser": "^3.90.0"
