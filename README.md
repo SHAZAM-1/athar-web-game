@@ -41,8 +41,12 @@ Athar's long-term roadmap contains 12 distinct realms. The first prototype is de
 
 The intended direction is calm, luminous, atmospheric, and original. Each realm should eventually have a meaningful mechanic, palette, ambience, and cross-world clues—not just a visual reskin.
 
+## Preview deployment
+
+A GitHub Actions workflow builds and deploys the validated prototype to GitHub Pages when changes reach `main`. Enable **Settings → Pages → Build and deployment → Source: GitHub Actions** if Pages is not already enabled for this repository. The workflow will publish the preview URL when deployment succeeds.
+
 ## Status
 
-This is an early prototype, not a finished game. Sound, save progress, onboarding, accessibility review, performance profiling, and production deployment still require dedicated validation.
+This is an early prototype, not a finished game. The ambient tone is a placeholder. Save progress, onboarding, accessibility review, performance profiling, and real-device playtesting still require dedicated validation.
 
 See [PROJECT_LOG.md](./PROJECT_LOG.md) for decisions, changes, and validation status.
