@@ -21,7 +21,7 @@ The first playable experiment is **The Whispering Realm**. Discover the hidden t
 ## Run locally
 
 ```bash
-npm ci
+npm install
 npm run dev
 ```
 
