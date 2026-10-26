@@ -101,11 +101,6 @@ class WhisperingScene extends Phaser.Scene {
 
     this.hint = document.getElementById('world-hint') as HTMLElement;
     this.hint.textContent = 'Touch the drifting lights in the right order. Watch closely.';
-    this.scale.on('resize', this.layoutScene, this);
-  }
-
-  private layoutScene() {
-    // Phaser's RESIZE scale mode adapts the canvas while keeping scene state intact.
   }
 
   private tapLight(index: number) {
@@ -130,7 +125,7 @@ const game = new Phaser.Game({
   parent: 'game',
   backgroundColor: '#0a1025',
   scale: {
-    mode: Phaser.Scale.RESIZE,
+    mode: Phaser.Scale.FIT,
     width: 800,
     height: 440,
   },
