@@ -29,15 +29,22 @@
 - `.github/workflows/pages.yml`: validated build and GitHub Pages deployment on updates to `main`.
 - `README.md`: setup and current limitations.
 
-### Validation
-- GitHub Actions passed: security audit, TypeScript typecheck, unit tests, and production build.
-- The initial audit identified vulnerable Vitest 3.x / Tinypool dependencies. Vitest was upgraded to 4.1.12; the subsequent moderate-or-higher audit gate passed.
-- A real-device mobile-browser and audio review has not yet been performed.
-- First deployment attempt built successfully but found that Pages was not enabled. The follow-up enables Pages through configure-pages and retries deployment.
-- The Phaser bundle is about 1.49 MB minified (about 342 KB gzip); code-splitting and real-device loading should be reviewed before production.
+### Red-check audit and fixes
+- **Initial CI failure (PR #1):** TypeScript rejected a scene property named `lights` because it collided with Phaser's inherited `Scene.lights` manager. Renamed the field to `lightObjects`; later CI passed.
+- **Initial security audit failure (PR #1):** the original dependency tree reported one moderate and two critical vulnerabilities. Vitest was upgraded to 4.1.12, and subsequent `npm audit --audit-level=moderate` runs reported zero vulnerabilities.
+- **First Pages deployment failure:** build, audit, typecheck, and all four unit tests passed, but Pages was not enabled in repository settings.
+- **Second Pages deployment failure:** the workflow tried `configure-pages` with `enablement: true`; GitHub rejected creation of the Pages site with `Resource not accessible by integration`. This is a repository-permission/setup blocker, not an application build defect. The workflow now stops trying to enable a privileged repository feature automatically. A repository administrator must select **Settings → Pages → Build and deployment → Source: GitHub Actions**, then rerun deployment.
+- **Bundle-size warning:** Phaser's production bundle is about 1.49 MB minified (about 342 KB gzip). Treat code-splitting and real-device loading as an outstanding performance task, not a passed quality gate.
+- **Environment warning:** updated the Pages workflow to Node.js 22 and switched from `npm install` to reproducible `npm ci`. This assumes the committed lockfile is present.
+
+### Validation status
+- Latest completed deployment attempt: audit, TypeScript typecheck, 4/4 unit tests, and production build passed; only the Pages configuration step failed.
+- Mobile-browser, touch, reduced-motion, and audio testing has not yet been performed.
+- No claim is made that the preview is live until a deployment run succeeds.
 
 ### Next
-1. Validate the preview on a phone and desktop.
-2. Improve touch feedback, hints, reduced-motion behavior, and the puzzle's learnability.
-3. Add a minimal PWA shell only after the core experience is stable.
-4. Start the Crystal Realm only after the first realm passes playtesting.
+1. Apply the one-time Pages setting in repository Settings and rerun deployment.
+2. Validate the preview on a phone and desktop.
+3. Improve touch feedback, hints, reduced-motion behavior, and the puzzle's learnability.
+4. Reduce initial payload and profile loading on real devices.
+5. Start the Crystal Realm only after the first realm passes playtesting.
