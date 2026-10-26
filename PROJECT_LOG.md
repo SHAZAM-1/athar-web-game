@@ -31,7 +31,7 @@
 ### Validation
 - GitHub connector read/write access verified.
 - First CI attempt exposed a Phaser Scene property-name collision and unused audio-node tracking; the scene field was renamed and the unused tracking removed in follow-up commits.
-- Dependency installation reported 3 audit findings (1 moderate, 2 critical); investigate and resolve before production release.
+- Dependency audit found vulnerable Vitest 3.x / Tinypool dependencies. Vitest was upgraded to 4.1.12 and CI now blocks on moderate-or-higher npm audit findings.
 - Unit tests and build are configured but must be confirmed by the CI run. No local runtime or mobile-browser playtest has been performed in this environment.
 - Do not merge to `main` if required checks fail.
 - Next after passing CI: review gameplay on a real mobile viewport, improve hint clarity and accessibility, then consider the next realm.
