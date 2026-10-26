@@ -1,0 +1,52 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f0f4ff;
+  background: #080e20;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  --muted: #a2adc8;
+  --aqua: #91fff0;
+  --line: rgba(173, 204, 239, 0.16);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: radial-gradient(ellipse at 50% 25%, #152144 0%, #0a1025 48%, #070b18 100%); }
+button, a { font: inherit; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--aqua); outline-offset: 4px; }
+.app-shell { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+.topbar { height: 88px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.wordmark { display: inline-flex; align-items: center; gap: 10px; color: #f0f4ff; text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: .28em; }
+.wordmark-mark { display: grid; place-items: center; width: 31px; height: 31px; border: 1px solid rgba(145,255,240,.55); border-radius: 50%; color: var(--aqua); font-family: Georgia, serif; font-size: 18px; letter-spacing: 0; }
+.topbar-note { color: #8995b4; font-size: 12px; letter-spacing: .04em; }
+.sound-toggle { border: 1px solid var(--line); background: rgba(255,255,255,.025); color: #cbd5ed; padding: 9px 13px; border-radius: 999px; font-size: 11px; cursor: pointer; transition: border-color .2s, color .2s; }
+.sound-toggle[aria-pressed="true"] { color: var(--aqua); border-color: rgba(145,255,240,.5); }
+.intro { padding: clamp(42px, 7vw, 78px) 0 32px; text-align: center; }
+.eyebrow { display: flex; align-items: center; justify-content: center; gap: 9px; color: #8ce7df; font-size: 10px; font-weight: 650; letter-spacing: .22em; }
+.eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: #91fff0; box-shadow: 0 0 12px #91fff0; }
+h1 { margin: 22px 0 16px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(36px, 6vw, 66px); font-weight: 400; letter-spacing: -.045em; line-height: 1.09; }
+h1 em { color: #a8b6f4; font-weight: 400; }
+.intro-copy { margin: 0; color: var(--muted); font-size: clamp(13px, 1.6vw, 15px); line-height: 1.7; }
+.world-frame { position: relative; overflow: hidden; border: 1px solid rgba(151, 188, 233, .2); border-radius: 14px; background: #0a1025; box-shadow: 0 30px 100px rgba(0,0,0,.24), 0 0 50px rgba(70, 180, 190, .045); }
+.world-caption { position: absolute; z-index: 2; top: 19px; left: 22px; right: 22px; display: flex; justify-content: space-between; color: #9aa9c8; font-size: 9px; letter-spacing: .17em; pointer-events: none; }
+.game-stage { height: clamp(270px, 45vw, 440px); width: 100%; touch-action: manipulation; }
+.game-stage canvas { display: block; width: 100% !important; height: 100% !important; }
+.world-hint { padding: 14px 18px 16px; border-top: 1px solid rgba(173,204,239,.12); text-align: center; color: #b8c6df; font-size: 12px; letter-spacing: .015em; }
+.bottom-row { display: flex; align-items: center; justify-content: space-between; padding: 27px 0 35px; color: #63708e; font-size: 9px; letter-spacing: .16em; }
+.footer-symbol { color: #8ee8e1; font-size: 15px; }
+
+@media (max-width: 600px) {
+  .app-shell { width: min(100% - 28px, 520px); }
+  .topbar { height: 68px; }
+  .topbar-note { display: none; }
+  .intro { padding-top: 48px; }
+  .world-caption { top: 14px; left: 14px; right: 14px; font-size: 8px; letter-spacing: .1em; }
+  .game-stage { height: 310px; }
+  .bottom-row { font-size: 7px; letter-spacing: .1em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
