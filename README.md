@@ -16,7 +16,7 @@ The first playable experiment is **The Whispering Realm**. Discover the hidden t
 ## Requirements
 
 - Node.js 22 or newer
-- npm
+- npm 11 (CI upgrades npm to the validated major)
 
 ## Run locally
 
@@ -43,11 +43,20 @@ Athar includes a repository-scoped **Project Doctor** that checks every remote b
 ```bash
 npm run doctor          # Check the current branch
 npm run doctor:branches # Check all fetched remote branches
+npm run doctor:self-test # Validate the Doctor's memory and safe-fix rules
 ```
 
-GitHub Actions runs it on branch pushes and weekly. Each run uploads a JSON diagnosis report and any patches produced by reviewed exact-match safe-fix recipes. It never pushes to branches, commits, opens PRs, or merges automatically. Unknown failures are reported with evidence and conservative next steps. See [the Project Doctor policy](./tools/project-doctor/POLICY.md) for its scope and safety rules.
+For an exact, reviewed fix recipe, you can apply it to the current working tree:
 
-The Doctor is deliberately bounded and deterministic, not an LLM: it learns from the project's verified incident memory and only proposes exact, pre-approved fixes. Unknown code failures are not "fixed" by guesswork.
+```bash
+npm run doctor:apply-fix -- --id whispering-hint-lightobjects-typo
+```
+
+The command refuses to edit unless the exact old text appears exactly once. It changes only the local working tree; review `git diff` and rerun all relevant checks before committing anything.
+
+GitHub Actions runs the Doctor on branch pushes and weekly. Each run uploads a JSON diagnosis report and any patches produced by reviewed exact-match safe-fix recipes. The automated scan never pushes to branches, commits, opens PRs, or merges. Unknown failures are reported with evidence and conservative next steps. See [the Project Doctor policy](./tools/project-doctor/POLICY.md) for its scope and safety rules.
+
+The Doctor is deliberately bounded and deterministic, not an LLM: it learns from the project's verified incident memory and only applies exact, pre-approved fixes. Unknown code failures are not "fixed" by guesswork.
 
 ## Project direction
 
