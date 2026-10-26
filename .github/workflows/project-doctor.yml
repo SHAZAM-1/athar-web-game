@@ -29,6 +29,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Validate Doctor code and memory
+        run: |
+          node --check tools/project-doctor/doctor.mjs
+          node --check tools/project-doctor/self-test.mjs
+          npm run doctor:self-test
       - name: Run Project Doctor across branches
         id: doctor
         continue-on-error: true
