@@ -33,7 +33,8 @@
 - GitHub Actions passed: security audit, TypeScript typecheck, unit tests, and production build.
 - The initial audit identified vulnerable Vitest 3.x / Tinypool dependencies. Vitest was upgraded to 4.1.12; the subsequent moderate-or-higher audit gate passed.
 - A real-device mobile-browser and audio review has not yet been performed.
-- GitHub Pages deployment still depends on Pages being enabled for the repository. Confirm the deployment workflow and test the preview before starting another realm.
+- First deployment attempt built successfully but found that Pages was not enabled. The follow-up enables Pages through configure-pages and retries deployment.
+- The Phaser bundle is about 1.49 MB minified (about 342 KB gzip); code-splitting and real-device loading should be reviewed before production.
 
 ### Next
 1. Validate the preview on a phone and desktop.
