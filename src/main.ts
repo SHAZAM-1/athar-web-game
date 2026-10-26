@@ -100,7 +100,7 @@ class WhisperingScene extends Phaser.Scene {
     });
 
     this.hint = document.getElementById('world-hint') as HTMLElement;
-    this.hint.textContent = 'Touch the drifting lightObjects in the right order. Watch closely.';
+    this.hint.textContent = 'Touch the drifting lights in the right order. Watch closely.';
   }
 
   private tapLight(index: number) {
