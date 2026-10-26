@@ -35,7 +35,7 @@
 - **First Pages deployment failure:** build, audit, typecheck, and all four unit tests passed, but Pages was not enabled in repository settings.
 - **Second Pages deployment failure:** the workflow tried `configure-pages` with `enablement: true`; GitHub rejected creation of the Pages site with `Resource not accessible by integration`. This is a repository-permission/setup blocker, not an application build defect. The workflow now stops trying to enable a privileged repository feature automatically. A repository administrator must select **Settings → Pages → Build and deployment → Source: GitHub Actions**, then rerun deployment.
 - **Bundle-size warning:** Phaser's production bundle is about 1.49 MB minified (about 342 KB gzip). Treat code-splitting and real-device loading as an outstanding performance task, not a passed quality gate.
-- **Environment warning:** updated the Pages workflow to Node.js 22 and switched from `npm install` to reproducible `npm ci`. This assumes the committed lockfile is present.
+- **Environment warning:** updated the Pages workflow to Node.js 22 to reduce the Node 20 deprecation warning. The repository does not currently contain a package lockfile, so the workflow correctly retains `npm install` instead of using `npm ci`.
 
 ### Validation status
 - Latest completed deployment attempt: audit, TypeScript typecheck, 4/4 unit tests, and production build passed; only the Pages configuration step failed.
