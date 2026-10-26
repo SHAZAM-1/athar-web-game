@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   validate:
-    name: Typecheck, audit, test, and build
+    name: Doctor config, typecheck, audit, test, and build
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -18,9 +18,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Install dependencies
-        run: npm install
+        run: |
+          for attempt in 1 2 3; do
+            npm install --no-audit --no-fund && exit 0
+            echo "npm install failed (attempt $attempt/3); clearing cache before retry."
+            npm cache clean --force
+            sleep "$attempt"
+          done
+          exit 1
+      - name: Project Doctor syntax and memory checks
+        run: |
+          node --check tools/project-doctor/doctor.mjs
+          node --check tools/project-doctor/self-test.mjs
+          npm run doctor:self-test
       - name: Security audit
         run: npm audit --audit-level=moderate
       - name: Typecheck
