@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import './style.css';
+import { getDiscoveryMessage } from './discovery';
 
 class WhisperingScene extends Phaser.Scene {
   private lights: Phaser.GameObjects.Arc[] = [];
@@ -87,9 +88,7 @@ class WhisperingScene extends Phaser.Scene {
     this.lights.forEach((light) => light.setAlpha(1));
     this.tweens.add({ targets: rune, alpha: 0.65, duration: 650, yoyo: true, repeat: 1 });
     this.tweens.add({ targets: halo, scale: 1.9, alpha: 0.2, duration: 900, yoyo: true, ease: 'Sine.out' });
-    this.hint.textContent = index === 1
-      ? 'A warm light answers. The hidden trace is awake.'
-      : 'You found the trace. The world remembers your touch.';
+    this.hint.textContent = getDiscoveryMessage(index);
   }
 }
 
@@ -99,8 +98,8 @@ const game = new Phaser.Game({
   backgroundColor: '#0a1025',
   scale: {
     mode: Phaser.Scale.RESIZE,
-    width: '100%',
-    height: '100%',
+    width: 800,
+    height: 440,
   },
   render: {
     antialias: true,
