@@ -23,17 +23,22 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Update npm to the validated major
+        run: |
+          npm install --global npm@11 --no-audit --no-fund
+          npm --version
       - name: Install dependencies
-        # npm occasionally fails while building its dependency graph on a fresh runner.
-        # Retry after clearing npm's cache; the explicit audit step below remains the security gate.
+        # Keep bounded retries as a fallback; npm 11 avoids the repeated npm 10 edgesOut crash seen in CI.
         run: |
           for attempt in 1 2 3; do
             npm install --no-audit --no-fund && exit 0
-            echo "npm install failed (attempt $attempt/3); clearing cache before retry."
+            echo "npm install failed (attempt $attempt/3); clearing npm cache before retry."
             npm cache clean --force
             sleep "$attempt"
           done
