@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit --pretty",
-    "test": "vitest run"
+    "test": "vitest run",
+    "doctor": "node tools/project-doctor/doctor.mjs --current",
+    "doctor:branches": "node tools/project-doctor/doctor.mjs --all-branches"
   },
   "dependencies": {
     "phaser": "^3.90.0"
