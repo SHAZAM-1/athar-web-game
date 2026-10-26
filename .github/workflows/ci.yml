@@ -23,6 +23,11 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm install
+      - name: Report dependency audit findings
+        shell: bash
+        run: |
+          npm audit --json > audit-report.json || true
+          node -e "const report = require('./audit-report.json'); console.log(JSON.stringify(report.vulnerabilities ?? {}, null, 2))"
       - name: Typecheck
         run: npm run typecheck
       - name: Unit tests
