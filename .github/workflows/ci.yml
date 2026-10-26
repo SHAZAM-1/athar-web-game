@@ -36,6 +36,7 @@ jobs:
         run: |
           node --check tools/project-doctor/doctor.mjs
           node --check tools/project-doctor/self-test.mjs
+          node --check tools/project-doctor/apply-safe-fix.mjs
           npm run doctor:self-test
       - name: Security audit
         run: npm audit --audit-level=moderate
