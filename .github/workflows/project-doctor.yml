@@ -1,0 +1,50 @@
+name: Athar Project Doctor
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+  schedule:
+    - cron: '17 3 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: athar-project-doctor
+  cancel-in-progress: true
+
+jobs:
+  health-check:
+    name: Diagnose all remote branches
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository and branch history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run Project Doctor across branches
+        id: doctor
+        continue-on-error: true
+        run: node tools/project-doctor/doctor.mjs --all-branches
+      - name: Upload diagnostic report and safe-fix proposals
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: athar-project-doctor-${{ github.run_id }}
+          path: |
+            project-doctor-report.json
+            project-doctor-patches/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Fail the run if any branch needs attention
+        if: steps.doctor.outcome == 'failure'
+        run: |
+          echo "Project Doctor found branch health failures. Read the job summary and download the report artifact."
+          exit 1
