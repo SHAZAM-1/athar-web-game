@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a1025" />
+    <meta name="description" content="Athar is a quiet puzzle adventure about hidden rules, small discoveries, and the traces we leave behind." />
+    <title>Athar — Find what the world is hiding</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="wordmark" href="/" aria-label="Athar home"><span class="wordmark-mark">أ</span><span>ATHAR</span></a>
+        <span class="topbar-note">A world waiting to be understood</span>
+        <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound">Sound off</button>
+      </header>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> THE FIRST TRACE</p>
+        <h1 id="page-title">Some things only<br /><em>appear when you listen.</em></h1>
+        <p class="intro-copy">A quiet world. A hidden rule. One small discovery at a time.</p>
+      </section>
+      <section class="world-frame" aria-label="Playable preview: The Whispering Realm">
+        <div class="world-caption"><span>01 / 12</span><span>THE WHISPERING REALM</span></div>
+        <div id="game" class="game-stage" aria-label="Interactive game scene"></div>
+        <div class="world-hint" id="world-hint" aria-live="polite">Touch the drifting lights. Notice what changes.</div>
+      </section>
+      <footer class="bottom-row">
+        <span>MADE FOR THE CURIOUS</span>
+        <span class="footer-symbol" aria-hidden="true">✳</span>
+        <span>EVERY TRACE MATTERS</span>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
