@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
 import './style.css';
-import { getDiscoveryMessage } from './discovery';
+import { advanceDiscovery } from './discovery';
 
 class WhisperingScene extends Phaser.Scene {
   private lights: Phaser.GameObjects.Arc[] = [];
-  private revealed = false;
+  private rune!: Phaser.GameObjects.Graphics;
+  private halo!: Phaser.GameObjects.Arc;
+  private progress = 0;
   private hint!: HTMLElement;
 
   constructor() {
@@ -13,6 +15,7 @@ class WhisperingScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale;
+    this.progress = 0;
     this.cameras.main.setBackgroundColor('#0a1025');
 
     const backdrop = this.add.graphics();
@@ -41,54 +44,84 @@ class WhisperingScene extends Phaser.Scene {
     island.strokeEllipse(width * 0.5, height * 0.75, width * 0.56, height * 0.18);
 
     for (let i = 0; i < 34; i++) {
-      const x = Phaser.Math.Between(18, width - 18);
-      const y = Phaser.Math.Between(18, height - 18);
+      const x = Phaser.Math.Between(18, Math.max(19, width - 18));
+      const y = Phaser.Math.Between(18, Math.max(19, height - 18));
       const dot = this.add.circle(x, y, Phaser.Math.FloatBetween(0.6, 1.8), 0xb4fff3, Phaser.Math.FloatBetween(0.18, 0.7));
-      this.tweens.add({ targets: dot, alpha: 0.08, duration: Phaser.Math.Between(900, 2400), yoyo: true, repeat: -1 });
+      this.tweens.add({
+        targets: dot,
+        alpha: 0.08,
+        duration: Phaser.Math.Between(900, 2400),
+        yoyo: true,
+        repeat: -1,
+      });
     }
 
     const runeX = width * 0.5;
     const runeY = height * 0.48;
-    const halo = this.add.circle(runeX, runeY, 42, 0x57e6d5, 0.055);
-    const rune = this.add.graphics();
-    rune.lineStyle(2, 0x91fff0, 0.58);
-    rune.strokeCircle(runeX, runeY, 18);
-    rune.lineBetween(runeX, runeY - 28, runeX, runeY + 28);
-    rune.lineBetween(runeX - 22, runeY + 10, runeX + 22, runeY - 10);
-    rune.setAlpha(0.22);
+    this.halo = this.add.circle(runeX, runeY, 42, 0x57e6d5, 0.055);
+    this.rune = this.add.graphics();
+    this.rune.lineStyle(2, 0x91fff0, 0.75);
+    this.rune.strokeCircle(runeX, runeY, 18);
+    this.rune.lineBetween(runeX, runeY - 28, runeX, runeY + 28);
+    this.rune.lineBetween(runeX - 22, runeY + 10, runeX + 22, runeY - 10);
+    this.rune.setAlpha(0.18);
 
-    this.tweens.add({ targets: halo, scale: 1.45, alpha: 0.13, duration: 2100, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
-
-    this.lights = [
-      this.add.circle(width * 0.25, height * 0.38, 4, 0x9affee, 0.9),
-      this.add.circle(width * 0.73, height * 0.29, 3, 0xf5c9a7, 0.85),
-      this.add.circle(width * 0.68, height * 0.62, 4, 0xb8a8ff, 0.9),
-    ];
-    this.lights.forEach((light, i) => {
-      light.setInteractive({ useHandCursor: true });
-      this.tweens.add({ targets: light, y: light.y - 10, alpha: 0.35, duration: 1500 + i * 350, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
-      light.on('pointerdown', () => this.discover(rune, halo, i));
+    this.tweens.add({
+      targets: this.halo,
+      scale: 1.45,
+      alpha: 0.13,
+      duration: 2100,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.inOut',
     });
 
-    this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      if (pointer.y > height * 0.18 && pointer.y < height * 0.84) this.discover(rune, halo, 0);
+    const positions = [
+      { x: width * 0.25, y: height * 0.38, color: 0x9affee },
+      { x: width * 0.73, y: height * 0.29, color: 0xf5c9a7 },
+      { x: width * 0.68, y: height * 0.62, color: 0xb8a8ff },
+    ];
+
+    this.lights = positions.map(({ x, y, color }, index) => {
+      const glow = this.add.circle(x, y, 11, color, 0.09);
+      const light = this.add.circle(x, y, 4, color, 0.95);
+      const hitArea = this.add.zone(x, y, 48, 48).setInteractive({ useHandCursor: true });
+      this.tweens.add({
+        targets: [glow, light],
+        y: y - 9,
+        alpha: 0.42,
+        duration: 1450 + index * 300,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.inOut',
+      });
+      hitArea.on('pointerdown', () => this.tapLight(index));
+      return light;
     });
 
     this.hint = document.getElementById('world-hint') as HTMLElement;
-    this.scale.on('resize', () => this.scene.restart());
+    this.hint.textContent = 'Touch the drifting lights in the right order. Watch closely.';
+    this.scale.on('resize', this.layoutScene, this);
   }
 
-  private discover(rune: Phaser.GameObjects.Graphics, halo: Phaser.GameObjects.Arc, index: number) {
-    if (this.revealed) {
-      this.tweens.add({ targets: halo, scale: 1.7, duration: 240, yoyo: true, ease: 'Sine.out' });
+  private layoutScene() {
+    // Phaser's RESIZE scale mode adapts the canvas while keeping scene state intact.
+  }
+
+  private tapLight(index: number) {
+    const result = advanceDiscovery(this.progress, index);
+    this.progress = result.progress;
+    this.hint.textContent = result.message;
+
+    if (result.solved) {
+      this.rune.setAlpha(1);
+      this.lights.forEach((light) => light.setAlpha(1));
+      this.tweens.add({ targets: this.rune, alpha: 0.65, duration: 650, yoyo: true, repeat: 1 });
+      this.tweens.add({ targets: this.halo, scale: 1.9, alpha: 0.2, duration: 900, yoyo: true, ease: 'Sine.out' });
       return;
     }
-    this.revealed = true;
-    rune.setAlpha(1);
-    this.lights.forEach((light) => light.setAlpha(1));
-    this.tweens.add({ targets: rune, alpha: 0.65, duration: 650, yoyo: true, repeat: 1 });
-    this.tweens.add({ targets: halo, scale: 1.9, alpha: 0.2, duration: 900, yoyo: true, ease: 'Sine.out' });
-    this.hint.textContent = getDiscoveryMessage(index);
+
+    this.tweens.add({ targets: this.lights[index], scale: 1.8, duration: 180, yoyo: true, ease: 'Sine.out' });
   }
 }
 
@@ -109,12 +142,59 @@ const game = new Phaser.Game({
   scene: [WhisperingScene],
 });
 
+let audioContext: AudioContext | null = null;
+let ambientGain: GainNode | null = null;
+let oscillators: OscillatorNode[] = [];
+
+async function setAmbientSound(enabled: boolean): Promise<boolean> {
+  if (!('AudioContext' in window)) return false;
+
+  if (!audioContext) {
+    audioContext = new AudioContext();
+    ambientGain = audioContext.createGain();
+    ambientGain.gain.value = 0.012;
+    ambientGain.connect(audioContext.destination);
+
+    oscillators = [110, 164.81].map((frequency) => {
+      const oscillator = audioContext!.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.frequency.value = frequency;
+      oscillator.connect(ambientGain!);
+      oscillator.start();
+      return oscillator;
+    });
+  }
+
+  if (enabled) {
+    await audioContext.resume();
+  } else {
+    await audioContext.suspend();
+  }
+  return true;
+}
+
 const soundToggle = document.querySelector<HTMLButtonElement>('#sound-toggle');
-soundToggle?.addEventListener('click', () => {
-  const isOn = soundToggle.getAttribute('aria-pressed') !== 'true';
-  soundToggle.setAttribute('aria-pressed', String(isOn));
-  soundToggle.textContent = isOn ? 'Sound on' : 'Sound off';
-  // Audio will be connected after the first-playable accessibility and sound design pass.
+soundToggle?.addEventListener('click', async () => {
+  const enable = soundToggle.getAttribute('aria-pressed') !== 'true';
+  try {
+    const available = await setAmbientSound(enable);
+    if (!available) {
+      soundToggle.textContent = 'Audio unavailable';
+      soundToggle.disabled = true;
+      return;
+    }
+    soundToggle.setAttribute('aria-pressed', String(enable));
+    soundToggle.textContent = enable ? 'Sound on' : 'Sound off';
+  } catch {
+    soundToggle.textContent = 'Sound unavailable';
+    soundToggle.disabled = true;
+  }
 });
 
-window.addEventListener('pagehide', () => game.destroy(true));
+window.addEventListener('pagehide', () => {
+  game.destroy(true);
+  void audioContext?.close();
+  audioContext = null;
+  ambientGain = null;
+  oscillators = [];
+});
