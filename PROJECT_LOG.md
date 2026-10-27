@@ -46,6 +46,12 @@
 - Kept the ocean behind the floating island and land layers so it reads as a surrounding sea rather than covering the playable meadow.
 - Added catalog assertions for all ocean palette fields. Other eleven oceans are palette data only until their scenes become playable.
 
+### Magical guardian creatures for all realms (in progress)
+- Added an original creature concept and calm colour palette for each of the 12 planned realms, including a Tideglow Jellyfish, Velvet Dream Moth, Sunset Glassfox, Echoing Moonwhale, Lanternwing Manta, Moss-Crowned Stag, Prism-Tailed Fox, Cloud Koi, Dune Glasswing Scarab, Comet-Tailed Dragon, Fourfold Butterfly, and Dusk Wisp.
+- Added a typed creature catalog and tests for all twelve realms, unique names, valid colour values, descriptions, and unknown-realm handling.
+- Connected the active Whispering Realm's blue jellyfish visuals to the catalog, so its body, halo, and tendril colours come from the realm guardian definition.
+- Only the Whispering Realm is currently playable and renders a guardian. The other eleven are original design definitions for future scenes, not yet rendered in-game.
+
 ### Blue jellyfish and bioluminescent shoreline (in progress)
 - Added three bright-blue jellyfish near the Whispering Realm waterline, each with a translucent luminous bell, pale inner glow, and fine cyan tendrils.
 - Added small blue-green bioluminescent points and short traces across the shore, like living light in the sand.
