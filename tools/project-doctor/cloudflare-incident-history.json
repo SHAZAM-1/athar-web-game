@@ -11,8 +11,8 @@
       "severity": "critical",
       "rootCause": "Missing CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID. Configure these as GitHub Actions repository secrets.",
       "firstSeen": "2026-10-27T16:12:41.739Z",
-      "lastSeen": "2026-10-27T16:12:41.909Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T16:13:20.999Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": null,
@@ -22,18 +22,19 @@
         "tokenConfigured": false
       },
       "latestEvidence": {
-        "accountIdConfigured": false,
+        "accountIdConfigured": true,
         "tokenConfigured": false
       },
       "nextStep": "Configure Cloudflare Pages read access for CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.",
       "latestNextStep": "Configure Cloudflare Pages read access for CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.",
-      "latestReportCheckedAt": "2026-10-27T16:12:41.739Z",
-      "lastObservedStatus": "error"
+      "latestReportCheckedAt": "2026-10-27T16:13:20.873Z",
+      "lastObservedStatus": "error",
+      "latestSeverity": "critical"
     }
   ],
-  "updatedAt": "2026-10-27T16:12:41.909Z",
+  "updatedAt": "2026-10-27T16:13:20.999Z",
   "latestCloudflareStatus": "error",
-  "latestReportCheckedAt": "2026-10-27T16:12:41.739Z",
+  "latestReportCheckedAt": "2026-10-27T16:13:20.873Z",
   "latestDeploymentId": null,
   "latestLiveUrl": null,
   "totalIncidentFingerprints": 1
