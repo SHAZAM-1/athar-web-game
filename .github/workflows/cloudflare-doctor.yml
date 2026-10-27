@@ -22,9 +22,11 @@ on:
 permissions:
   contents: write
 
+# Serialize journal writers. Cancelling a run mid-persistence can leave competing
+# commits racing to update the same incident-history JSON file.
 concurrency:
   group: athar-cloudflare-doctor
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   inspect:
@@ -64,16 +66,42 @@ jobs:
             echo 'Cloudflare report is missing; incident journal was not updated.'
             exit 1
           fi
-          npm run cloudflare:doctor:persist
+          BRANCH='dev/athar-full-project'
+          JOURNAL='tools/project-doctor/cloudflare-incident-history.json'
+
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add tools/project-doctor/cloudflare-incident-history.json
+
+          # Rebase the run's checkout onto the current dev tip BEFORE updating
+          # the journal, so the merge starts from the newest persisted history.
+          git fetch origin "$BRANCH"
+          git rebase "origin/$BRANCH"
+
+          npm run cloudflare:doctor:persist
+          git add "$JOURNAL"
           if git diff --cached --quiet; then
             echo 'Incident history unchanged; no commit needed.'
-          else
-            git commit -m 'chore: record Cloudflare Doctor incidents [skip ci]'
-            git push origin HEAD:refs/heads/dev/athar-full-project
+            exit 0
           fi
+
+          git commit -m 'chore: record Cloudflare Doctor incidents [skip ci]'
+
+          # A human or another automation may push while this job is running.
+          # Retry only fast-forward-safe rebases/pushes; never force-push or
+          # discard the remote journal. Any real content conflict fails safely.
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "Incident history persisted successfully on $BRANCH (attempt $attempt)."
+              exit 0
+            fi
+            echo "Push attempt $attempt lost a race; will refresh and retry."
+            sleep "$attempt"
+          done
+
+          echo 'Unable to persist incident history after 3 safe push attempts.'
+          exit 1
 
       - name: Pass Cloudflare evidence to Athar Project Doctor
         id: project_doctor
