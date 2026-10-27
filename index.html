@@ -19,6 +19,23 @@
         <h1 id="page-title">Some things only<br /><em>appear when you listen.</em></h1>
         <p class="intro-copy">A quiet world. A hidden rule. One small discovery at a time.</p>
       </section>
+      <section class="progress-panel" aria-labelledby="progress-title">
+        <div class="progress-heading">
+          <div>
+            <p class="progress-eyebrow">YOUR JOURNEY</p>
+            <h2 id="progress-title">Discovery rank</h2>
+          </div>
+          <span class="rank-badge rank-bronze" id="rank-badge">Bronze</span>
+        </div>
+        <div class="xp-summary">
+          <strong id="player-xp">0 XP</strong>
+          <span id="xp-next-label">100 XP to Silver</span>
+        </div>
+        <div class="xp-progress" id="xp-progress" role="progressbar" aria-label="Progress toward next rank" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <span id="xp-progress-fill"></span>
+        </div>
+        <p class="xp-status" id="xp-status" aria-live="polite" aria-atomic="true">Earn 100 XP for your first discovery. Progress is saved on this device.</p>
+      </section>
       <section class="world-frame" aria-label="Playable preview: The Whispering Realm">
         <div class="world-caption"><span>01 / 12</span><span>THE WHISPERING REALM</span></div>
         <div id="game" class="game-stage" role="group" aria-label="Whispering Realm game scene"></div>
