@@ -85,10 +85,56 @@ const realmAtmospheres=[
   {fog:.0032,sun:3,hemisphere:2.2,exposure:1.14},
   {fog:.0065,sun:1.6,hemisphere:1.8,exposure:1.03},
 ];
+// Realm-specific landmark sets: each preview changes more than its palette.
+// These are scenic prototypes; full terrain/travel gating remains a later migration.
+const realmLandmarks=[];
+function landmarkMaterial(color,emissive=color){
+  return mat(color,.62,{emissive,emissiveIntensity:.38});
+}
+function addLandmarkMesh(group,geometry,material,x,y,z,rx=0,ry=0,rz=0,sx=1,sy=1,sz=1){
+  const mesh=new THREE.Mesh(geometry,material);
+  mesh.position.set(x,groundY(x,z)+y,z);mesh.rotation.set(rx,ry,rz);mesh.scale.set(sx,sy,sz);
+  mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);return mesh;
+}
+function buildRealmLandmarks(index,realm){
+  const group=new THREE.Group();
+  const accent=landmarkMaterial('#'+realm.oceanGlow.toString(16).padStart(6,'0'));
+  const stoneMat=landmarkMaterial('#'+realm.grainPrimary.toString(16).padStart(6,'0'));
+  const darkMat=landmarkMaterial('#'+realm.nearLand.toString(16).padStart(6,'0'));
+  const place=(x,z,y=0)=>({x,z,y});
+  if(index===0){
+    for(let i=0;i<5;i++){const p=place(-32+i*16,-36-(i%2)*8);addLandmarkMesh(group,new THREE.CylinderGeometry(1.3,2,7+(i%3)*2,6),stoneMat,p.x,p.y+3.5,p.z,0,0.2*i,0);}
+  }else if(index===1){
+    for(let i=0;i<5;i++){const p=place(-30+i*15,-48);addLandmarkMesh(group,new THREE.IcosahedronGeometry(3.5,1),accent,p.x,9+(i%2)*4,p.z,0,i,0,1,.8,1);}
+  }else if(index===2){
+    for(let i=0;i<3;i++){const p=place(-20+i*20,-55);addLandmarkMesh(group,new THREE.TorusGeometry(5,.65,8,24,Math.PI),stoneMat,p.x,5,p.z,0,0,Math.PI,1.2,1.5,1);}
+  }else if(index===3){
+    for(let i=0;i<7;i++){const p=place(-30+i*10,-48-(i%2)*9);addLandmarkMesh(group,new THREE.CylinderGeometry(.35,.9,5+(i%3)*2,5),accent,p.x,2.8,p.z,0,0,.18*(i%2));}
+  }else if(index===4){
+    for(let i=0;i<5;i++){const p=place(-28+i*14,-46);addLandmarkMesh(group,new THREE.TorusGeometry(3.5,.55,7,18),stoneMat,p.x,2.8,p.z,Math.PI/2.4,0,i*.3,1,1.5,1);}
+  }else if(index===5){
+    for(let i=0;i<8;i++){const p=place(-32+i*9,-50-(i%2)*7);addLandmarkMesh(group,new THREE.OctahedronGeometry(2.6+(i%3)),accent,p.x,2.5,p.z,0,i*.6,.15,1,1.8,1);}
+  }else if(index===6){
+    for(let i=0;i<5;i++){const p=place(-28+i*14,-50);addLandmarkMesh(group,new THREE.SphereGeometry(3.8,10,7),stoneMat,p.x,8+(i%2)*3,p.z,0,0,0,1.6,.3,1.2);addLandmarkMesh(group,new THREE.ConeGeometry(1.1,5,6),accent,p.x,3,p.z);}
+  }else if(index===7){
+    for(let i=0;i<6;i++){const p=place(-30+i*12,-48-(i%2)*6);addLandmarkMesh(group,new THREE.ConeGeometry(5,3.5,7),stoneMat,p.x,1.4,p.z,0,i*.4,0,1.4,.65,1);}
+  }else if(index===8){
+    for(let i=0;i<4;i++){const p=place(-24+i*16,-48);addLandmarkMesh(group,new THREE.TorusGeometry(4+i*.5,.16,6,36),accent,p.x,6+i%2*2,p.z,.35,i*.5,0,1,1,1);}
+  }else if(index===9){
+    for(let i=0;i<6;i++){const p=place(-30+i*12,-50-(i%2)*7);addLandmarkMesh(group,new THREE.CylinderGeometry(.12,1.4,7+(i%3)*2,5),accent,p.x,3.5,p.z,0,i*.4,.08);}
+  }else if(index===10){
+    for(let i=0;i<5;i++){const p=place(-28+i*14,-48);addLandmarkMesh(group,new THREE.CylinderGeometry(.45,.75,5,7),stoneMat,p.x,2.5,p.z);addLandmarkMesh(group,new THREE.SphereGeometry(2.5,8,6),accent,p.x,7,p.z,0,i,0,1,1.35,1);}
+  }else{
+    for(let i=0;i<7;i++){const p=place(-32+i*10,-48-(i%2)*6);addLandmarkMesh(group,new THREE.ConeGeometry(1.8,8+(i%3)*2,5),darkMat,p.x,4,p.z);addLandmarkMesh(group,new THREE.SphereGeometry(1.2,8,6),accent,p.x,8+(i%3)*2,p.z);}
+  }
+  group.visible=false;scene.add(group);realmLandmarks.push(group);
+}
+REALMS.forEach((realm,index)=>buildRealmLandmarks(index,realm));
 function applyRealmPalette(index, announce=true){
   activeRealmIndex=(index+REALMS.length)%REALMS.length;
   const realm=REALMS[activeRealmIndex];
   const atmosphere=realmAtmospheres[activeRealmIndex];
+  realmLandmarks.forEach((group,i)=>{group.visible=i===activeRealmIndex;});
   scene.background.setHex(realm.farLand);
   scene.fog.color.setHex(realm.farLand);
   scene.fog.density=atmosphere.fog;
