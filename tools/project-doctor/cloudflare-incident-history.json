@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "project": "Athar",
+  "source": "Athar Cloudflare Doctor",
+  "retentionPolicy": "Keep incident records until manually reviewed; repeated observations update lastSeen and occurrenceCount instead of duplicating identical log evidence.",
+  "incidents": []
+}
