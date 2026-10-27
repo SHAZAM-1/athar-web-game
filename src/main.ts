@@ -85,6 +85,8 @@ class WhisperingScene extends Phaser.Scene {
   private readonly skyStyle = getRealmSky('The Whispering Realm')!;
   private skyGraphics!: Phaser.GameObjects.Graphics;
   private oceanGraphics!: Phaser.GameObjects.Graphics;
+  private jellyfish: Array<{ creature: Phaser.GameObjects.Container; x: number; y: number; phase: number }> = [];
+  private sandGlowGraphics!: Phaser.GameObjects.Graphics;
 
   constructor() {
     super('WhisperingRealm');
@@ -167,6 +169,47 @@ class WhisperingScene extends Phaser.Scene {
       new Phaser.Geom.Point(width * 0.75, height * 0.76), new Phaser.Geom.Point(width, height * 0.7),
       new Phaser.Geom.Point(width, height), new Phaser.Geom.Point(0, height),
     ], true, true);
+
+    // Bright-blue jellyfish drift quietly along the waterline, with soft bells and fine trailing tendrils.
+    this.jellyfish = [];
+    for (let i = 0; i < 3; i++) {
+      const x = width * (0.19 + i * 0.3);
+      const y = height * (0.655 + (i % 2) * 0.018);
+      const creature = this.add.container(x, y).setDepth(2.4);
+      const halo = this.add.ellipse(0, 1, 30, 19, 0x168dff, 0.12);
+      const bell = this.add.ellipse(0, 0, 17, 12, 0x39aaff, 0.88);
+      bell.setStrokeStyle(1, 0x9beaff, 0.9);
+      const innerGlow = this.add.ellipse(-1, -2, 9, 5, 0xd4f7ff, 0.72);
+      const tendrils = this.add.graphics();
+      tendrils.lineStyle(1.2, 0x69d9ff, 0.78);
+      for (let strand = -2; strand <= 2; strand++) {
+        tendrils.beginPath();
+        tendrils.moveTo(strand * 2.5, 4);
+        tendrils.lineTo(strand * 3.1 + Math.sin(i + strand) * 2, 9);
+        tendrils.lineTo(strand * 2.4 + Math.cos(i * 0.7 + strand) * 3, 14 + Math.abs(strand));
+        tendrils.strokePath();
+      }
+      creature.add([halo, tendrils, bell, innerGlow]);
+      this.jellyfish.push({ creature, x, y, phase: i * 2.1 });
+    }
+
+    // Tiny blue-green living lights nestled in the sand: decorative, slow, and never flashing.
+    this.sandGlowGraphics = this.add.graphics().setDepth(3.7);
+    const sandGlows = [
+      [0.07, 0.86], [0.13, 0.93], [0.22, 0.82], [0.29, 0.91], [0.38, 0.86],
+      [0.46, 0.95], [0.58, 0.84], [0.66, 0.92], [0.77, 0.86], [0.87, 0.94], [0.94, 0.83],
+    ];
+    sandGlows.forEach(([xRatio, yRatio], index) => {
+      const x = width * xRatio;
+      const y = height * yRatio;
+      this.sandGlowGraphics.fillStyle(index % 3 === 0 ? 0x4adfff : 0x73f4db, 0.1);
+      this.sandGlowGraphics.fillCircle(x, y, 7 + (index % 3) * 2);
+      this.sandGlowGraphics.fillStyle(index % 3 === 0 ? 0x8beaff : 0xa7ffe8, 0.44);
+      this.sandGlowGraphics.fillCircle(x, y, 1.2 + (index % 2) * 0.5);
+      this.sandGlowGraphics.lineStyle(0.7, 0x5de8ef, 0.23);
+      this.sandGlowGraphics.lineBetween(x - 4, y + 2, x + 4, y - 2);
+    });
+
     this.meadowGraphics = this.add.graphics().setDepth(4);
 
     // Small maple-like autumn leaves drift down, flutter, and occasionally lift again in a breeze.
@@ -343,6 +386,15 @@ class WhisperingScene extends Phaser.Scene {
     this.drawSky(breeze);
     this.drawOcean(breeze);
     this.drawMeadow(breeze);
+    // Slow bobbing and drifting keep the jellyfish dreamy rather than distracting.
+    if (!this.reducedMotion) {
+      const seconds = delta / 1000;
+      this.jellyfish.forEach(({ creature, x, y, phase }) => {
+        const drift = this.windElapsed + phase;
+        creature.setPosition(x + Math.sin(drift * 0.22) * 7, y + Math.sin(drift * 0.8) * 3);
+      });
+      this.sandGlowGraphics.setAlpha(0.78 + (Math.sin(this.windElapsed * 0.55) + 1) * 0.1);
+    }
     this.updateAutumnLeaves(delta, breeze, width, height);
     if (this.reducedMotion) return;
 
