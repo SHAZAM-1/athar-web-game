@@ -14,10 +14,13 @@ on:
       - "vite.config.ts"
       - ".github/workflows/cloudflare-doctor.yml"
       - "tools/cloudflare-doctor/**"
-      - "tools/project-doctor/**"
+      - "tools/project-doctor/doctor.mjs"
+      - "tools/project-doctor/knowledge.json"
+      - "tools/project-doctor/safe-fixes.json"
+      - "tools/project-doctor/self-test.mjs"
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: athar-cloudflare-doctor
@@ -51,6 +54,26 @@ jobs:
           CLOUDFLARE_PAGES_PROJECT: athar-web-game
         run: npm run cloudflare:doctor
 
+      - name: Persist incidents in the repository journal
+        id: persist
+        if: always()
+        continue-on-error: true
+        run: |
+          if [ ! -f cloudflare-doctor-report.json ]; then
+            echo 'Cloudflare report is missing; incident journal was not updated.'
+            exit 1
+          fi
+          npm run cloudflare:doctor:persist
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tools/project-doctor/cloudflare-incident-history.json
+          if git diff --cached --quiet; then
+            echo 'Incident history unchanged; no commit needed.'
+          else
+            git commit -m 'chore: record Cloudflare Doctor incidents [skip ci]'
+            git push origin HEAD:refs/heads/dev/athar-full-project
+          fi
+
       - name: Pass Cloudflare evidence to Athar Project Doctor
         id: project_doctor
         continue-on-error: true
@@ -75,10 +98,12 @@ jobs:
         env:
           CLOUDFLARE_OUTCOME: ${{ steps.cloudflare.outcome }}
           PROJECT_DOCTOR_OUTCOME: ${{ steps.project_doctor.outcome }}
+          PERSIST_OUTCOME: ${{ steps.persist.outcome }}
         run: |
           echo "Cloudflare Doctor: $CLOUDFLARE_OUTCOME"
+          echo "Incident persistence: $PERSIST_OUTCOME"
           echo "Project Doctor: $PROJECT_DOCTOR_OUTCOME"
-          if [ "$CLOUDFLARE_OUTCOME" != "success" ] || [ "$PROJECT_DOCTOR_OUTCOME" != "success" ]; then
+          if [ "$CLOUDFLARE_OUTCOME" != "success" ] || [ "$PERSIST_OUTCOME" != "success" ] || [ "$PROJECT_DOCTOR_OUTCOME" != "success" ]; then
             echo "One or more diagnostic agents reported a failure. Download the artifact for the evidence and diagnosis."
             exit 1
           fi
