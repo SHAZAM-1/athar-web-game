@@ -34,6 +34,14 @@
 - Tests cover all 12 quest entries, unique IDs, normalized object positions, active quest lookup, and completion rules.
 - The remaining 11 quests are content definitions only; those realms are not yet implemented as playable scenes.
 
+### Walkable meadow and responsive wind (in progress)
+- Added a layered open-landscape silhouette to the active Whispering Realm, with procedural green grass and golden grain swaying in a slow breeze.
+- Added a small hooded traveller controlled by arrow keys/WASD on desktop and a hold-to-walk directional pad on touch screens.
+- Grass and grain near the traveller bend away from their position and return naturally as the traveller passes, creating a gentle interaction rather than collision or a penalty.
+- Added pure helper functions and unit tests for bounded breeze, radial grass response, and invalid geometry.
+- The other 11 realm quests remain content definitions only. The terrain drawing is currently integrated in Whispering Realm and should become a realm-themed reusable system as each future realm is actually built; do not imply all realms are playable yet.
+- Reduced-motion mode keeps the field static while preserving direct player movement and gameplay.
+
 ### Project Doctor and deployment
 - Project Doctor checks remote branches in isolated worktrees, performs dependency/security/type/test/build/diff checks, diagnoses known incidents, and exports exact-match safe-fix proposals. It does not push, commit, open PRs, or merge.
 - The Doctor and GitHub Pages deployment workflows have reported successful runs. The preview is available at https://shazam-1.github.io/athar-web-game/.
