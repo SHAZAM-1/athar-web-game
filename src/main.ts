@@ -84,6 +84,7 @@ class WhisperingScene extends Phaser.Scene {
   private readonly landscape = getRealmLandscape('The Whispering Realm')!;
   private readonly skyStyle = getRealmSky('The Whispering Realm')!;
   private skyGraphics!: Phaser.GameObjects.Graphics;
+  private oceanGraphics!: Phaser.GameObjects.Graphics;
 
   constructor() {
     super('WhisperingRealm');
@@ -126,6 +127,8 @@ class WhisperingScene extends Phaser.Scene {
       ring.setStrokeStyle(1.4, this.skyStyle.auroraAccent, 0.7);
     }
     this.drawSky(0);
+    this.oceanGraphics = this.add.graphics().setDepth(0.6);
+    this.drawOcean(0);
 
     for (let i = 0; i < 8; i++) {
       const x = width * (0.08 + i * 0.12);
@@ -138,6 +141,7 @@ class WhisperingScene extends Phaser.Scene {
     }
 
     const island = this.add.graphics();
+    island.setDepth(1);
     island.fillStyle(0x17294a, 0.96);
     island.fillEllipse(width * 0.5, height * 0.76, width * 0.56, height * 0.18);
     island.lineStyle(1, 0x5edbd1, 0.28);
@@ -145,7 +149,7 @@ class WhisperingScene extends Phaser.Scene {
 
     // A wide, layered meadow makes the little floating island feel part of a much larger land.
     const distantLand = this.add.graphics();
-    distantLand.setDepth(1);
+    distantLand.setDepth(2);
     distantLand.fillStyle(this.landscape.farLand, 0.52);
     distantLand.fillPoints([
       new Phaser.Geom.Point(0, height * 0.67), new Phaser.Geom.Point(width * 0.12, height * 0.57),
@@ -155,7 +159,7 @@ class WhisperingScene extends Phaser.Scene {
       new Phaser.Geom.Point(0, height),
     ], true, true);
     const nearLand = this.add.graphics();
-    nearLand.setDepth(2);
+    nearLand.setDepth(3);
     nearLand.fillStyle(this.landscape.nearLand, 0.86);
     nearLand.fillPoints([
       new Phaser.Geom.Point(0, height * 0.78), new Phaser.Geom.Point(width * 0.18, height * 0.71),
@@ -163,7 +167,7 @@ class WhisperingScene extends Phaser.Scene {
       new Phaser.Geom.Point(width * 0.75, height * 0.76), new Phaser.Geom.Point(width, height * 0.7),
       new Phaser.Geom.Point(width, height), new Phaser.Geom.Point(0, height),
     ], true, true);
-    this.meadowGraphics = this.add.graphics().setDepth(3);
+    this.meadowGraphics = this.add.graphics().setDepth(4);
 
     // Small maple-like autumn leaves drift down, flutter, and occasionally lift again in a breeze.
     this.autumnLeaves = [];
@@ -337,6 +341,7 @@ class WhisperingScene extends Phaser.Scene {
     this.windElapsed += delta / 1000;
     const breeze = calculateBreeze(this.windElapsed);
     this.drawSky(breeze);
+    this.drawOcean(breeze);
     this.drawMeadow(breeze);
     this.updateAutumnLeaves(delta, breeze, width, height);
     if (this.reducedMotion) return;
@@ -356,6 +361,41 @@ class WhisperingScene extends Phaser.Scene {
       view.glow.setAlpha(0.025 + localReveal * 0.22);
       view.icon.setAlpha(0.025 + localReveal * 0.86);
     });
+  }
+
+  /** A quiet magical sea, tinted to match the current realm and rippling beneath the floating meadow. */
+  private drawOcean(breeze: number) {
+    const graphics = this.oceanGraphics;
+    const { width, height } = this.scale;
+    const palette = this.landscape;
+    graphics.clear();
+    const top = height * 0.625;
+    graphics.fillGradientStyle(palette.oceanDeep, palette.oceanDeep, palette.oceanLight, palette.oceanDeep, 0.78);
+    graphics.fillRect(0, top, width, height - top);
+    const motion = this.reducedMotion ? 0 : this.windElapsed * 0.48 + breeze * 0.3;
+    // Long, low-contrast ribbons suggest slow water rather than busy waves.
+    for (let row = 0; row < 7; row++) {
+      const y = height * (0.66 + row * 0.045);
+      graphics.lineStyle(row % 3 === 0 ? 2 : 1, row % 2 === 0 ? palette.oceanGlow : palette.oceanLight, row % 3 === 0 ? 0.19 : 0.11);
+      let previousX = 0;
+      let previousY = y + Math.sin(motion + row) * 2.2;
+      for (let step = 1; step <= 36; step++) {
+        const x = width * step / 36;
+        const wave = Math.sin(step * 0.26 + motion + row * 0.7) * (2.2 + row * 0.18)
+          + Math.sin(step * 0.11 - motion * 0.6) * 1.4;
+        const nextY = y + wave;
+        graphics.lineBetween(previousX, previousY, x, nextY);
+        previousX = x;
+        previousY = nextY;
+      }
+    }
+    // Moonlit flecks shimmer sparingly on the water, like reflections rather than glitter.
+    for (let i = 0; i < 9; i++) {
+      const x = width * (0.08 + i * 0.105) + Math.sin(motion + i) * 5;
+      const y = height * (0.69 + (i % 4) * 0.045) + Math.cos(motion * 0.7 + i) * 2;
+      graphics.fillStyle(palette.oceanGlow, this.reducedMotion ? 0.12 : 0.10 + (Math.sin(motion + i) + 1) * 0.055);
+      graphics.fillEllipse(x, y, 8 + (i % 3) * 3, 1.8);
+    }
   }
 
   /** Draw soft, translucent aurora ribbons that drift like silk across the upper sky. */
