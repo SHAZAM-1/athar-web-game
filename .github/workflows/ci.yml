@@ -39,6 +39,7 @@ jobs:
           node --check tools/project-doctor/apply-safe-fix.mjs
           node --check 3d-prototype/main.js
           node --check 3d-prototype/world/terrain.js
+          node --check 3d-prototype/realms/realm-registry.js
           npm run doctor:self-test
       - name: Security audit
         run: npm audit --audit-level=moderate
