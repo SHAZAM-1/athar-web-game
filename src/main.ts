@@ -4,6 +4,7 @@ import { advanceDiscovery } from './discovery';
 import { getRealmQuest, isQuestComplete } from './realm-content';
 import { calculateBreeze, getGrassRepulsion } from './meadow-motion';
 import { getRealmLandscape } from './realm-landscapes';
+import { getRealmSky } from './realm-skies';
 import {
   awardDiscovery,
   getRankProgress,
@@ -81,6 +82,9 @@ class WhisperingScene extends Phaser.Scene {
   private moveButtons: HTMLButtonElement[] = [];
   private readonly quest = getRealmQuest('The Whispering Realm')!;
   private readonly landscape = getRealmLandscape('The Whispering Realm')!;
+  private readonly skyStyle = getRealmSky('The Whispering Realm')!;
+  private skyGraphics!: Phaser.GameObjects.Graphics;
+  private skyStars: Phaser.GameObjects.Arc[] = [];
 
   constructor() {
     super('WhisperingRealm');
@@ -93,9 +97,38 @@ class WhisperingScene extends Phaser.Scene {
     this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.cameras.main.setBackgroundColor('#0a1025');
 
+    // The sky is the emotional heart of each realm: layered dusk, tiny stars, and a living aurora.
     const backdrop = this.add.graphics();
-    backdrop.fillGradientStyle(0x111d3b, 0x111d3b, 0x080e20, 0x080e20, 1);
+    backdrop.fillGradientStyle(this.skyStyle.upper, this.skyStyle.upper, this.skyStyle.horizon, this.skyStyle.horizon, 1);
     backdrop.fillRect(0, 0, width, height);
+    this.skyGraphics = this.add.graphics().setDepth(0.5);
+    this.skyStars = [];
+    for (let i = 0; i < 76; i++) {
+      const x = Phaser.Math.Between(12, width - 12);
+      const y = Phaser.Math.Between(10, Math.floor(height * 0.54));
+      const star = this.add.circle(x, y, Phaser.Math.FloatBetween(0.45, 1.45), this.skyStyle.stars, Phaser.Math.FloatBetween(0.24, 0.82));
+      star.setDepth(0.7);
+      this.skyStars.push(star);
+      if (!this.reducedMotion && i % 3 === 0) this.tweens.add({
+        targets: star, alpha: Phaser.Math.FloatBetween(0.12, 0.32),
+        duration: Phaser.Math.Between(1800, 4200), yoyo: true, repeat: -1, ease: 'Sine.inOut',
+      });
+    }
+    const celestialX = width * 0.79;
+    const celestialY = height * 0.19;
+    if (this.skyStyle.celestial === 'sun') {
+      this.add.circle(celestialX, celestialY, 24, this.skyStyle.moon, 0.10).setDepth(0.8);
+      this.add.circle(celestialX, celestialY, 13, this.skyStyle.moon, 0.88).setDepth(0.8);
+    } else if (this.skyStyle.celestial === 'moon') {
+      this.add.circle(celestialX, celestialY, 16, this.skyStyle.moon, 0.12).setDepth(0.8);
+      this.add.circle(celestialX, celestialY, 10, this.skyStyle.moon, 0.92).setDepth(0.8);
+      this.add.circle(celestialX + 5, celestialY - 4, 9, this.skyStyle.upper, 0.96).setDepth(0.81);
+    } else if (this.skyStyle.celestial === 'ringed-planet') {
+      this.add.circle(celestialX, celestialY, 10, this.skyStyle.moon, 0.88).setDepth(0.8);
+      const ring = this.add.ellipse(celestialX, celestialY, 36, 10, this.skyStyle.auroraAccent, 0.2).setDepth(0.79);
+      ring.setStrokeStyle(1.4, this.skyStyle.auroraAccent, 0.7);
+    }
+    this.drawSky(0);
 
     for (let i = 0; i < 8; i++) {
       const x = width * (0.08 + i * 0.12);
@@ -304,6 +337,7 @@ class WhisperingScene extends Phaser.Scene {
 
     this.windElapsed += delta / 1000;
     const breeze = calculateBreeze(this.windElapsed);
+    this.drawSky(breeze);
     this.drawMeadow(breeze);
     this.updateAutumnLeaves(delta, breeze, width, height);
     if (this.reducedMotion) return;
@@ -323,6 +357,34 @@ class WhisperingScene extends Phaser.Scene {
       view.glow.setAlpha(0.025 + localReveal * 0.22);
       view.icon.setAlpha(0.025 + localReveal * 0.86);
     });
+  }
+
+  /** Draw soft, translucent aurora ribbons that drift like silk across the upper sky. */
+  private drawSky(breeze: number) {
+    const graphics = this.skyGraphics;
+    const { width, height } = this.scale;
+    graphics.clear();
+    const ribbonCount = this.skyStyle.skyMood === 'aurora' || this.skyStyle.skyMood === 'dream' || this.skyStyle.skyMood === 'orbit' ? 4 : 2;
+    const motion = this.reducedMotion ? 0 : this.windElapsed * 0.22 + breeze * 0.22;
+    for (let ribbon = 0; ribbon < ribbonCount; ribbon++) {
+      const baseY = height * (0.16 + ribbon * 0.055);
+      const amplitude = height * (0.035 + ribbon * 0.008);
+      const colour = ribbon % 2 === 0 ? this.skyStyle.aurora : this.skyStyle.auroraAccent;
+      graphics.lineStyle(ribbon === 0 ? 10 : 6, colour, ribbon === 0 ? 0.055 : 0.035);
+      let previousX = 0;
+      let previousY = baseY;
+      for (let step = 1; step <= 40; step++) {
+        const x = width * step / 40;
+        const wave = Math.sin(step * 0.19 + motion + ribbon * 0.8) * amplitude
+          + Math.sin(step * 0.075 - motion * 0.6 + ribbon) * amplitude * 0.55;
+        const y = baseY + wave;
+        graphics.lineBetween(previousX, previousY, x, y);
+        previousX = x;
+        previousY = y;
+      }
+    }
+    graphics.fillStyle(this.skyStyle.aurora, 0.025);
+    graphics.fillEllipse(width * 0.5, height * 0.51, width * 1.12, height * 0.22);
   }
 
   private updateAutumnLeaves(delta: number, breeze: number, width: number, height: number) {
