@@ -50,7 +50,10 @@
 - Added an original creature concept and calm colour palette for each of the 12 planned realms, including a Tideglow Jellyfish, Velvet Dream Moth, Sunset Glassfox, Echoing Moonwhale, Lanternwing Manta, Moss-Crowned Stag, Prism-Tailed Fox, Cloud Koi, Dune Glasswing Scarab, Comet-Tailed Dragon, Fourfold Butterfly, and Dusk Wisp.
 - Added a typed creature catalog and tests for all twelve realms, unique names, valid colour values, descriptions, and unknown-realm handling.
 - Connected the active Whispering Realm's blue jellyfish visuals to the catalog, so its body, halo, and tendril colours come from the realm guardian definition.
-- Only the Whispering Realm is currently playable and renders a guardian. The other eleven are original design definitions for future scenes, not yet rendered in-game.
+- Added `src/realm-gallery.ts`, an interactive in-game bestiary that renders a distinct original SVG illustration for every guardian using its own body, glow, and accent palette.
+- Added a responsive twelve-card gallery to the main page. Selecting a card updates the selected state, guardian name, species, lore description, and glow accent; native buttons support keyboard and assistive-technology use.
+- Guardian illustrations float gently, with animation disabled under `prefers-reduced-motion: reduce`.
+- All twelve guardians are now visibly implemented in the current game experience through the bestiary. The Whispering Realm remains the only playable realm and its jellyfish guardian is still the only guardian integrated into the Phaser world scene; the other eleven realms are not yet playable.
 
 ### Blue jellyfish and bioluminescent shoreline (in progress)
 - Added three bright-blue jellyfish near the Whispering Realm waterline, each with a translucent luminous bell, pale inner glow, and fine cyan tendrils.
