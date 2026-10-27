@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feat/hidden-quests-wind-cozy]
   workflow_dispatch:
 
 permissions:
@@ -37,6 +37,8 @@ jobs:
           node --check tools/project-doctor/doctor.mjs
           node --check tools/project-doctor/self-test.mjs
           node --check tools/project-doctor/apply-safe-fix.mjs
+          node --check 3d-prototype/main.js
+          node --check 3d-prototype/world/terrain.js
           npm run doctor:self-test
       - name: Security audit
         run: npm audit --audit-level=moderate
