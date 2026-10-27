@@ -25,6 +25,15 @@
 - The progression model has unit tests for rank thresholds, one-time rewards, malformed saved data, and invalid XP values.
 - This is a starter foundation: only the first discovery currently awards XP. Additional legitimate rewards should be defined as new puzzles and realms are built; do not add arbitrary repeatable XP farming.
 
+### Hidden quests, wind physics, and cozy direction (in progress)
+- Added a content catalog with one hidden-object side quest and three unique objects for each of the 12 planned realms.
+- The Whispering Realm is the only playable quest right now: three objects fade into view with a gentle wind cycle and can be collected by tapping/clicking.
+- Added slow horizontal drift and soft vertical float to ambient motes; the movement is deliberately subtle and has no timers or fail state.
+- Each object awards 25 XP once; finishing the quest awards a 100 XP bonus once. The same saved discovery ledger prevents farming.
+- Added a calm, warm-lavender/peach quest panel and polite live status updates. Reduced-motion users see the hidden objects without animated reveals.
+- Tests cover all 12 quest entries, unique IDs, normalized object positions, active quest lookup, and completion rules.
+- The remaining 11 quests are content definitions only; those realms are not yet implemented as playable scenes.
+
 ### Project Doctor and deployment
 - Project Doctor checks remote branches in isolated worktrees, performs dependency/security/type/test/build/diff checks, diagnoses known incidents, and exports exact-match safe-fix proposals. It does not push, commit, open PRs, or merge.
 - The Doctor and GitHub Pages deployment workflows have reported successful runs. The preview is available at https://shazam-1.github.io/athar-web-game/.
@@ -40,8 +49,8 @@
 - PR #9's automated CI checks passed. Real-device visual/touch tests have not been performed.
 
 ### Remaining quality gates
-1. Review CI for the XP/ranks feature before merging it.
+1. Review CI for the hidden-quests/wind feature before merging it.
 2. Verify visual layout and touch targets on real mobile and desktop browsers.
 3. Measure production payload and loading on representative devices.
-4. Playtest whether the clue, sequence, and XP reward are understandable and satisfying.
+4. Playtest whether the clue, hidden-object reveal, gentle wind, quest, and XP rewards are understandable and satisfying.
 5. Only after the core checks pass, design and implement the Crystal Realm, then Abyssal Realm.
