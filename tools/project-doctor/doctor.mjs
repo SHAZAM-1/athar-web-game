@@ -16,6 +16,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const KNOWLEDGE_PATH = path.join(ROOT, 'tools/project-doctor/knowledge.json');
 const FIXES_PATH = path.join(ROOT, 'tools/project-doctor/safe-fixes.json');
 const REPORT_PATH = path.join(ROOT, 'project-doctor-report.json');
+const CLOUDFLARE_REPORT_PATH = path.join(ROOT, 'cloudflare-doctor-report.json');
 const PATCH_DIR = path.join(ROOT, 'project-doctor-patches');
 const ALL_BRANCHES = process.argv.includes('--all-branches');
 const CURRENT_ONLY = process.argv.includes('--current') || !ALL_BRANCHES;
@@ -36,6 +37,7 @@ const report = {
     'No new dependencies, broad refactors, gameplay expansion, or scope changes are proposed automatically.'
   ],
   branches: [],
+  externalFindings: [],
   totals: { branches: 0, passed: 0, failed: 0, findings: 0, safeFixesApplied: 0 }
 };
 
@@ -274,10 +276,22 @@ function writeSummary() {
     `- Needs attention: **${report.totals.failed}**`,
     `- Findings: **${report.totals.findings}**`,
     `- Safe-fix recipes applied in isolated worktrees: **${report.totals.safeFixesApplied}**`,
+    `- Cloudflare external findings imported: **${report.externalFindings.length}**`,
     '',
     '> The Doctor never writes to remote branches. Any generated patch is a proposal and must be reviewed before applying.',
     ''
   ];
+  if (report.externalFindings.length) {
+    lines.push('## Cloudflare Doctor handoff', '', 'These deployment/runtime findings were imported from cloudflare-doctor-report.json. They are evidence, not automatic code fixes.', '');
+    for (const item of report.externalFindings) {
+      lines.push(`### [${item.severity || 'unknown'}] ${item.title || item.code || 'Cloudflare finding'}`);
+      lines.push(`- Code: ${item.code || 'unclassified'}`);
+      lines.push(`- Root cause: ${item.rootCause || 'Not yet verified'}`);
+      lines.push(`- Evidence: \`${JSON.stringify(item.evidence || {}).replace(/\n/g, ' ').slice(0, 500)}\``);
+      if (item.nextStep) lines.push(`- Next: ${item.nextStep}`);
+      lines.push('');
+    }
+  }
   for (const branch of report.branches) {
     lines.push(`## ${branch.ok ? '✅' : '❌'} ${branch.name}`);
     lines.push(`- Result: ${branch.ok ? 'passed' : 'needs attention'}`);
@@ -300,6 +314,23 @@ function writeSummary() {
 
 async function main() {
   fs.rmSync(PATCH_DIR, { recursive: true, force: true });
+  if (fs.existsSync(CLOUDFLARE_REPORT_PATH)) {
+    try {
+      const cloudflareReport = JSON.parse(fs.readFileSync(CLOUDFLARE_REPORT_PATH, 'utf8'));
+      const handoff = cloudflareReport.projectDoctorHandoff;
+      if (handoff?.source === 'cloudflare-doctor' && Array.isArray(handoff.incidents)) {
+        report.externalFindings = handoff.incidents.map(item => {
+          const evidence = JSON.stringify([item.code, item.title, item.rootCause, item.evidence]);
+          const known = knowledge.cases.find(entry => entry.signatures.some(signature => evidence.toLowerCase().includes(signature.toLowerCase())));
+          return { ...item, knowledgeMatch: known ? { id: known.id, title: known.title, status: known.status, confidence: known.confidence } : null };
+        });
+        report.totals.findings += report.externalFindings.length;
+      }
+    } catch (error) {
+      report.externalFindings.push({ severity: 'high', code: 'cloudflare-report-invalid', title: 'Cloudflare Doctor report could not be read', rootCause: error.message, nextStep: 'Regenerate cloudflare-doctor-report.json with Cloudflare Doctor and rerun Project Doctor.' });
+      report.totals.findings += 1;
+    }
+  }
   let targets;
   if (ALL_BRANCHES) {
     const fetched = git(['fetch', 'origin', '--prune', '+refs/heads/*:refs/remotes/origin/*']);
