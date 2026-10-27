@@ -40,6 +40,12 @@
 - Respects reduced-motion settings by freezing the aurora and avoiding star twinkle animation. Other realms have sky-style data only until their playable scenes are implemented.
 - Added a catalog test for all twelve sky styles and valid palette/motif data.
 
+### Magical oceans and realm-matched water (in progress)
+- Added a gentle ocean palette for every planned realm, with distinct deep-water, surface-light, and magical reflection colours that harmonize with its landscape and sky.
+- Rendered a quiet, layered ocean beneath the Whispering Realm: slow low-contrast ripples, sparse luminous flecks, and a calm gradient; the water moves subtly with the breeze.
+- Kept the ocean behind the floating island and land layers so it reads as a surrounding sea rather than covering the playable meadow.
+- Added catalog assertions for all ocean palette fields. Other eleven oceans are palette data only until their scenes become playable.
+
 ### Walkable meadow and responsive wind (in progress)
 - Added a layered open-landscape silhouette to the active Whispering Realm, with procedural green grass and golden grain swaying in a slow breeze.
 - Added a small hooded traveller controlled by arrow keys/WASD on desktop and a hold-to-walk directional pad on touch screens.
