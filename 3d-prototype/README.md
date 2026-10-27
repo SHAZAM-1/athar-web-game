@@ -1,28 +1,39 @@
 # Athar — 3D Open-World Prototype
 
-This is a separate experimental 3D prototype. It does not replace the existing Phaser game.
+This is the active 3D adventure scene. The repository root now opens this scene as the main game; this folder is no longer an isolated side demo.
 
 ## Run locally
-From the repository root, run a static server such as: npx vite --host 127.0.0.1
-Then open http://127.0.0.1:5173/3d-prototype/.
 
-The prototype imports Three.js from jsDelivr, so the first run needs an internet connection.
+From the repository root:
+
+```bash
+npm install
+npm run dev
+```
+
+Open the Vite URL printed in the terminal. The root route and `/3d-prototype/` both open the Three.js scene. Three.js currently loads from jsDelivr, so an internet connection is required.
 
 ## Controls
-- Click ENTER THE WILDS to start.
+
+- Click **ENTER THE WILDS** to begin.
 - WASD or arrow keys to move.
-- Move the mouse to look around (pointer lock).
+- Mouse movement to look around (pointer lock).
 - Shift to run.
-- Walk close to a glowing shard to collect it.
-- Forest trees block movement; find a path around them.
-- Press E near each of the three rune stones to cycle its state. Match the pattern 2 · 1 · 3.
-- After collecting all five shards and matching the rune pattern, return to the ancient ring and press E to awaken Luma.
+- E to interact with rune stones or the ancient ring.
+- On touch screens, use the on-screen directional pad and RUN button; drag on the scene to look around and use INTERACT · E to interact.
 
-## Current prototype
-- Procedurally generated stylized terrain, hills, forest, rocks, flowers, and an ancient ruin.
-- Third-person player and follow camera.
-- Five collectible glowing shards and a quest counter.
-- Atmospheric fog, lighting, and responsive HUD.
+## First quest: Echoes of Luma
 
-## Not finished yet
-This is a playable visual/gameplay foundation, not a complete open-world release. It still needs proper character models and animation, collision against trees/ruins, terrain streaming or region loading, audio, save data, real puzzle interactions, accessibility options, performance profiling, and the remaining Guardian realms. Generated geometry is a placeholder for a later art pass.
+1. Explore the forest and collect all five glowing shards.
+2. Find the three rune stones beside the ancient ring.
+3. Interact with each stone to cycle its state from 0 through 3.
+4. Set the runes to **2 · 1 · 3** from left to right.
+5. Return to the ring and interact to awaken Luma.
+
+Progress (collected shard count, player position, rune states, and chapter completion) is autosaved in this browser when local storage is available. Clearing site data or using a different browser/device clears or separates that save.
+
+## Current limits
+
+Terrain, trees, rocks, flowers, ruins, shards, runes, and the player are procedural Three.js geometry. This proves the 3D gameplay loop, but it is not yet a polished final art pass. Rigged character animation, authored environment assets, guardian encounters, all twelve playable realms, accessibility review, performance profiling, and real-browser/device playtesting remain outstanding.
+
+The old Phaser source still exists as legacy code and its TypeScript tests are not a runtime test of this Three.js scene.
