@@ -39,6 +39,7 @@
 - Added a small hooded traveller controlled by arrow keys/WASD on desktop and a hold-to-walk directional pad on touch screens.
 - Grass and grain near the traveller bend away from their position and return naturally as the traveller passes, creating a gentle interaction rather than collision or a penalty.
 - Added pure helper functions and unit tests for bounded breeze, radial grass response, and invalid geometry.
+- Added a unique landscape palette for each of the 12 planned realms, with tests for the full palette catalog. The reusable palette data is ready for future realm scenes, but only Whispering currently renders a playable meadow.
 - The other 11 realm quests remain content definitions only. The terrain drawing is currently integrated in Whispering Realm and should become a realm-themed reusable system as each future realm is actually built; do not imply all realms are playable yet.
 - Reduced-motion mode keeps the field static while preserving direct player movement and gameplay.
 
