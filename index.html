@@ -49,6 +49,15 @@
       <section class="world-frame" aria-label="Playable preview: The Whispering Realm">
         <div class="world-caption"><span>01 / 12</span><span>THE WHISPERING REALM</span></div>
         <div id="game" class="game-stage" role="group" aria-label="Whispering Realm game scene"></div>
+        <div class="travel-controls" role="group" aria-label="Move the little traveller">
+          <p>Wander through the meadow <span>Use arrow keys / WASD, or hold a direction.</span></p>
+          <div class="travel-pad">
+            <button type="button" data-move="up" aria-label="Walk north">↑</button>
+            <button type="button" data-move="left" aria-label="Walk west">←</button>
+            <button type="button" data-move="down" aria-label="Walk south">↓</button>
+            <button type="button" data-move="right" aria-label="Walk east">→</button>
+          </div>
+        </div>
         <p class="world-hint" id="world-hint" aria-live="polite" aria-atomic="true">Begin with the mint light. After it answers, follow the violet trace.</p>
         <div class="light-controls" role="group" aria-label="Light controls">
           <button class="light-control" type="button" data-light-index="0">Mint light</button>
