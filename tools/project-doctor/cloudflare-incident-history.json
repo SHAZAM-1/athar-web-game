@@ -3,5 +3,38 @@
   "project": "Athar",
   "source": "Athar Cloudflare Doctor",
   "retentionPolicy": "Keep incident records until manually reviewed; repeated observations update lastSeen and occurrenceCount instead of duplicating identical log evidence.",
-  "incidents": []
+  "incidents": [
+    {
+      "fingerprint": "cloudflare-doctor-api-failed|||",
+      "code": "cloudflare-doctor-api-failed",
+      "title": "Cloudflare Doctor could not complete inspection",
+      "severity": "critical",
+      "rootCause": "Missing CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID. Configure these as GitHub Actions repository secrets.",
+      "firstSeen": "2026-10-27T16:12:41.739Z",
+      "lastSeen": "2026-10-27T16:12:41.909Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": null,
+      "url": null,
+      "firstEvidence": {
+        "accountIdConfigured": false,
+        "tokenConfigured": false
+      },
+      "latestEvidence": {
+        "accountIdConfigured": false,
+        "tokenConfigured": false
+      },
+      "nextStep": "Configure Cloudflare Pages read access for CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.",
+      "latestNextStep": "Configure Cloudflare Pages read access for CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.",
+      "latestReportCheckedAt": "2026-10-27T16:12:41.739Z",
+      "lastObservedStatus": "error"
+    }
+  ],
+  "updatedAt": "2026-10-27T16:12:41.909Z",
+  "latestCloudflareStatus": "error",
+  "latestReportCheckedAt": "2026-10-27T16:12:41.739Z",
+  "latestDeploymentId": null,
+  "latestLiveUrl": null,
+  "totalIncidentFingerprints": 1
 }
