@@ -8,7 +8,7 @@ The first playable experiment is **The Whispering Realm**. Discover the hidden t
 
 ## Hidden quests, treasures, and gentle wind
 
-The active Whispering Realm now opens onto layered, rolling meadow hills with soft green grass and golden grain. The little traveller can walk through the landscape with arrow keys/WASD or the touch direction pad; nearby stalks lean away around them and settle back gently. A slow, layered breeze sways the field. Three tiny objects become easier to see as a slow, sine-like breeze passes through the scene. Floating motes drift with the wind; there is no timer, fail state, or pressure to hurry. The meadow motion is driven by a small, tested wind/repulsion helper and uses a static wind pose for reduced-motion settings. A separate landscape palette defines distinct grass, grain, and distant-land colours for all 12 planned realms; only the Whispering Realm is currently rendered as a playable scene. Reduced-motion users see the treasures without the animated reveal.
+The active Whispering Realm now opens onto layered, rolling meadow hills with soft green grass and golden grain. The little traveller can walk through the landscape with arrow keys/WASD or the touch direction pad; nearby stalks lean away around them and settle back gently. A slow, layered breeze sways the field. Small crimson, scarlet, and copper maple-shaped autumn leaves drift down, flutter and spin in the wind, gather softly near the ground, and sometimes lift again when a gentle gust catches them. Three tiny objects become easier to see as a slow, sine-like breeze passes through the scene. Floating motes drift with the wind; there is no timer, fail state, or pressure to hurry. The meadow motion is driven by a small, tested wind/repulsion helper and uses a static wind pose for reduced-motion settings. A separate landscape palette defines distinct grass, grain, and distant-land colours for all 12 planned realms; only the Whispering Realm is currently rendered as a playable scene. Reduced-motion users see the treasures without the animated reveal.
 
 The content catalog defines one distinct hidden-object quest for each of the 12 planned realms. Only the Whispering Realm quest is currently rendered and playable; the other 11 entries are design data for future realms, not finished levels. Each hidden object gives 25 XP once, and completing the three-object quest gives a 100 XP bonus once. Found objects and quest rewards use the existing local progression storage to prevent repeat farming.
 
@@ -35,7 +35,7 @@ Repeating an already-recorded discovery does not award XP again. XP can now also
 - Vite
 - Vitest
 
-The realm quest catalog is covered by tests for all 12 realms, unique quest/object IDs, object positions, and quest completion. Meadow tests cover smooth bounded breeze values, grass bending around the traveller, invalid geometry, and all 12 realm landscape palettes.
+The realm quest catalog is covered by tests for all 12 realms, unique quest/object IDs, object positions, and quest completion. Meadow tests cover smooth bounded breeze values, grass bending around the traveller, invalid geometry, and all 12 realm landscape palettes. The autumn leaves are procedural shapes and follow the same soft breeze; reduced-motion mode keeps them still.
 
 ## Requirements
 
