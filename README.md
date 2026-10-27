@@ -4,7 +4,7 @@ Athar (أثر) is an original, mobile-first browser puzzle game about hidden rul
 
 ## Current prototype
 
-The first playable experiment is **The Whispering Realm**. Discover the hidden three-light sequence to reveal a luminous rune. The visuals are procedural placeholders while the core interaction is being validated.
+The first playable experiment is **The Whispering Realm**. Discover the hidden three-light sequence to reveal a luminous rune. The visuals are procedural placeholders while the core interaction is being validated. The first clue points players toward the mint light; the same light controls are available to touch, mouse, keyboard, and assistive technology through native buttons.
 
 ## Stack
 
@@ -66,10 +66,10 @@ The intended direction is calm, luminous, atmospheric, and original. Each realm 
 
 ## Preview deployment
 
-The GitHub Actions workflow validates and deploys the prototype to GitHub Pages when changes reach `main`. **One-time repository setup is required:** an administrator must open **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**. The workflow token available to automation cannot enable Pages for this repository, so the workflow intentionally does not attempt that privileged operation. After this setting is saved, rerun the **Deploy preview to GitHub Pages** workflow from the Actions tab. The published URL will appear in the successful deployment run.
+The GitHub Actions workflow validates and deploys the prototype to GitHub Pages when changes reach `main`. The live preview is published at https://shazam-1.github.io/athar-web-game/. If deployment fails, check the **Deploy preview to GitHub Pages** workflow in the Actions tab.
 
 ## Status
 
-This is an early prototype, not a finished game. The ambient tone is a placeholder. Save progress, onboarding, accessibility review, performance profiling, and real-device playtesting still require dedicated validation.
+This is an early prototype, not a finished game. The ambient tone is a placeholder. Save progress, full accessibility review, performance profiling, and real-device playtesting still require dedicated validation. Reduced-motion preferences are respected by the game scene, and the puzzle can be played through native buttons without relying on canvas hit targets.
 
 See [PROJECT_LOG.md](./PROJECT_LOG.md) for decisions, changes, and validation status.

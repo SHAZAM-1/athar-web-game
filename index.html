@@ -10,7 +10,7 @@
   <body>
     <main class="app-shell">
       <header class="topbar">
-        <a class="wordmark" href="/" aria-label="Athar home"><span class="wordmark-mark">أ</span><span>ATHAR</span></a>
+        <a class="wordmark" href="./" aria-label="Athar home"><span class="wordmark-mark">أ</span><span>ATHAR</span></a>
         <span class="topbar-note">A world waiting to be understood</span>
         <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound">Sound off</button>
       </header>
@@ -21,8 +21,13 @@
       </section>
       <section class="world-frame" aria-label="Playable preview: The Whispering Realm">
         <div class="world-caption"><span>01 / 12</span><span>THE WHISPERING REALM</span></div>
-        <div id="game" class="game-stage" aria-label="Interactive game scene"></div>
-        <div class="world-hint" id="world-hint" aria-live="polite">Touch the drifting lights. Notice what changes.</div>
+        <div id="game" class="game-stage" role="group" aria-label="Whispering Realm game scene"></div>
+        <p class="world-hint" id="world-hint" aria-live="polite" aria-atomic="true">Begin with the mint light. After it answers, follow the violet trace.</p>
+        <div class="light-controls" role="group" aria-label="Light controls">
+          <button class="light-control" type="button" data-light-index="0">Mint light</button>
+          <button class="light-control" type="button" data-light-index="1">Peach light</button>
+          <button class="light-control" type="button" data-light-index="2">Violet light</button>
+        </div>
       </section>
       <footer class="bottom-row">
         <span>MADE FOR THE CURIOUS</span>

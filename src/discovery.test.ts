@@ -36,4 +36,10 @@ describe('Whispering Realm discovery sequence', () => {
     expect(afterSolve.progress).toBe(3);
     expect(afterSolve.solved).toBe(true);
   });
+
+  it('does not move progress when the first light is not chosen first', () => {
+    const result = advanceDiscovery(0, 2);
+    expect(result.progress).toBe(0);
+    expect(result.solved).toBe(false);
+  });
 });

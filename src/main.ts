@@ -7,7 +7,10 @@ class WhisperingScene extends Phaser.Scene {
   private rune!: Phaser.GameObjects.Graphics;
   private halo!: Phaser.GameObjects.Arc;
   private progress = 0;
+  private solved = false;
   private hint!: HTMLElement;
+  private reducedMotion = false;
+  private lightButtons: HTMLButtonElement[] = [];
 
   constructor() {
     super('WhisperingRealm');
@@ -16,6 +19,8 @@ class WhisperingScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
     this.progress = 0;
+    this.solved = false;
+    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.cameras.main.setBackgroundColor('#0a1025');
 
     const backdrop = this.add.graphics();
@@ -26,14 +31,9 @@ class WhisperingScene extends Phaser.Scene {
       const x = width * (0.08 + i * 0.12);
       const y = height * (0.18 + (i % 3) * 0.2);
       const haze = this.add.circle(x, y, 34 + (i % 3) * 18, 0x4ad9d0, 0.035);
-      this.tweens.add({
-        targets: haze,
-        x: x + (i % 2 === 0 ? 18 : -18),
-        alpha: 0.07,
-        duration: 2600 + i * 190,
-        yoyo: true,
-        repeat: -1,
-        ease: 'Sine.inOut',
+      if (!this.reducedMotion) this.tweens.add({
+        targets: haze, x: x + (i % 2 === 0 ? 18 : -18), alpha: 0.07,
+        duration: 2600 + i * 190, yoyo: true, repeat: -1, ease: 'Sine.inOut',
       });
     }
 
@@ -47,12 +47,9 @@ class WhisperingScene extends Phaser.Scene {
       const x = Phaser.Math.Between(18, Math.max(19, width - 18));
       const y = Phaser.Math.Between(18, Math.max(19, height - 18));
       const dot = this.add.circle(x, y, Phaser.Math.FloatBetween(0.6, 1.8), 0xb4fff3, Phaser.Math.FloatBetween(0.18, 0.7));
-      this.tweens.add({
-        targets: dot,
-        alpha: 0.08,
-        duration: Phaser.Math.Between(900, 2400),
-        yoyo: true,
-        repeat: -1,
+      if (!this.reducedMotion) this.tweens.add({
+        targets: dot, alpha: 0.08, duration: Phaser.Math.Between(900, 2400),
+        yoyo: true, repeat: -1,
       });
     }
 
@@ -66,14 +63,9 @@ class WhisperingScene extends Phaser.Scene {
     this.rune.lineBetween(runeX - 22, runeY + 10, runeX + 22, runeY - 10);
     this.rune.setAlpha(0.18);
 
-    this.tweens.add({
-      targets: this.halo,
-      scale: 1.45,
-      alpha: 0.13,
-      duration: 2100,
-      yoyo: true,
-      repeat: -1,
-      ease: 'Sine.inOut',
+    if (!this.reducedMotion) this.tweens.add({
+      targets: this.halo, scale: 1.45, alpha: 0.13, duration: 2100,
+      yoyo: true, repeat: -1, ease: 'Sine.inOut',
     });
 
     const positions = [
@@ -83,40 +75,48 @@ class WhisperingScene extends Phaser.Scene {
     ];
 
     this.lightObjects = positions.map(({ x, y, color }, index) => {
-      const glow = this.add.circle(x, y, 11, color, 0.09);
+      const glow = this.add.circle(x, y, 11, color, index === 0 ? 0.18 : 0.09);
       const light = this.add.circle(x, y, 4, color, 0.95);
       const hitArea = this.add.zone(x, y, 48, 48).setInteractive({ useHandCursor: true });
-      this.tweens.add({
-        targets: [glow, light],
-        y: y - 9,
-        alpha: 0.42,
-        duration: 1450 + index * 300,
-        yoyo: true,
-        repeat: -1,
-        ease: 'Sine.inOut',
+      if (!this.reducedMotion) this.tweens.add({
+        targets: [glow, light], y: y - 9, alpha: 0.42,
+        duration: 1450 + index * 300, yoyo: true, repeat: -1, ease: 'Sine.inOut',
       });
       hitArea.on('pointerdown', () => this.tapLight(index));
       return light;
     });
 
     this.hint = document.getElementById('world-hint') as HTMLElement;
-    this.hint.textContent = 'Touch the drifting lights in the right order. Watch closely.';
+    this.lightButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-light-index]'));
+    this.lightButtons.forEach((button) => {
+      const onClick = () => this.tapLight(Number(button.dataset.lightIndex));
+      button.addEventListener('click', onClick);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => button.removeEventListener('click', onClick));
+    });
+    this.hint.textContent = 'Begin with the mint light. After it answers, follow the violet trace.';
   }
 
   private tapLight(index: number) {
+    if (this.solved || !Number.isInteger(index) || index < 0 || index >= this.lightObjects.length) return;
+
     const result = advanceDiscovery(this.progress, index);
     this.progress = result.progress;
+    this.solved = result.solved;
     this.hint.textContent = result.message;
 
     if (result.solved) {
       this.rune.setAlpha(1);
       this.lightObjects.forEach((light) => light.setAlpha(1));
-      this.tweens.add({ targets: this.rune, alpha: 0.65, duration: 650, yoyo: true, repeat: 1 });
-      this.tweens.add({ targets: this.halo, scale: 1.9, alpha: 0.2, duration: 900, yoyo: true, ease: 'Sine.out' });
+      if (!this.reducedMotion) {
+        this.tweens.add({ targets: this.rune, alpha: 0.65, duration: 650, yoyo: true, repeat: 1 });
+        this.tweens.add({ targets: this.halo, scale: 1.9, alpha: 0.2, duration: 900, yoyo: true, ease: 'Sine.out' });
+      }
       return;
     }
 
-    this.tweens.add({ targets: this.lightObjects[index], scale: 1.8, duration: 180, yoyo: true, ease: 'Sine.out' });
+    if (!this.reducedMotion) {
+      this.tweens.add({ targets: this.lightObjects[index], scale: 1.8, duration: 180, yoyo: true, ease: 'Sine.out' });
+    }
   }
 }
 
@@ -126,6 +126,7 @@ const game = new Phaser.Game({
   backgroundColor: '#0a1025',
   scale: {
     mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
     width: 800,
     height: 440,
   },
