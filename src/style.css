@@ -46,6 +46,14 @@ h1 em { color: #a8b6f4; font-weight: 400; }
 .xp-progress { height: 7px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.08); }
 .xp-progress span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #4bd5ce, #a8b6f4); transition: width .35s ease; }
 .xp-status { margin: 11px 0 0; color: #8998b8; font-size: 11px; line-height: 1.55; }
+.quest-panel { display: flex; align-items: flex-start; gap: 17px; width: min(680px, 100%); margin: 0 auto 28px; padding: 21px 23px; border: 1px solid rgba(236, 204, 179, .18); border-radius: 16px; background: linear-gradient(135deg, rgba(49, 42, 68, .62), rgba(22, 30, 54, .78)); box-shadow: 0 16px 46px rgba(0,0,0,.12); }
+.quest-mark { display: grid; flex: 0 0 39px; width: 39px; height: 39px; place-items: center; border: 1px solid rgba(244, 207, 178, .35); border-radius: 50%; color: #f2d3b4; background: rgba(242, 211, 180, .07); font-size: 21px; }
+.quest-copy { min-width: 0; }
+.quest-eyebrow { margin: 1px 0 7px; color: #e3c2ad; font-size: 9px; letter-spacing: .2em; }
+.quest-copy h2 { margin: 0 0 7px; color: #f2eee9; font-family: Georgia, "Times New Roman", serif; font-size: 22px; font-weight: 400; letter-spacing: -.02em; }
+.quest-copy > p:not(.quest-eyebrow):not(.quest-hint) { margin: 0; color: #b7bdd0; font-size: 12px; line-height: 1.65; }
+.quest-progress { display: inline-flex; margin-top: 12px; padding: 6px 10px; border: 1px solid rgba(145, 255, 240, .16); border-radius: 999px; color: #a8e9df; background: rgba(145,255,240,.035); font-size: 10px; letter-spacing: .025em; }
+.quest-hint { margin: 10px 0 0; color: #d0c0d8; font-size: 11px; line-height: 1.6; }
 .world-frame { position: relative; overflow: hidden; border: 1px solid rgba(151, 188, 233, .2); border-radius: 14px; background: #0a1025; box-shadow: 0 30px 100px rgba(0,0,0,.24), 0 0 50px rgba(70, 180, 190, .045); }
 .world-caption { position: absolute; z-index: 2; top: 19px; left: 22px; right: 22px; display: flex; justify-content: space-between; color: #9aa9c8; font-size: 9px; letter-spacing: .17em; pointer-events: none; }
 .game-stage { display: flex; align-items: center; justify-content: center; height: clamp(270px, 45vw, 440px); width: 100%; touch-action: manipulation; }
@@ -63,6 +71,9 @@ h1 em { color: #a8b6f4; font-weight: 400; }
   .topbar-note { display: none; }
   .intro { padding-top: 48px; }
   .progress-panel { padding: 18px 16px 15px; margin-bottom: 22px; }
+  .quest-panel { gap: 12px; padding: 17px 15px; margin-bottom: 22px; }
+  .quest-mark { flex-basis: 32px; width: 32px; height: 32px; font-size: 18px; }
+  .quest-copy h2 { font-size: 20px; }
   .progress-heading h2 { font-size: 20px; }
   .rank-badge { min-width: 80px; padding: 7px 10px; font-size: 10px; }
   .world-caption { top: 14px; left: 14px; right: 14px; font-size: 8px; letter-spacing: .1em; }
