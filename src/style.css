@@ -29,6 +29,23 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--aqua); outline-
 h1 { margin: 22px 0 16px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(36px, 6vw, 66px); font-weight: 400; letter-spacing: -.045em; line-height: 1.09; }
 h1 em { color: #a8b6f4; font-weight: 400; }
 .intro-copy { margin: 0; color: var(--muted); font-size: clamp(13px, 1.6vw, 15px); line-height: 1.7; }
+.progress-panel { width: min(680px, 100%); margin: 0 auto 28px; padding: 22px 24px 18px; border: 1px solid rgba(151,188,233,.17); border-radius: 14px; background: linear-gradient(135deg, rgba(20,32,63,.82), rgba(9,16,36,.8)); box-shadow: 0 18px 55px rgba(0,0,0,.12); }
+.progress-heading, .xp-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.progress-eyebrow { margin: 0 0 5px; color: #8ce7df; font-size: 9px; letter-spacing: .2em; }
+.progress-heading h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 22px; font-weight: 400; letter-spacing: -.02em; }
+.rank-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 92px; padding: 8px 13px; border: 1px solid currentColor; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; background: rgba(255,255,255,.035); }
+.rank-bronze { color: #d9a47d; }
+.rank-silver { color: #d4deef; }
+.rank-gold { color: #f3d47d; }
+.rank-platinum { color: #a8e5e6; }
+.rank-diamond { color: #a9d5ff; }
+.rank-master { color: #c6adff; }
+.rank-grandmaster { color: #ffb8d4; }
+.xp-summary { margin: 21px 0 9px; color: var(--muted); font-size: 11px; }
+.xp-summary strong { color: #f0f4ff; font-size: 18px; font-weight: 650; letter-spacing: .02em; }
+.xp-progress { height: 7px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.08); }
+.xp-progress span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #4bd5ce, #a8b6f4); transition: width .35s ease; }
+.xp-status { margin: 11px 0 0; color: #8998b8; font-size: 11px; line-height: 1.55; }
 .world-frame { position: relative; overflow: hidden; border: 1px solid rgba(151, 188, 233, .2); border-radius: 14px; background: #0a1025; box-shadow: 0 30px 100px rgba(0,0,0,.24), 0 0 50px rgba(70, 180, 190, .045); }
 .world-caption { position: absolute; z-index: 2; top: 19px; left: 22px; right: 22px; display: flex; justify-content: space-between; color: #9aa9c8; font-size: 9px; letter-spacing: .17em; pointer-events: none; }
 .game-stage { display: flex; align-items: center; justify-content: center; height: clamp(270px, 45vw, 440px); width: 100%; touch-action: manipulation; }
@@ -45,6 +62,9 @@ h1 em { color: #a8b6f4; font-weight: 400; }
   .topbar { height: 68px; }
   .topbar-note { display: none; }
   .intro { padding-top: 48px; }
+  .progress-panel { padding: 18px 16px 15px; margin-bottom: 22px; }
+  .progress-heading h2 { font-size: 20px; }
+  .rank-badge { min-width: 80px; padding: 7px 10px; font-size: 10px; }
   .world-caption { top: 14px; left: 14px; right: 14px; font-size: 8px; letter-spacing: .1em; }
   .game-stage { height: 310px; }
   .bottom-row { font-size: 7px; letter-spacing: .1em; }
