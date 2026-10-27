@@ -1,87 +1,41 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0a1025" />
-    <meta name="description" content="Athar is a quiet puzzle adventure about hidden rules, small discoveries, and the traces we leave behind." />
-    <title>Athar — Find what the world is hiding</title>
-  </head>
-  <body>
-    <main class="app-shell">
-      <header class="topbar">
-        <a class="wordmark" href="./" aria-label="Athar home"><span class="wordmark-mark">أ</span><span>ATHAR</span></a>
-        <span class="topbar-note">A world waiting to be understood</span>
-        <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound">Sound off</button>
-      </header>
-      <section class="intro" aria-labelledby="page-title">
-        <p class="eyebrow"><span class="eyebrow-dot"></span> THE FIRST TRACE</p>
-        <h1 id="page-title">Some things only<br /><em>appear when you listen.</em></h1>
-        <p class="intro-copy">A quiet world. A hidden rule. One small discovery at a time.</p>
-      </section>
-      <section class="progress-panel" aria-labelledby="progress-title">
-        <div class="progress-heading">
-          <div>
-            <p class="progress-eyebrow">YOUR JOURNEY</p>
-            <h2 id="progress-title">Discovery rank</h2>
-          </div>
-          <span class="rank-badge rank-bronze" id="rank-badge">Bronze</span>
-        </div>
-        <div class="xp-summary">
-          <strong id="player-xp">0 XP</strong>
-          <span id="xp-next-label">100 XP to Silver</span>
-        </div>
-        <div class="xp-progress" id="xp-progress" role="progressbar" aria-label="Progress toward next rank" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <span id="xp-progress-fill"></span>
-        </div>
-        <p class="xp-status" id="xp-status" aria-live="polite" aria-atomic="true">Earn 100 XP for your first discovery. Progress is saved on this device.</p>
-      </section>
-      <section class="quest-panel" aria-labelledby="quest-title">
-        <div class="quest-mark" aria-hidden="true">✧</div>
-        <div class="quest-copy">
-          <p class="quest-eyebrow">A QUIET SIDE QUEST</p>
-          <h2 id="quest-title">Little Things in the Breeze</h2>
-          <p>Let the wind reveal three quiet treasures. There is no timer—take your time.</p>
-          <div class="quest-progress" id="quest-progress">0 of 3 hidden treasures found</div>
-          <p class="quest-hint" id="quest-hint" aria-live="polite" aria-atomic="true">A soft breeze sometimes reveals a tiny glimmer. Tap it when you spot one.</p>
-        </div>
-      </section>
-      <section class="world-frame" aria-label="Playable preview: The Whispering Realm">
-        <div class="world-caption"><span>01 / 12</span><span>THE WHISPERING REALM</span></div>
-        <div id="game" class="game-stage" role="group" aria-label="Whispering Realm game scene"></div>
-        <div class="travel-controls" role="group" aria-label="Move the little traveller">
-          <p>Wander through the meadow <span>Use arrow keys / WASD, or hold a direction.</span></p>
-          <div class="travel-pad">
-            <button type="button" data-move="up" aria-label="Walk north">↑</button>
-            <button type="button" data-move="left" aria-label="Walk west">←</button>
-            <button type="button" data-move="down" aria-label="Walk south">↓</button>
-            <button type="button" data-move="right" aria-label="Walk east">→</button>
-          </div>
-        </div>
-        <p class="world-hint" id="world-hint" aria-live="polite" aria-atomic="true">Begin with the mint light. After it answers, follow the violet trace.</p>
-        <div class="light-controls" role="group" aria-label="Light controls">
-          <button class="light-control" type="button" data-light-index="0">Mint light</button>
-          <button class="light-control" type="button" data-light-index="1">Peach light</button>
-          <button class="light-control" type="button" data-light-index="2">Violet light</button>
-        </div>
-      </section>
-      <section class="guardian-section" aria-labelledby="guardian-heading">
-        <p class="guardian-eyebrow">THE LIVING WORLDS</p>
-        <h2 id="guardian-heading">Meet the twelve guardians</h2>
-        <p class="guardian-intro">Every realm has a keeper of its own. Choose a guardian to learn its name, nature, and quiet magic.</p>
-        <div class="guardian-gallery" id="guardian-gallery" aria-label="Choose one of twelve magical realm guardians"></div>
-        <aside class="guardian-detail" id="guardian-detail" aria-live="polite">
-          <div><p class="guardian-detail-label">YOUR CHOSEN GUARDIAN</p><h3 id="guardian-detail-name">Luma</h3><p id="guardian-detail-species">Tideglow Jellyfish</p></div>
-          <p id="guardian-detail-description">A bright-blue jellyfish whose quiet pulse lights the shore and guides lost memories home.</p>
-        </aside>
-        <p class="guardian-note">The bestiary is available now. The Whispering Realm remains the first playable level; the other realms will become explorable as their scenes are built.</p>
-      </section>
-      <footer class="bottom-row">
-        <span>MADE FOR THE CURIOUS</span>
-        <span class="footer-symbol" aria-hidden="true">✳</span>
-        <span>EVERY TRACE MATTERS</span>
-      </footer>
-    </main>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09172a">
+<meta name="description" content="Athar is a third-person 3D fantasy adventure. Explore the Whispering Wilds, collect lost shards, solve ancient runes, and awaken Luma.">
+<title>Athar — The Whispering Wilds</title>
+<link rel="stylesheet" href="/3d-prototype/style.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"}}</script>
+</head>
+<body>
+<div id="game"></div>
+<header class="hud-top">
+  <a class="brand" href="/">ATHAR <span>✦</span></a>
+  <div class="realm-label"><small>REALM 01</small><strong>THE WHISPERING WILDS</strong></div>
+  <div class="crystal-counter">✧ <span id="crystal-count">0</span><small> / 5 SHARDS</small></div>
+</header>
+<section class="intro-card" id="intro-card">
+  <p class="eyebrow">A WORLD WAITING TO BE FOUND</p>
+  <h1>The Whispering<br><em>Wilds</em></h1>
+  <p>Explore a living 3D wilderness. Follow the lights, discover ancient ruins, and gather the five lost shards.</p>
+  <button id="start-button">ENTER THE WILDS <span>→</span></button>
+  <small class="controls-note">WASD / ARROWS MOVE · MOUSE LOOK · SHIFT RUN · E INTERACT</small>
+</section>
+<aside class="quest-card">
+  <div class="quest-icon">✧</div>
+  <div><small>YOUR FIRST QUEST</small><strong>Echoes of Luma</strong><p>Find five shards, tune the three rune stones to 2 · 1 · 3, then return to the ancient ring to awaken Luma.</p></div>
+</aside>
+<div class="touch-pad" aria-label="Touch movement controls">
+  <button data-key="KeyW" aria-label="Move forward">▲</button>
+  <div><button data-key="KeyA" aria-label="Move left">◀</button><button data-key="KeyS" aria-label="Move backward">▼</button><button data-key="KeyD" aria-label="Move right">▶</button></div>
+  <button data-key="ShiftLeft" class="touch-run">RUN</button>
+  <button id="touch-interact" class="touch-interact">INTERACT · E</button>
+</div>
+<div class="crosshair" aria-hidden="true">+</div>
+<div class="bottom-hint" id="bottom-hint">Explore the wilds. Something ancient sleeps beyond the trees.</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="/3d-prototype/main.js"></script>
+</body>
 </html>
