@@ -145,6 +145,7 @@ class WhisperingScene extends Phaser.Scene {
 
     // A wide, layered meadow makes the little floating island feel part of a much larger land.
     const distantLand = this.add.graphics();
+    distantLand.setDepth(1);
     distantLand.fillStyle(this.landscape.farLand, 0.52);
     distantLand.fillPoints([
       new Phaser.Geom.Point(0, height * 0.67), new Phaser.Geom.Point(width * 0.12, height * 0.57),
@@ -154,6 +155,7 @@ class WhisperingScene extends Phaser.Scene {
       new Phaser.Geom.Point(0, height),
     ], true, true);
     const nearLand = this.add.graphics();
+    nearLand.setDepth(2);
     nearLand.fillStyle(this.landscape.nearLand, 0.86);
     nearLand.fillPoints([
       new Phaser.Geom.Point(0, height * 0.78), new Phaser.Geom.Point(width * 0.18, height * 0.71),
@@ -161,7 +163,7 @@ class WhisperingScene extends Phaser.Scene {
       new Phaser.Geom.Point(width * 0.75, height * 0.76), new Phaser.Geom.Point(width, height * 0.7),
       new Phaser.Geom.Point(width, height), new Phaser.Geom.Point(0, height),
     ], true, true);
-    this.meadowGraphics = this.add.graphics();
+    this.meadowGraphics = this.add.graphics().setDepth(3);
 
     // Small maple-like autumn leaves drift down, flutter, and occasionally lift again in a breeze.
     this.autumnLeaves = [];
