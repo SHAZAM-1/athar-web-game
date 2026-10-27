@@ -34,6 +34,12 @@
 - Tests cover all 12 quest entries, unique IDs, normalized object positions, active quest lookup, and completion rules.
 - The remaining 11 quests are content definitions only; those realms are not yet implemented as playable scenes.
 
+### Magical skies and peaceful celestial weather (in progress)
+- Added a data-driven sky identity for each of the 12 planned realms, including distinct twilight gradients, star colours, aurora hues, and moon/sun/ringed-planet motifs.
+- Rendered the Whispering Realm’s first sky: 76 small stars, a warm crescent moon, soft teal and periwinkle aurora ribbons, and a subtle horizon veil; the ribbons move slowly with the breeze.
+- Respects reduced-motion settings by freezing the aurora and avoiding star twinkle animation. Other realms have sky-style data only until their playable scenes are implemented.
+- Added a catalog test for all twelve sky styles and valid palette/motif data.
+
 ### Walkable meadow and responsive wind (in progress)
 - Added a layered open-landscape silhouette to the active Whispering Realm, with procedural green grass and golden grain swaying in a slow breeze.
 - Added a small hooded traveller controlled by arrow keys/WASD on desktop and a hold-to-walk directional pad on touch screens.
