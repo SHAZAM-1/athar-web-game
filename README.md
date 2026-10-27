@@ -1,91 +1,62 @@
-# Athar — A quiet puzzle adventure
+# Athar — 3D fantasy adventure
 
-Athar (أثر) is an original, mobile-first browser puzzle game about hidden rules, discovery, and the traces a player leaves behind.
+Athar (أثر) is being rebuilt as a **3D-first browser game**. The root URL now opens the Three.js third-person adventure directly; the old Phaser meadow is no longer the main entry point.
 
-## Current prototype
-
-The first playable experiment is **The Whispering Realm**. Discover the hidden three-light sequence to reveal a luminous rune. The visuals are procedural placeholders while the core interaction is being validated. The first clue points players toward the mint light; the same light controls are available to touch, mouse, keyboard, and assistive technology through native buttons.
-
-## XP and ranks
-
-The first discovery awards **100 XP** once and is recorded in browser local storage when available. The current rank ladder is:
-
-| Rank | XP threshold |
-| --- | ---: |
-| Bronze | 0 |
-| Silver | 100 |
-| Gold | 300 |
-| Platinum | 600 |
-| Diamond | 1,000 |
-| Master | 1,500 |
-| Grandmaster | 2,500 |
-
-Repeating an already-recorded discovery does not award XP again. At this prototype stage, there is only one XP-earning discovery, so rank progression beyond Silver awaits future puzzles and realms. XP is stored on the current browser/device; it is not yet synced across devices or accounts.
-
-## Stack
-
-- TypeScript
-- Phaser 3
-- Vite
-- Vitest
-
-## Requirements
-
-- Node.js 22 or newer
-- npm 11 (CI upgrades npm to the validated major)
-
-## Run locally
+## Play the current 3D build
 
 ```bash
 npm install
 npm run dev
 ```
 
-Vite prints the local development URL in the terminal.
+Open the Vite URL printed in the terminal. The main page loads the 3D world from `3d-prototype/main.js` and its responsive HUD from `3d-prototype/style.css`. Three.js is currently loaded from jsDelivr, so the browser needs an internet connection.
 
-## Validate before shipping
+You can also open the same scene directly at `/3d-prototype/`.
+
+## Current playable loop
+
+- Explore a procedural third-person 3D forest with hills, trees, rocks, flowers, ancient ruins, fog, and atmospheric lighting.
+- Shared terrain/material helpers live in `3d-prototype/world/terrain.js`, with focused unit coverage in `3d-prototype/world/terrain.test.js`.
+- A 12-realm palette registry is migrated from `src/realm-landscapes.ts` into `3d-prototype/realms/realm-registry.js`; the desktop HUD previews each realm's colour palette, fog density, lighting intensity, exposure settings, and a realm-specific set of scenic 3D landmark prototypes.
+- All 12 realm quest definitions are migrated into `3d-prototype/realms/realm-quests.js`. Selecting a realm palette now loads its three glowing 3D treasure markers; approach one and press **E** to collect it, earn XP, and save progress separately per realm. Tests cover the migrated registry and quest content.
+- Use WASD/arrow keys to move, mouse to look, Shift to run, and E to interact.
+- On touch devices, use the on-screen movement/run/interact controls and drag to look around.
+- Collect five glowing shards.
+- Find the three rune stones and cycle them to the sequence **2 · 1 · 3**.
+- Return to the ancient ring and interact to awaken Luma.
+
+## Important status
+
+This is an active prototype, not a finished commercial-quality game. The world, character, trees, rocks, ruins, and collectibles are still procedural geometry; production 3D models, rigging/animation, richer combat or guardian encounters, save/progression integration, sound design, and device/browser testing remain to be built and verified.
+
+The repository still contains the former Phaser/2D implementation and its tests as legacy source. The root page no longer starts that implementation, but the old modules have **not all been rewritten as 3D equivalents yet**. This distinction is intentional and visible so that the migration is not misrepresented as complete.
+
+## Validation
 
 ```bash
 npm run typecheck
 npm test
 npm run build
-npm audit --audit-level=moderate
 ```
+
+These commands validate the legacy TypeScript/test/build pipeline; they do not, by themselves, prove the Three.js scene works on every browser or device. Browser runtime and mobile-device testing are still required.
 
 ## Project Doctor
 
-Athar includes a repository-scoped **Project Doctor** that checks every remote branch in isolated Git worktrees. It runs dependency installation, security audit, TypeScript typecheck, unit tests, production build, and whitespace validation. It also matches known failure signatures against the project's incident memory.
+The repository includes a Project Doctor for branch checks and reviewed safe-fix recipes:
 
 ```bash
-npm run doctor          # Check the current branch
-npm run doctor:branches # Check all fetched remote branches
-npm run doctor:self-test # Validate the Doctor's memory and safe-fix rules
+npm run doctor
+npm run doctor:branches
+npm run doctor:self-test
 ```
 
-For an exact, reviewed fix recipe, you can apply it to the current working tree:
-
-```bash
-npm run doctor:apply-fix -- --id whispering-hint-lightobjects-typo
-```
-
-The command refuses to edit unless the exact old text appears exactly once. It changes only the local working tree; review `git diff` and rerun all relevant checks before committing anything.
-
-GitHub Actions runs the Doctor on branch pushes and weekly. Each run uploads a JSON diagnosis report and any patches produced by reviewed exact-match safe-fix recipes. The automated scan never pushes to branches, commits, opens PRs, or merges. Unknown failures are reported with evidence and conservative next steps. See [the Project Doctor policy](./tools/project-doctor/POLICY.md) for its scope and safety rules.
-
-The Doctor is deliberately bounded and deterministic, not an LLM: it learns from the project's verified incident memory and only applies exact, pre-approved fixes. Unknown code failures are not "fixed" by guesswork.
-
-## Project direction
-
-Athar's long-term roadmap contains 12 distinct realms. The first prototype is deliberately limited to one realm; the Crystal and Abyssal realms will follow only after the core loop passes usability, quality, and performance checks.
-
-The intended direction is calm, luminous, atmospheric, and original. Each realm should eventually have a meaningful mechanic, palette, ambience, and cross-world clues—not just a visual reskin.
+See `tools/project-doctor/POLICY.md` for scope and safety rules.
 
 ## Preview deployment
 
-The GitHub Actions workflow validates and deploys the prototype to GitHub Pages when changes reach `main`. The live preview is published at https://shazam-1.github.io/athar-web-game/. If deployment fails, check the **Deploy preview to GitHub Pages** workflow in the Actions tab.
+The existing GitHub Pages workflow publishes the project at https://shazam-1.github.io/athar-web-game/ when its deployment conditions are met.
 
-## Status
+## Project direction
 
-This is an early prototype, not a finished game. The ambient tone is a placeholder. Save progress, full accessibility review, performance profiling, and real-device playtesting still require dedicated validation. Reduced-motion preferences are respected by the game scene, and the puzzle can be played through native buttons without relying on canvas hit targets.
-
-See [PROJECT_LOG.md](./PROJECT_LOG.md) for decisions, changes, and validation status.
+The target is a cohesive 3D adventure across twelve distinct realms, with meaningful mechanics and atmosphere for each—not a collection of disconnected demos. The migration is in progress: the original five-shard/rune/Luma chapter is playable in the Whispering Wilds, and all twelve realms now have their migrated side-quest treasure markers available through the palette preview. The selector is not yet full travel between distinct 3D environments; each realm still needs its own terrain, landmarks, atmosphere, and progression gate.

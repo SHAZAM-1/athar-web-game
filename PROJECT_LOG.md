@@ -25,6 +25,52 @@
 - The progression model has unit tests for rank thresholds, one-time rewards, malformed saved data, and invalid XP values.
 - This is a starter foundation: only the first discovery currently awards XP. Additional legitimate rewards should be defined as new puzzles and realms are built; do not add arbitrary repeatable XP farming.
 
+### Hidden quests, wind physics, and cozy direction (in progress)
+- Added a content catalog with one hidden-object side quest and three unique objects for each of the 12 planned realms.
+- The Whispering Realm is the only playable quest right now: three objects fade into view with a gentle wind cycle and can be collected by tapping/clicking.
+- Added slow horizontal drift and soft vertical float to ambient motes; the movement is deliberately subtle and has no timers or fail state.
+- Each object awards 25 XP once; finishing the quest awards a 100 XP bonus once. The same saved discovery ledger prevents farming.
+- Added a calm, warm-lavender/peach quest panel and polite live status updates. Reduced-motion users see the hidden objects without animated reveals.
+- Tests cover all 12 quest entries, unique IDs, normalized object positions, active quest lookup, and completion rules.
+- The remaining 11 quests are content definitions only; those realms are not yet implemented as playable scenes.
+
+### Magical skies and peaceful celestial weather (in progress)
+- Added a data-driven sky identity for each of the 12 planned realms, including distinct twilight gradients, star colours, aurora hues, and moon/sun/ringed-planet motifs.
+- Rendered the Whispering Realm’s first sky: 76 small stars, a warm crescent moon, soft teal and periwinkle aurora ribbons, and a subtle horizon veil; the ribbons move slowly with the breeze.
+- Respects reduced-motion settings by freezing the aurora and avoiding star twinkle animation. Other realms have sky-style data only until their playable scenes are implemented.
+- Added a catalog test for all twelve sky styles and valid palette/motif data.
+
+### Magical oceans and realm-matched water (in progress)
+- Added a gentle ocean palette for every planned realm, with distinct deep-water, surface-light, and magical reflection colours that harmonize with its landscape and sky.
+- Rendered a quiet, layered ocean beneath the Whispering Realm: slow low-contrast ripples, sparse luminous flecks, and a calm gradient; the water moves subtly with the breeze.
+- Kept the ocean behind the floating island and land layers so it reads as a surrounding sea rather than covering the playable meadow.
+- Added catalog assertions for all ocean palette fields. Other eleven oceans are palette data only until their scenes become playable.
+
+### Magical guardian creatures for all realms (in progress)
+- Added an original creature concept and calm colour palette for each of the 12 planned realms, including a Tideglow Jellyfish, Velvet Dream Moth, Sunset Glassfox, Echoing Moonwhale, Lanternwing Manta, Moss-Crowned Stag, Prism-Tailed Fox, Cloud Koi, Dune Glasswing Scarab, Comet-Tailed Dragon, Fourfold Butterfly, and Dusk Wisp.
+- Added a typed creature catalog and tests for all twelve realms, unique names, valid colour values, descriptions, and unknown-realm handling.
+- Connected the active Whispering Realm's blue jellyfish visuals to the catalog, so its body, halo, and tendril colours come from the realm guardian definition.
+- Added `src/realm-gallery.ts`, an interactive in-game bestiary that renders a distinct original SVG illustration for every guardian using its own body, glow, and accent palette.
+- Added a responsive twelve-card gallery to the main page. Selecting a card updates the selected state, guardian name, species, lore description, and glow accent; native buttons support keyboard and assistive-technology use.
+- Guardian illustrations float gently, with animation disabled under `prefers-reduced-motion: reduce`.
+- All twelve guardians are now visibly implemented in the current game experience through the bestiary. The Whispering Realm remains the only playable realm and its jellyfish guardian is still the only guardian integrated into the Phaser world scene; the other eleven realms are not yet playable.
+
+### Blue jellyfish and bioluminescent shoreline (in progress)
+- Added three bright-blue jellyfish near the Whispering Realm waterline, each with a translucent luminous bell, pale inner glow, and fine cyan tendrils.
+- Added small blue-green bioluminescent points and short traces across the shore, like living light in the sand.
+- Jellyfish drift and bob slowly; shoreline glow breathes softly rather than flashing. Reduced-motion mode freezes these effects.
+- The new creatures and shoreline lighting are rendered only in the active Whispering Realm. Future realms can adapt the creature silhouettes and glow palette to their own ocean identity.
+
+### Walkable meadow and responsive wind (in progress)
+- Added a layered open-landscape silhouette to the active Whispering Realm, with procedural green grass and golden grain swaying in a slow breeze.
+- Added a small hooded traveller controlled by arrow keys/WASD on desktop and a hold-to-walk directional pad on touch screens.
+- Grass and grain near the traveller bend away from their position and return naturally as the traveller passes, creating a gentle interaction rather than collision or a penalty.
+- Added small procedural red, scarlet, and copper maple-shaped autumn leaves. They fall, flutter and spin, settle near the ground, and can be picked up again by a gentle gust; reduced-motion mode keeps them static.
+- Added pure helper functions and unit tests for bounded breeze, radial grass response, and invalid geometry.
+- Added a unique landscape palette for each of the 12 planned realms, with tests for the full palette catalog. The reusable palette data is ready for future realm scenes, but only Whispering currently renders a playable meadow.
+- The other 11 realm quests remain content definitions only. The terrain drawing is currently integrated in Whispering Realm and should become a realm-themed reusable system as each future realm is actually built; do not imply all realms are playable yet.
+- Reduced-motion mode keeps the field static while preserving direct player movement and gameplay.
+
 ### Project Doctor and deployment
 - Project Doctor checks remote branches in isolated worktrees, performs dependency/security/type/test/build/diff checks, diagnoses known incidents, and exports exact-match safe-fix proposals. It does not push, commit, open PRs, or merge.
 - The Doctor and GitHub Pages deployment workflows have reported successful runs. The preview is available at https://shazam-1.github.io/athar-web-game/.
@@ -40,8 +86,8 @@
 - PR #9's automated CI checks passed. Real-device visual/touch tests have not been performed.
 
 ### Remaining quality gates
-1. Review CI for the XP/ranks feature before merging it.
+1. Review CI for the hidden-quests/wind feature before merging it.
 2. Verify visual layout and touch targets on real mobile and desktop browsers.
 3. Measure production payload and loading on representative devices.
-4. Playtest whether the clue, sequence, and XP reward are understandable and satisfying.
+4. Playtest whether the clue, hidden-object reveal, gentle wind, quest, and XP rewards are understandable and satisfying.
 5. Only after the core checks pass, design and implement the Crystal Realm, then Abyssal Realm.
