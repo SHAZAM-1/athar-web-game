@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import { rand, mat, groundY } from './world/terrain.js';
-const root=document.querySelector('#game'),countEl=document.querySelector('#crystal-count'),intro=document.querySelector('#intro-card'),startButton=document.querySelector('#start-button'),toast=document.querySelector('#toast'),hint=document.querySelector('#bottom-hint'),crosshair=document.querySelector('.crosshair'),questTitle=document.querySelector('.quest-card strong'),questText=document.querySelector('.quest-card p');
+import { REALMS } from './realms/realm-registry.js';
+const root=document.querySelector('#game'),countEl=document.querySelector('#crystal-count'),intro=document.querySelector('#intro-card'),startButton=document.querySelector('#start-button'),toast=document.querySelector('#toast'),hint=document.querySelector('#bottom-hint'),crosshair=document.querySelector('.crosshair'),questTitle=document.querySelector('.quest-card strong'),questText=document.querySelector('.quest-card p'),realmNameEl=document.querySelector('#realm-name'),realmIndexEl=document.querySelector('#realm-index');
 const scene=new THREE.Scene();scene.background=new THREE.Color('#91b8bb');scene.fog=new THREE.FogExp2('#91b8bb',.0035);
 const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,900);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;root.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xc5f3ec,0x3b5143,2));const sun=new THREE.DirectionalLight(0xffe7c2,3.2);sun.position.set(-90,130,55);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-110;sun.shadow.camera.right=110;sun.shadow.camera.top=110;sun.shadow.camera.bottom=-110;scene.add(sun);
-const groundGeo=new THREE.PlaneGeometry(620,620,150,150);groundGeo.rotateX(-Math.PI/2);const pos=groundGeo.attributes.position;for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i);pos.setY(i,groundY(x,z))}groundGeo.computeVertexNormals();const ground=new THREE.Mesh(groundGeo,mat('#597f61'));ground.receiveShadow=true;scene.add(ground);
+const hemisphere=new THREE.HemisphereLight(0xc5f3ec,0x3b5143,2);scene.add(hemisphere);const sun=new THREE.DirectionalLight(0xffe7c2,3.2);sun.position.set(-90,130,55);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-110;sun.shadow.camera.right=110;sun.shadow.camera.top=110;sun.shadow.camera.bottom=-110;scene.add(sun);
+const groundGeo=new THREE.PlaneGeometry(620,620,150,150);groundGeo.rotateX(-Math.PI/2);const pos=groundGeo.attributes.position;for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i);pos.setY(i,groundY(x,z))}groundGeo.computeVertexNormals();const groundMaterial=mat('#597f61');const ground=new THREE.Mesh(groundGeo,groundMaterial);ground.receiveShadow=true;scene.add(ground);
 const hillMats=[mat('#678f83'),mat('#739c8d'),mat('#507b75')];for(let i=0;i<34;i++){const a=i/34*Math.PI*2,r=rand(235,310),x=Math.cos(a)*r,z=Math.sin(a)*r,h=rand(35,80),hill=new THREE.Mesh(new THREE.ConeGeometry(rand(20,38),h,7),hillMats[i%3]);hill.position.set(x,groundY(x,z)+h*.36,z);hill.rotation.y=rand(0,6);hill.scale.z=rand(.65,1.2);hill.castShadow=true;scene.add(hill)}
 const obstacles=[];const trunkMat=mat('#594b3c'),leafMats=[mat('#315f50'),mat('#3c755c'),mat('#4f8764'),mat('#668f6a')],trunkGeo=new THREE.CylinderGeometry(.22,.42,3.2,7),treeGeo=new THREE.ConeGeometry(1,1,7);
 for(let i=0;i<390;i++){let x,z;do{x=rand(-285,285);z=rand(-285,285)}while(Math.hypot(x,z)<24||(Math.abs(x)<32&&z>-95&&z<35));const y=groundY(x,z),s=rand(.7,2.2),g=new THREE.Group(),trunk=new THREE.Mesh(trunkGeo,trunkMat);trunk.position.y=1.4*s;trunk.scale.setScalar(s);trunk.castShadow=true;g.add(trunk);for(let j=0;j<3;j++){const crown=new THREE.Mesh(treeGeo,leafMats[Math.floor(rand(0,4))]);crown.position.y=(2.5+j*1.05)*s;crown.scale.set((1.7-j*.24)*s,(2.4-j*.12)*s,(1.6-j*.16)*s);crown.rotation.y=rand(0,6);crown.castShadow=true;g.add(crown)}g.position.set(x,y,z);g.rotation.y=rand(0,6);scene.add(g);obstacles.push({x,z,r:Math.max(1.15,1.1*s)})}
@@ -21,6 +22,26 @@ const player=new THREE.Group(),cloakMat=mat('#497f75'),skinMat=mat('#e6bd98'),go
 const keys={};let started=false,gameWon=false,yaw=0,pitch=.22,collected=0,lastTime=0,toastTimer=0;
 // Luma currently uses a procedural guardian placeholder; replace with the final rigged model when available.
 const luma=new THREE.Group();luma.visible=false;const lumaCore=new THREE.Mesh(new THREE.IcosahedronGeometry(1.25,2),mat('#d8fff4',.18,{emissive:'#6affdc',emissiveIntensity:2.4,transparent:true,opacity:.92}));luma.add(lumaCore);const lumaHalo=new THREE.Mesh(new THREE.TorusGeometry(2.1,.075,8,48),mat('#b7fff0',.2,{emissive:'#62f3d3',emissiveIntensity:2}));lumaHalo.rotation.x=Math.PI/2.5;luma.add(lumaHalo);const lumaLight=new THREE.PointLight('#80ffe1',18,42,1.8);luma.add(lumaLight);luma.position.set(0,groundY(0,-82)+5,-82);scene.add(luma);
+let activeRealmIndex=0;
+function applyRealmPalette(index, announce=true){
+  activeRealmIndex=(index+REALMS.length)%REALMS.length;
+  const realm=REALMS[activeRealmIndex];
+  scene.background.setHex(realm.farLand);
+  scene.fog.color.setHex(realm.farLand);
+  groundMaterial.color.setHex(realm.nearLand);
+  hillMats.forEach((material,i)=>material.color.setHex(i===0?realm.farLand:(i===1?realm.nearLand:realm.grassAlternate)));
+  leafMats.forEach((material,i)=>material.color.setHex(i%2===0?realm.grassPrimary:realm.grassAlternate));
+  flowerMats.forEach((material,i)=>material.color.setHex(i===0?realm.oceanGlow:(i===1?realm.grainPrimary:realm.oceanLight)));
+  sun.color.setHex(realm.grainPrimary);
+  hemisphere.color.setHex(realm.oceanGlow);
+  hemisphere.groundColor.setHex(realm.nearLand);
+  realmNameEl.textContent=realm.name.toUpperCase();
+  realmIndexEl.textContent=String(activeRealmIndex+1).padStart(2,'0');
+  if(announce)showToast(`Realm palette preview · ${realm.name}`);
+}
+document.querySelector('#realm-prev').addEventListener('click',()=>applyRealmPalette(activeRealmIndex-1));
+document.querySelector('#realm-next').addEventListener('click',()=>applyRealmPalette(activeRealmIndex+1));
+applyRealmPalette(0,false);
 const SAVE_KEY='athar-whispering-wilds-v1';
 function readSave(){try{const value=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return value&&typeof value==='object'?value:null}catch{return null}}
 function saveProgress(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:2,collected,shards:shards.map(shard=>shard.userData.found),position:{x:player.position.x,z:player.position.z},runes:runeNodes.map(n=>n.userData.state),gameWon}))}catch{/* Private browsing or storage restrictions: continue without saving. */}}
