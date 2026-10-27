@@ -17,7 +17,7 @@ You can also open the same scene directly at `/3d-prototype/`.
 
 - Explore a procedural third-person 3D forest with hills, trees, rocks, flowers, ancient ruins, fog, and atmospheric lighting.
 - Shared terrain/material helpers live in `3d-prototype/world/terrain.js`, with focused unit coverage in `3d-prototype/world/terrain.test.js`.
-- A 12-realm palette registry is migrated from `src/realm-landscapes.ts` into `3d-prototype/realms/realm-registry.js`; the desktop HUD previews each realm's colour palette plus distinct fog density, lighting intensity, and exposure settings.
+- A 12-realm palette registry is migrated from `src/realm-landscapes.ts` into `3d-prototype/realms/realm-registry.js`; the desktop HUD previews each realm's colour palette, fog density, lighting intensity, exposure settings, and a realm-specific set of scenic 3D landmark prototypes.
 - All 12 realm quest definitions are migrated into `3d-prototype/realms/realm-quests.js`. Selecting a realm palette now loads its three glowing 3D treasure markers; approach one and press **E** to collect it, earn XP, and save progress separately per realm. Tests cover the migrated registry and quest content.
 - Use WASD/arrow keys to move, mouse to look, Shift to run, and E to interact.
 - On touch devices, use the on-screen movement/run/interact controls and drag to look around.
