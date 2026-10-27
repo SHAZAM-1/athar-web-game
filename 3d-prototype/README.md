@@ -15,7 +15,8 @@ The prototype imports Three.js from jsDelivr, so the first run needs an internet
 - Shift to run.
 - Walk close to a glowing shard to collect it.
 - Forest trees block movement; find a path around them.
-- After collecting all five shards, return to the ancient ring near the starting area and press E to awaken Luma.
+- Press E near each of the three rune stones to cycle its state. Match the pattern 2 · 1 · 3.
+- After collecting all five shards and matching the rune pattern, return to the ancient ring and press E to awaken Luma.
 
 ## Current prototype
 - Procedurally generated stylized terrain, hills, forest, rocks, flowers, and an ancient ruin.
