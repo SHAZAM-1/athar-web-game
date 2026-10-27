@@ -9,6 +9,10 @@ describe('realm meadow palettes', () => {
       expect(landscape.grassPrimary).not.toBe(landscape.grainPrimary);
       expect(Number.isInteger(landscape.farLand)).toBe(true);
       expect(Number.isInteger(landscape.nearLand)).toBe(true);
+      expect(Number.isInteger(landscape.oceanDeep)).toBe(true);
+      expect(Number.isInteger(landscape.oceanLight)).toBe(true);
+      expect(Number.isInteger(landscape.oceanGlow)).toBe(true);
+      expect(landscape.oceanDeep).not.toBe(landscape.oceanLight);
     }
   });
 
