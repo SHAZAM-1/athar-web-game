@@ -69,11 +69,32 @@ function collectRealmObject(){
   saveProgress();showToast(complete?`✦ ${quest.title} complete!`:`${object.name} found · +${object.xp} XP`);
   return true;
 }
+// Each realm has its own atmospheric character while the shared terrain and
+// chapter-one mechanics are being migrated into separate playable environments.
+const realmAtmospheres=[
+  {fog:.0035,sun:3.2,hemisphere:2,exposure:1.15},
+  {fog:.0048,sun:2.25,hemisphere:2.4,exposure:1.12},
+  {fog:.0024,sun:3.8,hemisphere:1.8,exposure:1.22},
+  {fog:.0055,sun:1.8,hemisphere:1.7,exposure:1.05},
+  {fog:.0062,sun:1.7,hemisphere:2.6,exposure:1.08},
+  {fog:.0042,sun:2.5,hemisphere:2.5,exposure:1.12},
+  {fog:.0038,sun:2.8,hemisphere:2.1,exposure:1.1},
+  {fog:.0028,sun:3.1,hemisphere:2.8,exposure:1.18},
+  {fog:.0021,sun:4.1,hemisphere:1.5,exposure:1.24},
+  {fog:.0058,sun:1.9,hemisphere:1.9,exposure:1.06},
+  {fog:.0032,sun:3,hemisphere:2.2,exposure:1.14},
+  {fog:.0065,sun:1.6,hemisphere:1.8,exposure:1.03},
+];
 function applyRealmPalette(index, announce=true){
   activeRealmIndex=(index+REALMS.length)%REALMS.length;
   const realm=REALMS[activeRealmIndex];
+  const atmosphere=realmAtmospheres[activeRealmIndex];
   scene.background.setHex(realm.farLand);
   scene.fog.color.setHex(realm.farLand);
+  scene.fog.density=atmosphere.fog;
+  renderer.toneMappingExposure=atmosphere.exposure;
+  sun.intensity=atmosphere.sun;
+  hemisphere.intensity=atmosphere.hemisphere;
   groundMaterial.color.setHex(realm.nearLand);
   hillMats.forEach((material,i)=>material.color.setHex(i===0?realm.farLand:(i===1?realm.nearLand:realm.grassAlternate)));
   leafMats.forEach((material,i)=>material.color.setHex(i%2===0?realm.grassPrimary:realm.grassAlternate));
