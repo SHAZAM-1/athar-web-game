@@ -6,6 +6,7 @@ import { calculateBreeze, getGrassRepulsion } from './meadow-motion';
 import { getRealmLandscape } from './realm-landscapes';
 import { getRealmCreature } from './realm-creatures';
 import { getRealmSky } from './realm-skies';
+import { renderRealmGallery } from './realm-gallery';
 import {
   awardDiscovery,
   getRankProgress,
@@ -57,6 +58,9 @@ function saveProgression(): boolean {
 }
 
 renderProgression();
+
+const guardianGallery = document.getElementById('guardian-gallery');
+if (guardianGallery) renderRealmGallery(guardianGallery);
 
 class WhisperingScene extends Phaser.Scene {
   private lightObjects: Phaser.GameObjects.Arc[] = [];
