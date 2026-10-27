@@ -64,12 +64,328 @@
       "latestNextStep": "A later deployment succeeded after the .npmrc mitigation was added, but the underlying cause is not yet proven.",
       "latestReportCheckedAt": "2026-10-27T16:01:00.371Z",
       "lastObservedStatus": "degraded"
+    },
+    {
+      "fingerprint": "deployment-skipped|bcda498b-72e1-46f8-bf76-7a25f0a30479||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|15a26ab0-a350-42e6-b9aa-492f3ae7dac9||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (commit_message).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "15a26ab0-a350-42e6-b9aa-492f3ae7dac9",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "15a26ab0-a350-42e6-b9aa-492f3ae7dac9",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "15a26ab0-a350-42e6-b9aa-492f3ae7dac9",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|37fbdfe7-fd2b-479e-bf61-5c03e55ba771||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "37fbdfe7-fd2b-479e-bf61-5c03e55ba771",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "37fbdfe7-fd2b-479e-bf61-5c03e55ba771",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "37fbdfe7-fd2b-479e-bf61-5c03e55ba771",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|05edac3e-9a31-42de-b445-fad3f8a44a50||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "05edac3e-9a31-42de-b445-fad3f8a44a50",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "05edac3e-9a31-42de-b445-fad3f8a44a50",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "05edac3e-9a31-42de-b445-fad3f8a44a50",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|9d1d53be-59d4-4723-8e1e-b9e5a8695ad6||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (commit_message).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "9d1d53be-59d4-4723-8e1e-b9e5a8695ad6",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "9d1d53be-59d4-4723-8e1e-b9e5a8695ad6",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "9d1d53be-59d4-4723-8e1e-b9e5a8695ad6",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|272df86f-885a-4941-b566-2be7b0864ced||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "272df86f-885a-4941-b566-2be7b0864ced",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "272df86f-885a-4941-b566-2be7b0864ced",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "272df86f-885a-4941-b566-2be7b0864ced",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|bc294eb3-88d2-4fc0-8c5c-77d5f8fd1bdc||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (commit_message).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "bc294eb3-88d2-4fc0-8c5c-77d5f8fd1bdc",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "bc294eb3-88d2-4fc0-8c5c-77d5f8fd1bdc",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "bc294eb3-88d2-4fc0-8c5c-77d5f8fd1bdc",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|ed85e9eb-7e53-4e58-b045-ea0872a51377||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "ed85e9eb-7e53-4e58-b045-ea0872a51377",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "ed85e9eb-7e53-4e58-b045-ea0872a51377",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "ed85e9eb-7e53-4e58-b045-ea0872a51377",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|de9106ae-7d32-4590-8cdf-ce009dc1c1da||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (commit_message).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "de9106ae-7d32-4590-8cdf-ce009dc1c1da",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "de9106ae-7d32-4590-8cdf-ce009dc1c1da",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "de9106ae-7d32-4590-8cdf-ce009dc1c1da",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|aa521518-2fc3-4d53-81c3-456a67688991||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config).",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "aa521518-2fc3-4d53-81c3-456a67688991",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "aa521518-2fc3-4d53-81c3-456a67688991",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "aa521518-2fc3-4d53-81c3-456a67688991",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-in-progress|bcda498b-72e1-46f8-bf76-7a25f0a30479||",
+      "code": "deployment-in-progress",
+      "title": "Latest deployment is not finished",
+      "severity": "low",
+      "rootCause": "Current status is idle.",
+      "firstSeen": "2026-10-27T18:34:12.123Z",
+      "lastSeen": "2026-10-27T18:34:14.037Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
+        "stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        }
+      },
+      "latestEvidence": {
+        "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
+        "stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        }
+      },
+      "nextStep": "Poll again after deployment finishes.",
+      "latestNextStep": "Poll again after deployment finishes.",
+      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+      "lastObservedStatus": "warning"
     }
   ],
-  "updatedAt": "2026-10-27T16:14:45.299Z",
-  "latestCloudflareStatus": "error",
-  "latestReportCheckedAt": "2026-10-27T16:14:45.140Z",
-  "latestDeploymentId": null,
-  "latestLiveUrl": null,
-  "totalIncidentFingerprints": 2
+  "updatedAt": "2026-10-27T18:34:14.037Z",
+  "latestCloudflareStatus": "warning",
+  "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
+  "latestDeploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
+  "latestLiveUrl": "https://athar-web-game.pages.dev",
+  "totalIncidentFingerprints": 13
 }
