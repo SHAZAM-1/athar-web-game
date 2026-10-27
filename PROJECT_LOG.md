@@ -46,6 +46,12 @@
 - Kept the ocean behind the floating island and land layers so it reads as a surrounding sea rather than covering the playable meadow.
 - Added catalog assertions for all ocean palette fields. Other eleven oceans are palette data only until their scenes become playable.
 
+### Blue jellyfish and bioluminescent shoreline (in progress)
+- Added three bright-blue jellyfish near the Whispering Realm waterline, each with a translucent luminous bell, pale inner glow, and fine cyan tendrils.
+- Added small blue-green bioluminescent points and short traces across the shore, like living light in the sand.
+- Jellyfish drift and bob slowly; shoreline glow breathes softly rather than flashing. Reduced-motion mode freezes these effects.
+- The new creatures and shoreline lighting are rendered only in the active Whispering Realm. Future realms can adapt the creature silhouettes and glow palette to their own ocean identity.
+
 ### Walkable meadow and responsive wind (in progress)
 - Added a layered open-landscape silhouette to the active Whispering Realm, with procedural green grass and golden grain swaying in a slow breeze.
 - Added a small hooded traveller controlled by arrow keys/WASD on desktop and a hold-to-walk directional pad on touch screens.
