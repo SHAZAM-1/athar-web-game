@@ -15,7 +15,7 @@ const shapes: Record<RealmCreature['form'], string> = {
   wisp: '<path d="M60 19 Q84 34 75 54 Q70 67 85 74 Q65 92 47 77 Q29 66 43 49 Q54 37 60 19Z" fill="BODY" stroke="ACCENT" stroke-width="2"/><path d="M49 57 Q55 52 60 57 M65 57 Q70 52 74 57" fill="none" stroke="#30294f" stroke-width="3" stroke-linecap="round"/><path d="M52 66 Q60 72 68 66" fill="none" stroke="ACCENT" stroke-width="2"/><circle cx="38" cy="34" r="4" fill="ACCENT"/><circle cx="83" cy="43" r="3" fill="GLOW"/><circle cx="36" cy="76" r="2.5" fill="GLOW"/>',
 };
 
-function creatureSvg(creature: RealmCreature): string {
+export function renderCreatureSvg(creature: RealmCreature): string {
   const drawing = shapes[creature.form]
     .replaceAll('BODY', `#${creature.body.toString(16).padStart(6, '0')}`)
     .replaceAll('GLOW', `#${creature.glow.toString(16).padStart(6, '0')}`)
@@ -26,7 +26,7 @@ function creatureSvg(creature: RealmCreature): string {
 export function renderRealmGallery(root: HTMLElement): void {
   root.innerHTML = REALM_CREATURES.map((creature, index) => `
     <button class="guardian-card${index === 0 ? ' is-selected' : ''}" type="button" data-guardian-index="${index}" aria-pressed="${index === 0}" style="--guardian-glow:#${creature.glow.toString(16).padStart(6, '0')}">
-      ${creatureSvg(creature)}
+      ${renderCreatureSvg(creature)}
       <span class="guardian-realm">${creature.realm.replace(/^The /, '')}</span>
       <strong>${creature.name}</strong>
       <span class="guardian-species">${creature.species}</span>
