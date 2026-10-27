@@ -1,6 +1,57 @@
 import Phaser from 'phaser';
 import './style.css';
 import { advanceDiscovery } from './discovery';
+import {
+  awardDiscovery,
+  getRankProgress,
+  parseProgression,
+  PROGRESSION_STORAGE_KEY,
+  type PlayerProgression,
+} from './progression';
+
+function readSavedProgression(): PlayerProgression {
+  try {
+    return parseProgression(window.localStorage.getItem(PROGRESSION_STORAGE_KEY));
+  } catch {
+    return parseProgression(null);
+  }
+}
+
+let playerProgression = readSavedProgression();
+const xpValue = document.getElementById('player-xp');
+const rankBadge = document.getElementById('rank-badge');
+const xpNextLabel = document.getElementById('xp-next-label');
+const xpProgress = document.getElementById('xp-progress');
+const xpProgressFill = document.getElementById('xp-progress-fill');
+const xpStatus = document.getElementById('xp-status');
+
+function renderProgression() {
+  const details = getRankProgress(playerProgression.xp);
+
+  if (xpValue) xpValue.textContent = `${details.xp.toLocaleString()} XP`;
+  if (rankBadge) {
+    rankBadge.textContent = details.rank;
+    rankBadge.className = `rank-badge rank-${details.rank.toLowerCase()}`;
+  }
+  if (xpNextLabel) {
+    xpNextLabel.textContent = details.nextRank && details.nextRankXP !== null
+      ? `${details.nextRankXP - details.xp} XP to ${details.nextRank}`
+      : 'Highest rank reached';
+  }
+  if (xpProgress) xpProgress.setAttribute('aria-valuenow', String(details.progressPercent));
+  if (xpProgressFill) xpProgressFill.style.width = `${details.progressPercent}%`;
+}
+
+function saveProgression(): boolean {
+  try {
+    window.localStorage.setItem(PROGRESSION_STORAGE_KEY, JSON.stringify(playerProgression));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+renderProgression();
 
 class WhisperingScene extends Phaser.Scene {
   private lightObjects: Phaser.GameObjects.Arc[] = [];
@@ -107,6 +158,21 @@ class WhisperingScene extends Phaser.Scene {
     if (result.solved) {
       this.rune.setAlpha(1);
       this.lightObjects.forEach((light) => light.setAlpha(1));
+      const award = awardDiscovery(playerProgression, 'whispering-first-discovery');
+      playerProgression = award.progression;
+
+      if (award.awarded > 0) {
+        const saved = saveProgression();
+        renderProgression();
+        if (xpStatus) {
+          xpStatus.textContent = saved
+            ? `+${award.awarded} XP earned! Your first discovery has been saved on this device.`
+            : `+${award.awarded} XP earned for this session, but browser storage is unavailable so it may not persist after refresh.`;
+        }
+      } else if (xpStatus) {
+        xpStatus.textContent = 'This discovery is already recorded. Keep your XP and rank—repeat clears do not farm extra XP.';
+      }
+
       if (!this.reducedMotion) {
         this.tweens.add({ targets: this.rune, alpha: 0.65, duration: 650, yoyo: true, repeat: 1 });
         this.tweens.add({ targets: this.halo, scale: 1.9, alpha: 0.2, duration: 900, yoyo: true, ease: 'Sine.out' });
