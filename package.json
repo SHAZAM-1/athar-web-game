@@ -13,7 +13,8 @@
     "doctor:self-test": "node tools/project-doctor/self-test.mjs",
     "doctor:apply-fix": "node tools/project-doctor/apply-safe-fix.mjs",
     "cloudflare:doctor": "node tools/cloudflare-doctor/cloudflare-doctor.mjs",
-    "cloudflare:doctor:self-test": "node tools/cloudflare-doctor/cloudflare-doctor.mjs --self-test"
+    "cloudflare:doctor:self-test": "node tools/cloudflare-doctor/cloudflare-doctor.mjs --self-test",
+    "cloudflare:doctor:persist": "node tools/cloudflare-doctor/persist-incidents.mjs"
   },
   "dependencies": {
     "phaser": "^3.90.0",
