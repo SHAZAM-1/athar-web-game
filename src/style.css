@@ -102,3 +102,32 @@ h1 em { color: #a8b6f4; font-weight: 400; }
   .travel-pad { grid-template-columns: repeat(3, 38px); grid-template-rows: repeat(2, 38px); }
   .travel-pad button { min-width: 38px; min-height: 38px; }
 }
+
+
+/* The twelve guardians: an interactive, accessible bestiary within the game. */
+.guardian-section { padding: clamp(42px, 7vw, 76px) 0 20px; }
+.guardian-eyebrow { margin: 0 0 10px; color: #91dcd8; text-align: center; font-size: 9px; letter-spacing: .24em; }
+.guardian-section > h2 { margin: 0; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: clamp(28px, 4vw, 42px); font-weight: 400; letter-spacing: -.035em; }
+.guardian-intro { max-width: 560px; margin: 13px auto 26px; text-align: center; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.guardian-gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.guardian-card { display: flex; min-width: 0; flex-direction: column; align-items: center; padding: 13px 8px 15px; border: 1px solid rgba(173,204,239,.13); border-radius: 15px; color: #f0f4ff; background: linear-gradient(160deg, rgba(23,33,62,.76), rgba(9,15,33,.78)); cursor: pointer; text-align: center; transition: border-color .2s, background .2s, transform .2s; }
+.guardian-card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--guardian-glow), transparent 35%); }
+.guardian-card.is-selected { border-color: color-mix(in srgb, var(--guardian-glow), transparent 12%); background: radial-gradient(ellipse at 50% 25%, color-mix(in srgb, var(--guardian-glow), transparent 84%), rgba(9,15,33,.9)); box-shadow: 0 0 28px color-mix(in srgb, var(--guardian-glow), transparent 90%); }
+.guardian-card:focus-visible { outline: 2px solid var(--guardian-glow); outline-offset: 3px; }
+.guardian-art { display: block; width: min(100%, 124px); height: 105px; overflow: visible; filter: drop-shadow(0 0 9px color-mix(in srgb, var(--guardian-glow), transparent 76%)); }
+.guardian-creature { transform-box: fill-box; transform-origin: center; animation: guardian-float 4.8s ease-in-out infinite; }
+.guardian-card:nth-child(3n) .guardian-creature { animation-delay: -1.7s; }
+.guardian-card:nth-child(3n + 1) .guardian-creature { animation-delay: -3s; }
+.guardian-realm { margin-top: 4px; color: #91a0c1; font-size: 9px; line-height: 1.4; }
+.guardian-card strong { margin-top: 5px; font-family: Georgia, "Times New Roman", serif; font-size: 17px; font-weight: 400; }
+.guardian-species { margin-top: 4px; color: #b4bfd6; font-size: 10px; line-height: 1.4; }
+.guardian-detail { display: flex; align-items: center; justify-content: space-between; gap: 25px; margin-top: 16px; padding: 20px 23px; border: 1px solid color-mix(in srgb, var(--guardian-glow, #168dff), transparent 72%); border-radius: 15px; background: radial-gradient(ellipse at 0% 50%, color-mix(in srgb, var(--guardian-glow, #168dff), transparent 90%), transparent 65%), rgba(12,19,40,.7); }
+.guardian-detail-label { margin: 0 0 6px; color: #93a3c2; font-size: 9px; letter-spacing: .17em; }
+.guardian-detail h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 24px; font-weight: 400; }
+#guardian-detail-species { margin: 4px 0 0; color: var(--guardian-glow, #91fff0); font-size: 11px; }
+#guardian-detail-description { max-width: 450px; margin: 0; color: #c0c9dc; font-size: 12px; line-height: 1.7; }
+.guardian-note { margin: 13px auto 0; max-width: 650px; color: #7e8ba8; text-align: center; font-size: 10px; line-height: 1.7; }
+@keyframes guardian-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-4px) rotate(1deg); } }
+@media (max-width: 760px) { .guardian-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; } .guardian-card { padding: 10px 5px 12px; } .guardian-art { height: 86px; } .guardian-detail { align-items: flex-start; flex-direction: column; gap: 12px; padding: 17px; } }
+@media (max-width: 430px) { .guardian-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } .guardian-art { height: 98px; } }
+@media (prefers-reduced-motion: reduce) { .guardian-creature { animation: none !important; } .guardian-card { transition: none; } .guardian-card:hover { transform: none; } }
