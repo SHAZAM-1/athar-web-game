@@ -11,8 +11,8 @@
       "severity": "critical",
       "rootCause": "Missing CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID. Configure these as GitHub Actions repository secrets.",
       "firstSeen": "2026-10-27T16:12:41.739Z",
-      "lastSeen": "2026-10-27T16:13:20.999Z",
-      "occurrenceCount": 2,
+      "lastSeen": "2026-10-27T16:13:52.331Z",
+      "occurrenceCount": 3,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": null,
@@ -27,14 +27,14 @@
       },
       "nextStep": "Configure Cloudflare Pages read access for CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.",
       "latestNextStep": "Configure Cloudflare Pages read access for CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.",
-      "latestReportCheckedAt": "2026-10-27T16:13:20.873Z",
+      "latestReportCheckedAt": "2026-10-27T16:13:52.173Z",
       "lastObservedStatus": "error",
       "latestSeverity": "critical"
     }
   ],
-  "updatedAt": "2026-10-27T16:13:20.999Z",
+  "updatedAt": "2026-10-27T16:13:52.331Z",
   "latestCloudflareStatus": "error",
-  "latestReportCheckedAt": "2026-10-27T16:13:20.873Z",
+  "latestReportCheckedAt": "2026-10-27T16:13:52.173Z",
   "latestDeploymentId": null,
   "latestLiveUrl": null,
   "totalIncidentFingerprints": 1
