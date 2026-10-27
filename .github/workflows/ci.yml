@@ -34,6 +34,7 @@ jobs:
           exit 1
       - name: Project Doctor syntax and memory checks
         run: |
+          node --check tools/cloudflare-doctor/cloudflare-doctor.mjs
           node --check tools/project-doctor/doctor.mjs
           node --check tools/project-doctor/self-test.mjs
           node --check tools/project-doctor/apply-safe-fix.mjs
@@ -42,6 +43,7 @@ jobs:
           node --check 3d-prototype/realms/realm-registry.js
           node --check 3d-prototype/realms/realm-quests.js
           npm run doctor:self-test
+          npm run cloudflare:doctor:self-test
       - name: Security audit
         run: npm audit --audit-level=moderate
       - name: Typecheck
