@@ -388,7 +388,6 @@ class WhisperingScene extends Phaser.Scene {
     this.drawMeadow(breeze);
     // Slow bobbing and drifting keep the jellyfish dreamy rather than distracting.
     if (!this.reducedMotion) {
-      const seconds = delta / 1000;
       this.jellyfish.forEach(({ creature, x, y, phase }) => {
         const drift = this.windElapsed + phase;
         creature.setPosition(x + Math.sin(drift * 0.22) * 7, y + Math.sin(drift * 0.8) * 3);
