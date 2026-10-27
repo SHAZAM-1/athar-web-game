@@ -72,31 +72,27 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-          # Rebase the run's checkout onto the current dev tip BEFORE updating
-          # the journal, so the merge starts from the newest persisted history.
-          git fetch origin "$BRANCH"
-          git rebase "origin/$BRANCH"
-
-          npm run cloudflare:doctor:persist
-          git add "$JOURNAL"
-          if git diff --cached --quiet; then
-            echo 'Incident history unchanged; no commit needed.'
-            exit 0
-          fi
-
-          git commit -m 'chore: record Cloudflare Doctor incidents [skip ci]'
-
-          # A human or another automation may push while this job is running.
-          # Retry only fast-forward-safe rebases/pushes; never force-push or
-          # discard the remote journal. Any real content conflict fails safely.
+          # Always derive the journal update from the newest remote history.
+          # If another push races this job, discard only our unpushed journal
+          # commit and recompute the merge from the new remote tip. Never force-push.
           for attempt in 1 2 3; do
             git fetch origin "$BRANCH"
-            git rebase "origin/$BRANCH"
+            git reset --hard "origin/$BRANCH"
+
+            npm run cloudflare:doctor:persist
+            git add "$JOURNAL"
+            if git diff --cached --quiet; then
+              echo 'Incident history unchanged; no commit needed.'
+              exit 0
+            fi
+
+            git commit -m 'chore: record Cloudflare Doctor incidents [skip ci]'
             if git push origin "HEAD:refs/heads/$BRANCH"; then
               echo "Incident history persisted successfully on $BRANCH (attempt $attempt)."
               exit 0
             fi
-            echo "Push attempt $attempt lost a race; will refresh and retry."
+
+            echo "Push attempt $attempt lost a race; recomputing from the latest remote journal."
             sleep "$attempt"
           done
 
