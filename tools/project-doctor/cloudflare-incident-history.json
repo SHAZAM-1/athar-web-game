@@ -72,8 +72,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config).",
       "firstSeen": "2026-10-27T18:34:12.123Z",
-      "lastSeen": "2026-10-27T18:34:14.037Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
@@ -90,8 +90,9 @@
       },
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
-      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|15a26ab0-a350-42e6-b9aa-492f3ae7dac9||",
@@ -100,8 +101,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (commit_message).",
       "firstSeen": "2026-10-27T18:34:12.123Z",
-      "lastSeen": "2026-10-27T18:34:14.037Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "15a26ab0-a350-42e6-b9aa-492f3ae7dac9",
@@ -118,8 +119,9 @@
       },
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
-      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|37fbdfe7-fd2b-479e-bf61-5c03e55ba771||",
@@ -128,8 +130,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config).",
       "firstSeen": "2026-10-27T18:34:12.123Z",
-      "lastSeen": "2026-10-27T18:34:14.037Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "37fbdfe7-fd2b-479e-bf61-5c03e55ba771",
@@ -146,8 +148,9 @@
       },
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
-      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|05edac3e-9a31-42de-b445-fad3f8a44a50||",
@@ -156,8 +159,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config).",
       "firstSeen": "2026-10-27T18:34:12.123Z",
-      "lastSeen": "2026-10-27T18:34:14.037Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "05edac3e-9a31-42de-b445-fad3f8a44a50",
@@ -174,8 +177,9 @@
       },
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
-      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|9d1d53be-59d4-4723-8e1e-b9e5a8695ad6||",
@@ -184,8 +188,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (commit_message).",
       "firstSeen": "2026-10-27T18:34:12.123Z",
-      "lastSeen": "2026-10-27T18:34:14.037Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "9d1d53be-59d4-4723-8e1e-b9e5a8695ad6",
@@ -202,8 +206,9 @@
       },
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
-      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|272df86f-885a-4941-b566-2be7b0864ced||",
@@ -212,8 +217,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config).",
       "firstSeen": "2026-10-27T18:34:12.123Z",
-      "lastSeen": "2026-10-27T18:34:14.037Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "272df86f-885a-4941-b566-2be7b0864ced",
@@ -230,8 +235,9 @@
       },
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
-      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|bc294eb3-88d2-4fc0-8c5c-77d5f8fd1bdc||",
@@ -240,8 +246,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (commit_message).",
       "firstSeen": "2026-10-27T18:34:12.123Z",
-      "lastSeen": "2026-10-27T18:34:14.037Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "bc294eb3-88d2-4fc0-8c5c-77d5f8fd1bdc",
@@ -258,8 +264,9 @@
       },
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
-      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|ed85e9eb-7e53-4e58-b045-ea0872a51377||",
@@ -268,8 +275,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config).",
       "firstSeen": "2026-10-27T18:34:12.123Z",
-      "lastSeen": "2026-10-27T18:34:14.037Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "ed85e9eb-7e53-4e58-b045-ea0872a51377",
@@ -286,8 +293,9 @@
       },
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
-      "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|de9106ae-7d32-4590-8cdf-ce009dc1c1da||",
@@ -380,12 +388,104 @@
       "latestNextStep": "Poll again after deployment finishes.",
       "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
       "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|3ec5a0ef-33ef-471d-9fea-5ff8daa527c5||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config).",
+      "firstSeen": "2026-10-27T19:48:53.039Z",
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|f858dd9b-339d-4baa-95c0-351150f23ad0||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (commit_message).",
+      "firstSeen": "2026-10-27T19:48:53.039Z",
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "f858dd9b-339d-4baa-95c0-351150f23ad0",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "f858dd9b-339d-4baa-95c0-351150f23ad0",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "latestEvidence": {
+        "deploymentId": "f858dd9b-339d-4baa-95c0-351150f23ad0",
+        "skipReason": "commit_message",
+        "branch": "dev/athar-full-project"
+      },
+      "nextStep": "Check Pages path filters and changed-file matching.",
+      "latestNextStep": "Check Pages path filters and changed-file matching.",
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-in-progress|3ec5a0ef-33ef-471d-9fea-5ff8daa527c5||",
+      "code": "deployment-in-progress",
+      "title": "Latest deployment is not finished",
+      "severity": "low",
+      "rootCause": "Current status is idle.",
+      "firstSeen": "2026-10-27T19:48:53.039Z",
+      "lastSeen": "2026-10-27T19:48:54.450Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
+        "stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        }
+      },
+      "latestEvidence": {
+        "deploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
+        "stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        }
+      },
+      "nextStep": "Poll again after deployment finishes.",
+      "latestNextStep": "Poll again after deployment finishes.",
+      "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+      "lastObservedStatus": "warning"
     }
   ],
-  "updatedAt": "2026-10-27T18:34:14.037Z",
+  "updatedAt": "2026-10-27T19:48:54.450Z",
   "latestCloudflareStatus": "warning",
-  "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-  "latestDeploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
+  "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
+  "latestDeploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
-  "totalIncidentFingerprints": 13
+  "totalIncidentFingerprints": 16
 }
