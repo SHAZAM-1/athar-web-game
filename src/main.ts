@@ -139,11 +139,11 @@ class WhisperingScene extends Phaser.Scene {
       const x = width * object.x;
       const y = height * object.y;
       const found = playerProgression.completedDiscoveries.includes(object.id);
-      const glow = this.add.circle(x, y, 17, 0xa9e9df, found ? 0.08 : 0.025);
+      const glow = this.add.circle(x, y, 17, 0xa9e9df, found ? 0.08 : this.reducedMotion ? 0.1 : 0.025);
       const icon = this.add.text(x, y, object.symbol, {
         fontFamily: 'Georgia, serif', fontSize: '19px', color: '#e5fff8',
         stroke: '#6bded0', strokeThickness: 1,
-      }).setOrigin(0.5).setAlpha(found ? 0.45 : 0.025);
+      }).setOrigin(0.5).setAlpha(found ? 0.45 : this.reducedMotion ? 0.38 : 0.025);
       const hitArea = this.add.zone(x, y, 42, 42).setInteractive({ useHandCursor: true });
       hitArea.on('pointerdown', () => this.collectHiddenObject(object.id));
       return { id: object.id, glow, icon, found };
