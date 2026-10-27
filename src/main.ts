@@ -3,6 +3,7 @@ import './style.css';
 import { advanceDiscovery } from './discovery';
 import { getRealmQuest, isQuestComplete } from './realm-content';
 import { calculateBreeze, getGrassRepulsion } from './meadow-motion';
+import { getRealmLandscape } from './realm-landscapes';
 import {
   awardDiscovery,
   getRankProgress,
@@ -78,6 +79,7 @@ class WhisperingScene extends Phaser.Scene {
   private moveVector = { x: 0, y: 0 };
   private moveButtons: HTMLButtonElement[] = [];
   private readonly quest = getRealmQuest('The Whispering Realm')!;
+  private readonly landscape = getRealmLandscape('The Whispering Realm')!;
 
   constructor() {
     super('WhisperingRealm');
@@ -112,7 +114,7 @@ class WhisperingScene extends Phaser.Scene {
 
     // A wide, layered meadow makes the little floating island feel part of a much larger land.
     const distantLand = this.add.graphics();
-    distantLand.fillStyle(0x284d58, 0.52);
+    distantLand.fillStyle(this.landscape.farLand, 0.52);
     distantLand.fillPoints([
       new Phaser.Geom.Point(0, height * 0.67), new Phaser.Geom.Point(width * 0.12, height * 0.57),
       new Phaser.Geom.Point(width * 0.28, height * 0.64), new Phaser.Geom.Point(width * 0.43, height * 0.54),
@@ -121,7 +123,7 @@ class WhisperingScene extends Phaser.Scene {
       new Phaser.Geom.Point(0, height),
     ], true, true);
     const nearLand = this.add.graphics();
-    nearLand.fillStyle(0x173b43, 0.86);
+    nearLand.fillStyle(this.landscape.nearLand, 0.86);
     nearLand.fillPoints([
       new Phaser.Geom.Point(0, height * 0.78), new Phaser.Geom.Point(width * 0.18, height * 0.71),
       new Phaser.Geom.Point(width * 0.35, height * 0.77), new Phaser.Geom.Point(width * 0.54, height * 0.69),
@@ -313,13 +315,13 @@ class WhisperingScene extends Phaser.Scene {
         const tipX = x + sway + bend + (grain ? 1.5 : 0);
         const tipY = y - bladeHeight * (1 - repulsion.strength * 0.14);
         const color = grain
-          ? (row % 2 ? 0xe6c96f : 0xf1d98a)
-          : (row % 2 ? 0x5ca78a : 0x76bd9b);
+          ? (row % 2 ? this.landscape.grainAlternate : this.landscape.grainPrimary)
+          : (row % 2 ? this.landscape.grassAlternate : this.landscape.grassPrimary);
         const alpha = 0.36 + rowDepth * 0.48;
         graphics.lineStyle(grain ? 1.35 : 1.05, color, alpha);
         graphics.lineBetween(x, y, tipX, tipY);
         if (grain) {
-          graphics.fillStyle(0xf3d77c, alpha);
+          graphics.fillStyle(this.landscape.grainPrimary, alpha);
           graphics.fillCircle(tipX + 0.6, tipY - 1.5, 1.45);
           graphics.fillCircle(tipX - 1.2, tipY + 0.3, 1.05);
         }
