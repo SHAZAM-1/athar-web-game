@@ -14,6 +14,8 @@ The prototype imports Three.js from jsDelivr, so the first run needs an internet
 - Move the mouse to look around (pointer lock).
 - Shift to run.
 - Walk close to a glowing shard to collect it.
+- Forest trees block movement; find a path around them.
+- After collecting all five shards, return to the ancient ring near the starting area and press E to awaken Luma.
 
 ## Current prototype
 - Procedurally generated stylized terrain, hills, forest, rocks, flowers, and an ancient ruin.
