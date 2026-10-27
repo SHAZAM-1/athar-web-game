@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import './style.css';
 import { advanceDiscovery } from './discovery';
 import { getRealmQuest, isQuestComplete } from './realm-content';
+import { calculateBreeze, getGrassRepulsion } from './meadow-motion';
 import {
   awardDiscovery,
   getRankProgress,
@@ -68,6 +69,14 @@ class WhisperingScene extends Phaser.Scene {
   private questProgress!: HTMLElement;
   private questHint!: HTMLElement;
   private windElapsed = 0;
+  private meadowGraphics!: Phaser.GameObjects.Graphics;
+  private player!: Phaser.GameObjects.Container;
+  private playerX = 400;
+  private playerY = 340;
+  private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+  private moveKeys: Record<string, Phaser.Input.Keyboard.Key> = {};
+  private moveVector = { x: 0, y: 0 };
+  private moveButtons: HTMLButtonElement[] = [];
   private readonly quest = getRealmQuest('The Whispering Realm')!;
 
   constructor() {
@@ -100,6 +109,74 @@ class WhisperingScene extends Phaser.Scene {
     island.fillEllipse(width * 0.5, height * 0.76, width * 0.56, height * 0.18);
     island.lineStyle(1, 0x5edbd1, 0.28);
     island.strokeEllipse(width * 0.5, height * 0.75, width * 0.56, height * 0.18);
+
+    // A wide, layered meadow makes the little floating island feel part of a much larger land.
+    const distantLand = this.add.graphics();
+    distantLand.fillStyle(0x284d58, 0.52);
+    distantLand.fillPoints([
+      new Phaser.Geom.Point(0, height * 0.67), new Phaser.Geom.Point(width * 0.12, height * 0.57),
+      new Phaser.Geom.Point(width * 0.28, height * 0.64), new Phaser.Geom.Point(width * 0.43, height * 0.54),
+      new Phaser.Geom.Point(width * 0.62, height * 0.63), new Phaser.Geom.Point(width * 0.79, height * 0.55),
+      new Phaser.Geom.Point(width, height * 0.62), new Phaser.Geom.Point(width, height),
+      new Phaser.Geom.Point(0, height),
+    ], true, true);
+    const nearLand = this.add.graphics();
+    nearLand.fillStyle(0x173b43, 0.86);
+    nearLand.fillPoints([
+      new Phaser.Geom.Point(0, height * 0.78), new Phaser.Geom.Point(width * 0.18, height * 0.71),
+      new Phaser.Geom.Point(width * 0.35, height * 0.77), new Phaser.Geom.Point(width * 0.54, height * 0.69),
+      new Phaser.Geom.Point(width * 0.75, height * 0.76), new Phaser.Geom.Point(width, height * 0.7),
+      new Phaser.Geom.Point(width, height), new Phaser.Geom.Point(0, height),
+    ], true, true);
+    this.meadowGraphics = this.add.graphics();
+    this.playerX = width * 0.5;
+    this.playerY = height * 0.82;
+    this.player = this.add.container(this.playerX, this.playerY);
+    const playerShadow = this.add.ellipse(0, 11, 23, 7, 0x061323, 0.42);
+    const playerGlow = this.add.circle(0, -2, 18, 0x9af6e7, 0.08);
+    const cloak = this.add.ellipse(0, 1, 17, 22, 0x8ccfc9, 0.98);
+    const cloakShade = this.add.ellipse(2, 3, 9, 15, 0x426d83, 0.95);
+    const face = this.add.circle(-1, -11, 6, 0xf2d6b7, 1);
+    const hood = this.add.arc(-1, -13, 8, 190, 350, false, 0x253b58, 1);
+    this.player.add([playerShadow, playerGlow, cloak, cloakShade, face, hood]);
+    this.player.setDepth(4);
+    if (!this.reducedMotion) this.tweens.add({
+      targets: playerGlow, alpha: 0.16, scale: 1.18, duration: 1900,
+      yoyo: true, repeat: -1, ease: 'Sine.inOut',
+    });
+
+    this.cursors = this.input.keyboard?.createCursorKeys();
+    if (this.input.keyboard) {
+      this.moveKeys = {
+        up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+        left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+        down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
+        right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+      };
+    }
+    this.moveButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-move]'));
+    this.moveButtons.forEach((button) => {
+      const direction = button.dataset.move ?? '';
+      const start = (event: Event) => {
+        event.preventDefault();
+        const vectors: Record<string, { x: number; y: number }> = {
+          up: { x: 0, y: -1 }, down: { x: 0, y: 1 },
+          left: { x: -1, y: 0 }, right: { x: 1, y: 0 },
+        };
+        this.moveVector = vectors[direction] ?? { x: 0, y: 0 };
+      };
+      const stop = () => { this.moveVector = { x: 0, y: 0 }; };
+      button.addEventListener('pointerdown', start);
+      button.addEventListener('pointerup', stop);
+      button.addEventListener('pointerleave', stop);
+      button.addEventListener('pointercancel', stop);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        button.removeEventListener('pointerdown', start);
+        button.removeEventListener('pointerup', stop);
+        button.removeEventListener('pointerleave', stop);
+        button.removeEventListener('pointercancel', stop);
+      });
+    });
 
     this.windMotes = [];
     for (let i = 0; i < 34; i++) {
@@ -179,15 +256,30 @@ class WhisperingScene extends Phaser.Scene {
   }
 
   update(_time: number, delta: number) {
-    if (this.reducedMotion || this.windMotes.length === 0) return;
+    const { width, height } = this.scale;
+    const keyboardX = (this.cursors?.right.isDown || this.moveKeys.right?.isDown ? 1 : 0)
+      - (this.cursors?.left.isDown || this.moveKeys.left?.isDown ? 1 : 0);
+    const keyboardY = (this.cursors?.down.isDown || this.moveKeys.down?.isDown ? 1 : 0)
+      - (this.cursors?.up.isDown || this.moveKeys.up?.isDown ? 1 : 0);
+    const moveX = keyboardX || this.moveVector.x;
+    const moveY = keyboardY || this.moveVector.y;
+    const length = Math.hypot(moveX, moveY) || 1;
+    const step = (delta / 1000) * 128;
+    this.playerX = Phaser.Math.Clamp(this.playerX + (moveX / length) * step, 18, width - 18);
+    this.playerY = Phaser.Math.Clamp(this.playerY + (moveY / length) * step, height * 0.56, height - 24);
+    this.player.setPosition(this.playerX, this.playerY);
+
     this.windElapsed += delta / 1000;
+    const breeze = calculateBreeze(this.windElapsed);
+    this.drawMeadow(breeze);
+    if (this.reducedMotion) return;
+
     // Gentle, slow wind: motes drift horizontally and float without abrupt gusts.
-    const breeze = Math.sin(this.windElapsed * 0.32) * 0.38 + Math.sin(this.windElapsed * 0.11) * 0.22;
     this.windMotes.forEach((mote, index) => {
       mote.x += (0.08 + breeze * 0.18) * (delta / 16.67);
       mote.y += Math.sin(this.windElapsed * 0.45 + index * 0.7) * 0.035 * (delta / 16.67);
-      if (mote.x > this.scale.width + 8) mote.x = -8;
-      if (mote.x < -8) mote.x = this.scale.width + 8;
+      if (mote.x > width + 8) mote.x = -8;
+      if (mote.x < -8) mote.x = width + 8;
     });
     // The breeze reveals treasures gradually; they remain tappable for touch and mouse.
     const reveal = Math.max(0, Math.sin(this.windElapsed * 0.38 - 0.7));
@@ -197,6 +289,42 @@ class WhisperingScene extends Phaser.Scene {
       view.glow.setAlpha(0.025 + localReveal * 0.22);
       view.icon.setAlpha(0.025 + localReveal * 0.86);
     });
+  }
+
+  private drawMeadow(breeze: number) {
+    const graphics = this.meadowGraphics;
+    const { width, height } = this.scale;
+    graphics.clear();
+    const rows = 4;
+    const bladesPerRow = 48;
+    for (let row = 0; row < rows; row++) {
+      const rowDepth = row / (rows - 1);
+      const baseY = height * (0.64 + rowDepth * 0.34);
+      for (let i = 0; i < bladesPerRow; i++) {
+        const seed = i * 19.19 + row * 41.7;
+        const x = ((i + 0.5) / bladesPerRow) * width + Math.sin(seed) * 5;
+        const y = baseY + Math.sin(seed * 0.31) * 9;
+        const grain = (i + row) % 5 === 0 || (i + row * 3) % 11 === 0;
+        const bladeHeight = (grain ? 10 : 8) + ((Math.sin(seed * 0.73) + 1) * 4);
+        const phase = seed * 0.13;
+        const sway = this.reducedMotion ? 0 : Math.sin(this.windElapsed * 1.05 + phase) * 2.8 + breeze * 5.5;
+        const repulsion = getGrassRepulsion(x, y, this.playerX, this.playerY, 42);
+        const bend = repulsion.direction * repulsion.strength * 16;
+        const tipX = x + sway + bend + (grain ? 1.5 : 0);
+        const tipY = y - bladeHeight * (1 - repulsion.strength * 0.14);
+        const color = grain
+          ? (row % 2 ? 0xe6c96f : 0xf1d98a)
+          : (row % 2 ? 0x5ca78a : 0x76bd9b);
+        const alpha = 0.36 + rowDepth * 0.48;
+        graphics.lineStyle(grain ? 1.35 : 1.05, color, alpha);
+        graphics.lineBetween(x, y, tipX, tipY);
+        if (grain) {
+          graphics.fillStyle(0xf3d77c, alpha);
+          graphics.fillCircle(tipX + 0.6, tipY - 1.5, 1.45);
+          graphics.fillCircle(tipX - 1.2, tipY + 0.3, 1.05);
+        }
+      }
+    }
   }
 
   private collectHiddenObject(objectId: string) {
