@@ -17,7 +17,8 @@ You can also open the same scene directly at `/3d-prototype/`.
 
 - Explore a procedural third-person 3D forest with hills, trees, rocks, flowers, ancient ruins, fog, and atmospheric lighting.
 - Shared terrain/material helpers live in `3d-prototype/world/terrain.js`, with focused unit coverage in `3d-prototype/world/terrain.test.js`.
-- A 12-realm palette registry is migrated from `src/realm-landscapes.ts` into `3d-prototype/realms/realm-registry.js`; the desktop HUD can preview each realm's atmosphere colours. Registry tests live in `3d-prototype/realms/realm-registry.test.js`.
+- A 12-realm palette registry is migrated from `src/realm-landscapes.ts` into `3d-prototype/realms/realm-registry.js`; the desktop HUD previews each realm's atmosphere colours.
+- All 12 realm quest definitions are migrated into `3d-prototype/realms/realm-quests.js`. Selecting a realm palette now loads its three glowing 3D treasure markers; approach one and press **E** to collect it, earn XP, and save progress separately per realm. Tests cover the migrated registry and quest content.
 - Use WASD/arrow keys to move, mouse to look, Shift to run, and E to interact.
 - On touch devices, use the on-screen movement/run/interact controls and drag to look around.
 - Collect five glowing shards.
@@ -58,4 +59,4 @@ The existing GitHub Pages workflow publishes the project at https://shazam-1.git
 
 ## Project direction
 
-The target is a cohesive 3D adventure across twelve distinct realms, with meaningful mechanics and atmosphere for each—not a collection of disconnected demos. The migration is in progress: only the Whispering Wilds has the playable quest loop. The new realm selector is an environment-palette preview, not yet full travel between separate 3D realms, and quests/hidden objects from all twelve realms have not yet been migrated.
+The target is a cohesive 3D adventure across twelve distinct realms, with meaningful mechanics and atmosphere for each—not a collection of disconnected demos. The migration is in progress: the original five-shard/rune/Luma chapter is playable in the Whispering Wilds, and all twelve realms now have their migrated side-quest treasure markers available through the palette preview. The selector is not yet full travel between distinct 3D environments; each realm still needs its own terrain, landmarks, atmosphere, and progression gate.
