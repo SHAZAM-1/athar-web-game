@@ -66,6 +66,7 @@ class WhisperingScene extends Phaser.Scene {
   private reducedMotion = false;
   private lightButtons: HTMLButtonElement[] = [];
   private windMotes: Phaser.GameObjects.Arc[] = [];
+  private autumnLeaves: Array<{ shape: Phaser.GameObjects.Graphics; x: number; y: number; vx: number; vy: number; spin: number; phase: number; settled: boolean }> = [];
   private hiddenObjectViews: Array<{ id: string; glow: Phaser.GameObjects.Arc; icon: Phaser.GameObjects.Text; found: boolean }> = [];
   private questProgress!: HTMLElement;
   private questHint!: HTMLElement;
@@ -131,6 +132,36 @@ class WhisperingScene extends Phaser.Scene {
       new Phaser.Geom.Point(width, height), new Phaser.Geom.Point(0, height),
     ], true, true);
     this.meadowGraphics = this.add.graphics();
+
+    // Small maple-like autumn leaves drift down, flutter, and occasionally lift again in a breeze.
+    this.autumnLeaves = [];
+    const leafColours = [0xc93e45, 0xe45a38, 0xb82f42, 0xf08a45, 0xd94a36];
+    for (let i = 0; i < 22; i++) {
+      const shape = this.add.graphics();
+      const colour = leafColours[i % leafColours.length];
+      shape.fillStyle(colour, 0.9);
+      shape.fillPoints([
+        new Phaser.Geom.Point(0, -7), new Phaser.Geom.Point(3, -3),
+        new Phaser.Geom.Point(7, -4), new Phaser.Geom.Point(5, 0),
+        new Phaser.Geom.Point(6, 4), new Phaser.Geom.Point(2, 3),
+        new Phaser.Geom.Point(0, 7), new Phaser.Geom.Point(-2, 3),
+        new Phaser.Geom.Point(-6, 4), new Phaser.Geom.Point(-5, 0),
+        new Phaser.Geom.Point(-7, -4), new Phaser.Geom.Point(-3, -3),
+      ], true, true);
+      shape.lineStyle(0.8, 0xffc18a, 0.75);
+      shape.lineBetween(0, -4, 0, 6);
+      shape.setDepth(3.5);
+      const x = Phaser.Math.Between(0, width);
+      const y = Phaser.Math.Between(-height * 0.8, height * 0.78);
+      shape.setPosition(x, y);
+      shape.setRotation(Phaser.Math.FloatBetween(-Math.PI, Math.PI));
+      this.autumnLeaves.push({
+        shape, x, y, vx: Phaser.Math.FloatBetween(-8, 8),
+        vy: Phaser.Math.FloatBetween(5, 18), spin: Phaser.Math.FloatBetween(-0.8, 0.8),
+        phase: Phaser.Math.FloatBetween(0, Math.PI * 2), settled: false,
+      });
+    }
+
     this.playerX = width * 0.5;
     this.playerY = height * 0.82;
     this.player = this.add.container(this.playerX, this.playerY);
@@ -274,6 +305,7 @@ class WhisperingScene extends Phaser.Scene {
     this.windElapsed += delta / 1000;
     const breeze = calculateBreeze(this.windElapsed);
     this.drawMeadow(breeze);
+    this.updateAutumnLeaves(delta, breeze, width, height);
     if (this.reducedMotion) return;
 
     // Gentle, slow wind: motes drift horizontally and float without abrupt gusts.
@@ -291,6 +323,39 @@ class WhisperingScene extends Phaser.Scene {
       view.glow.setAlpha(0.025 + localReveal * 0.22);
       view.icon.setAlpha(0.025 + localReveal * 0.86);
     });
+  }
+
+  private updateAutumnLeaves(delta: number, breeze: number, width: number, height: number) {
+    const seconds = delta / 1000;
+    for (const leaf of this.autumnLeaves) {
+      if (!this.reducedMotion) {
+        leaf.phase += seconds * (0.9 + Math.abs(leaf.spin));
+        const gust = breeze * 16 + Math.sin(leaf.phase * 0.6) * 7;
+        leaf.vx += (gust - leaf.vx) * Math.min(1, seconds * 0.24);
+        if (leaf.settled && Math.abs(breeze) > 0.22 && Math.sin(leaf.phase * 0.4) > 0.72) {
+          leaf.settled = false;
+          leaf.vy = -12 - Math.abs(breeze) * 16;
+        }
+        if (!leaf.settled) {
+          leaf.vy += 12 * seconds;
+          leaf.x += (leaf.vx + Math.sin(leaf.phase) * 9) * seconds;
+          leaf.y += leaf.vy * seconds;
+          leaf.shape.rotation += leaf.spin * seconds + breeze * seconds * 0.22;
+          if (leaf.y >= height * 0.965) {
+            leaf.y = height * 0.965;
+            leaf.vy = 0;
+            leaf.vx *= 0.45;
+            leaf.settled = true;
+          }
+        } else {
+          leaf.x += (leaf.vx + breeze * 8) * seconds;
+          leaf.shape.rotation += Math.sin(leaf.phase) * seconds * 0.16;
+        }
+        if (leaf.x < -14) leaf.x = width + 12;
+        if (leaf.x > width + 14) leaf.x = -12;
+        leaf.shape.setPosition(leaf.x, leaf.y);
+      }
+    }
   }
 
   private drawMeadow(breeze: number) {
