@@ -6,6 +6,22 @@ Athar (أثر) is an original, mobile-first browser puzzle game about hidden rul
 
 The first playable experiment is **The Whispering Realm**. Discover the hidden three-light sequence to reveal a luminous rune. The visuals are procedural placeholders while the core interaction is being validated. The first clue points players toward the mint light; the same light controls are available to touch, mouse, keyboard, and assistive technology through native buttons.
 
+## XP and ranks
+
+The first discovery awards **100 XP** once and is recorded in browser local storage when available. The current rank ladder is:
+
+| Rank | XP threshold |
+| --- | ---: |
+| Bronze | 0 |
+| Silver | 100 |
+| Gold | 300 |
+| Platinum | 600 |
+| Diamond | 1,000 |
+| Master | 1,500 |
+| Grandmaster | 2,500 |
+
+Repeating an already-recorded discovery does not award XP again. At this prototype stage, there is only one XP-earning discovery, so rank progression beyond Silver awaits future puzzles and realms. XP is stored on the current browser/device; it is not yet synced across devices or accounts.
+
 ## Stack
 
 - TypeScript
