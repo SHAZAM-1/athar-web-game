@@ -1,0 +1,84 @@
+name: Cloudflare Doctor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+  push:
+    branches: [dev/athar-full-project]
+    paths:
+      - "index.html"
+      - "src/**"
+      - "3d-prototype/**"
+      - "package.json"
+      - "vite.config.ts"
+      - ".github/workflows/cloudflare-doctor.yml"
+      - "tools/cloudflare-doctor/**"
+      - "tools/project-doctor/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: athar-cloudflare-doctor
+  cancel-in-progress: true
+
+jobs:
+  inspect:
+    name: Inspect Cloudflare Pages and hand findings to Project Doctor
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out Athar
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate Cloudflare Doctor
+        run: |
+          node --check tools/cloudflare-doctor/cloudflare-doctor.mjs
+          npm run cloudflare:doctor:self-test
+
+      - name: Inspect Cloudflare Pages, deployment history, logs, and live assets
+        id: cloudflare
+        continue-on-error: true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_PAGES_PROJECT: athar-web-game
+        run: npm run cloudflare:doctor
+
+      - name: Pass Cloudflare evidence to Athar Project Doctor
+        id: project_doctor
+        continue-on-error: true
+        run: |
+          echo "Cloudflare Doctor handoff report: cloudflare-doctor-report.json"
+          npm run doctor
+
+      - name: Upload diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: athar-cloudflare-doctor-${{ github.run_id }}
+          path: |
+            cloudflare-doctor-report.json
+            cloudflare-doctor-summary.md
+            project-doctor-report.json
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Report diagnostic result
+        if: always()
+        env:
+          CLOUDFLARE_OUTCOME: ${{ steps.cloudflare.outcome }}
+          PROJECT_DOCTOR_OUTCOME: ${{ steps.project_doctor.outcome }}
+        run: |
+          echo "Cloudflare Doctor: $CLOUDFLARE_OUTCOME"
+          echo "Project Doctor: $PROJECT_DOCTOR_OUTCOME"
+          if [ "$CLOUDFLARE_OUTCOME" != "success" ] || [ "$PROJECT_DOCTOR_OUTCOME" != "success" ]; then
+            echo "One or more diagnostic agents reported a failure. Download the artifact for the evidence and diagnosis."
+            exit 1
+          fi
