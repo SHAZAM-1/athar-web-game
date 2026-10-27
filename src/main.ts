@@ -4,6 +4,7 @@ import { advanceDiscovery } from './discovery';
 import { getRealmQuest, isQuestComplete } from './realm-content';
 import { calculateBreeze, getGrassRepulsion } from './meadow-motion';
 import { getRealmLandscape } from './realm-landscapes';
+import { getRealmCreature } from './realm-creatures';
 import { getRealmSky } from './realm-skies';
 import {
   awardDiscovery,
@@ -82,6 +83,7 @@ class WhisperingScene extends Phaser.Scene {
   private moveButtons: HTMLButtonElement[] = [];
   private readonly quest = getRealmQuest('The Whispering Realm')!;
   private readonly landscape = getRealmLandscape('The Whispering Realm')!;
+  private readonly realmCreature = getRealmCreature('The Whispering Realm')!;
   private readonly skyStyle = getRealmSky('The Whispering Realm')!;
   private skyGraphics!: Phaser.GameObjects.Graphics;
   private oceanGraphics!: Phaser.GameObjects.Graphics;
@@ -176,12 +178,12 @@ class WhisperingScene extends Phaser.Scene {
       const x = width * (0.19 + i * 0.3);
       const y = height * (0.655 + (i % 2) * 0.018);
       const creature = this.add.container(x, y).setDepth(2.4);
-      const halo = this.add.ellipse(0, 1, 30, 19, 0x168dff, 0.12);
-      const bell = this.add.ellipse(0, 0, 17, 12, 0x39aaff, 0.88);
-      bell.setStrokeStyle(1, 0x9beaff, 0.9);
-      const innerGlow = this.add.ellipse(-1, -2, 9, 5, 0xd4f7ff, 0.72);
+      const halo = this.add.ellipse(0, 1, 30, 19, this.realmCreature.glow, 0.12);
+      const bell = this.add.ellipse(0, 0, 17, 12, this.realmCreature.body, 0.88);
+      bell.setStrokeStyle(1, this.realmCreature.accent, 0.9);
+      const innerGlow = this.add.ellipse(-1, -2, 9, 5, this.realmCreature.accent, 0.72);
       const tendrils = this.add.graphics();
-      tendrils.lineStyle(1.2, 0x69d9ff, 0.78);
+      tendrils.lineStyle(1.2, this.realmCreature.accent, 0.78);
       for (let strand = -2; strand <= 2; strand++) {
         tendrils.beginPath();
         tendrils.moveTo(strand * 2.5, 4);
