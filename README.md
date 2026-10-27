@@ -16,6 +16,7 @@ You can also open the same scene directly at `/3d-prototype/`.
 ## Current playable loop
 
 - Explore a procedural third-person 3D forest with hills, trees, rocks, flowers, ancient ruins, fog, and atmospheric lighting.
+- Shared terrain/material helpers live in `3d-prototype/world/terrain.js`, with focused unit coverage in `3d-prototype/world/terrain.test.js`.
 - Use WASD/arrow keys to move, mouse to look, Shift to run, and E to interact.
 - On touch devices, use the on-screen movement/run/interact controls and drag to look around.
 - Collect five glowing shards.
