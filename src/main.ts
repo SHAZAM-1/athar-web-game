@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import './style.css';
 import { advanceDiscovery } from './discovery';
+import { getRealmQuest, isQuestComplete } from './realm-content';
 import {
   awardDiscovery,
   getRankProgress,
@@ -62,6 +63,12 @@ class WhisperingScene extends Phaser.Scene {
   private hint!: HTMLElement;
   private reducedMotion = false;
   private lightButtons: HTMLButtonElement[] = [];
+  private windMotes: Phaser.GameObjects.Arc[] = [];
+  private hiddenObjectViews: Array<{ id: string; glow: Phaser.GameObjects.Arc; icon: Phaser.GameObjects.Text; found: boolean }> = [];
+  private questProgress!: HTMLElement;
+  private questHint!: HTMLElement;
+  private windElapsed = 0;
+  private readonly quest = getRealmQuest('The Whispering Realm')!;
 
   constructor() {
     super('WhisperingRealm');
@@ -94,6 +101,7 @@ class WhisperingScene extends Phaser.Scene {
     island.lineStyle(1, 0x5edbd1, 0.28);
     island.strokeEllipse(width * 0.5, height * 0.75, width * 0.56, height * 0.18);
 
+    this.windMotes = [];
     for (let i = 0; i < 34; i++) {
       const x = Phaser.Math.Between(18, Math.max(19, width - 18));
       const y = Phaser.Math.Between(18, Math.max(19, height - 18));
@@ -117,6 +125,28 @@ class WhisperingScene extends Phaser.Scene {
     if (!this.reducedMotion) this.tweens.add({
       targets: this.halo, scale: 1.45, alpha: 0.13, duration: 2100,
       yoyo: true, repeat: -1, ease: 'Sine.inOut',
+    });
+
+    this.questProgress = document.getElementById('quest-progress') as HTMLElement;
+    this.questHint = document.getElementById('quest-hint') as HTMLElement;
+    const foundAtStart = this.quest.objects.filter((object) => playerProgression.completedDiscoveries.includes(object.id)).length;
+    this.questProgress.textContent = `${foundAtStart} of ${this.quest.objects.length} hidden treasures found`;
+    this.questHint.textContent = foundAtStart === this.quest.objects.length
+      ? 'Your little treasures are safe here. Take a slow breath and enjoy the breeze.'
+      : 'A soft breeze sometimes reveals a tiny glimmer. Tap it when you spot one.';
+
+    this.hiddenObjectViews = this.quest.objects.map((object) => {
+      const x = width * object.x;
+      const y = height * object.y;
+      const found = playerProgression.completedDiscoveries.includes(object.id);
+      const glow = this.add.circle(x, y, 17, 0xa9e9df, found ? 0.08 : 0.025);
+      const icon = this.add.text(x, y, object.symbol, {
+        fontFamily: 'Georgia, serif', fontSize: '19px', color: '#e5fff8',
+        stroke: '#6bded0', strokeThickness: 1,
+      }).setOrigin(0.5).setAlpha(found ? 0.45 : 0.025);
+      const hitArea = this.add.zone(x, y, 42, 42).setInteractive({ useHandCursor: true });
+      hitArea.on('pointerdown', () => this.collectHiddenObject(object.id));
+      return { id: object.id, glow, icon, found };
     });
 
     const positions = [
@@ -145,6 +175,60 @@ class WhisperingScene extends Phaser.Scene {
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => button.removeEventListener('click', onClick));
     });
     this.hint.textContent = 'Begin with the mint light. After it answers, follow the violet trace.';
+  }
+
+  update(_time: number, delta: number) {
+    if (this.reducedMotion || this.windMotes.length === 0) return;
+    this.windElapsed += delta / 1000;
+    // Gentle, slow wind: motes drift horizontally and float without abrupt gusts.
+    const breeze = Math.sin(this.windElapsed * 0.32) * 0.38 + Math.sin(this.windElapsed * 0.11) * 0.22;
+    this.windMotes.forEach((mote, index) => {
+      mote.x += (0.08 + breeze * 0.18) * (delta / 16.67);
+      mote.y += Math.sin(this.windElapsed * 0.45 + index * 0.7) * 0.035 * (delta / 16.67);
+      if (mote.x > this.scale.width + 8) mote.x = -8;
+      if (mote.x < -8) mote.x = this.scale.width + 8;
+    });
+    // The breeze reveals treasures gradually; they remain tappable for touch and mouse.
+    const reveal = Math.max(0, Math.sin(this.windElapsed * 0.38 - 0.7));
+    this.hiddenObjectViews.forEach((view, index) => {
+      if (view.found) return;
+      const localReveal = Math.max(0, reveal - index * 0.08);
+      view.glow.setAlpha(0.025 + localReveal * 0.22);
+      view.icon.setAlpha(0.025 + localReveal * 0.86);
+    });
+  }
+
+  private collectHiddenObject(objectId: string) {
+    const object = this.quest.objects.find((item) => item.id === objectId);
+    const view = this.hiddenObjectViews.find((item) => item.id === objectId);
+    if (!object || !view || view.found) return;
+
+    const award = awardDiscovery(playerProgression, object.id, object.xp);
+    playerProgression = award.progression;
+    view.found = true;
+    view.icon.setAlpha(1).setColor('#baf8c9');
+    view.glow.setFillStyle(0xbaf8c9, 0.22);
+    view.glow.setRadius(22);
+    this.questProgress.textContent = `${this.quest.objects.filter((item) => playerProgression.completedDiscoveries.includes(item.id)).length} of ${this.quest.objects.length} hidden treasures found`;
+    this.questHint.textContent = `${object.name} found. ${object.hint}`;
+
+    let totalAward = award.awarded;
+    if (isQuestComplete(this.quest, playerProgression.completedDiscoveries)) {
+      const questAward = awardDiscovery(playerProgression, this.quest.id, this.quest.completionXP);
+      playerProgression = questAward.progression;
+      totalAward += questAward.awarded;
+      this.questHint.textContent = questAward.awarded > 0
+        ? `Quest complete: ${this.quest.title}. All three treasures are home. +${questAward.awarded} bonus XP. Rest here as long as you like.`
+        : `Quest complete: ${this.quest.title}. All three treasures are home. Enjoy the quiet.`;
+    }
+
+    const saved = saveProgression();
+    renderProgression();
+    if (xpStatus) {
+      xpStatus.textContent = saved
+        ? `+${totalAward} XP earned. Your discoveries are saved on this device.`
+        : `+${totalAward} XP earned for this session, but browser storage is unavailable so progress may not persist after refresh.`;
+    }
   }
 
   private tapLight(index: number) {
