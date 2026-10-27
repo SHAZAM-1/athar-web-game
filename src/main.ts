@@ -84,7 +84,6 @@ class WhisperingScene extends Phaser.Scene {
   private readonly landscape = getRealmLandscape('The Whispering Realm')!;
   private readonly skyStyle = getRealmSky('The Whispering Realm')!;
   private skyGraphics!: Phaser.GameObjects.Graphics;
-  private skyStars: Phaser.GameObjects.Arc[] = [];
 
   constructor() {
     super('WhisperingRealm');
@@ -102,13 +101,11 @@ class WhisperingScene extends Phaser.Scene {
     backdrop.fillGradientStyle(this.skyStyle.upper, this.skyStyle.upper, this.skyStyle.horizon, this.skyStyle.horizon, 1);
     backdrop.fillRect(0, 0, width, height);
     this.skyGraphics = this.add.graphics().setDepth(0.5);
-    this.skyStars = [];
     for (let i = 0; i < 76; i++) {
       const x = Phaser.Math.Between(12, width - 12);
       const y = Phaser.Math.Between(10, Math.floor(height * 0.54));
       const star = this.add.circle(x, y, Phaser.Math.FloatBetween(0.45, 1.45), this.skyStyle.stars, Phaser.Math.FloatBetween(0.24, 0.82));
       star.setDepth(0.7);
-      this.skyStars.push(star);
       if (!this.reducedMotion && i % 3 === 0) this.tweens.add({
         targets: star, alpha: Phaser.Math.FloatBetween(0.12, 0.32),
         duration: Phaser.Math.Between(1800, 4200), yoyo: true, repeat: -1, ease: 'Sine.inOut',
