@@ -156,7 +156,7 @@ async function main() {
   };
 
   try {
-    if (!token || !accountId) throw new Error('Missing CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID. Configure these as GitHub Actions repository secrets.');
+    if (!token || !accountId) throw new Error(!token ? 'Missing CLOUDFLARE_API_TOKEN. Add it as a GitHub Actions repository secret.' : 'Missing CLOUDFLARE_ACCOUNT_ID. Configure the account identifier in the workflow environment.');
     const base = '/accounts/' + encodeURIComponent(accountId) + '/pages/projects/' + encodeURIComponent(projectName);
     const project = await get(base);
     report.project = {
@@ -208,7 +208,7 @@ async function main() {
     await inspectLive(report.liveUrl, report.incidents, report.checks);
   } catch (error) {
     report.status = 'error';
-    report.incidents.push(incident('cloudflare-doctor-api-failed', 'critical', 'Cloudflare Doctor could not complete inspection', error.message, { accountIdConfigured: Boolean(accountId), tokenConfigured: Boolean(token) }, 'Configure Cloudflare Pages read access for CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.'));
+    report.incidents.push(incident('cloudflare-doctor-api-failed', 'critical', 'Cloudflare Doctor could not complete inspection', error.message, { accountIdConfigured: Boolean(accountId), tokenConfigured: Boolean(token) }, 'Create a CLOUDFLARE_API_TOKEN secret with Cloudflare Pages read access; the account ID is configured in the workflow.'));
   }
 
   const deduped = new Map();
@@ -227,7 +227,7 @@ async function main() {
   fs.writeFileSync(SUMMARY_PATH, markdown(report));
   console.log(markdown(report));
   console.log('Saved cloudflare-doctor-report.json and cloudflare-doctor-summary.md');
-  if (report.status === 'error' || report.incidents.some(i => i.severity === 'critical')) process.exitCode = 1;
+  if (report.status === 'error' || report.incidents.some(i => ['critical', 'high'].includes(i.severity))) process.exitCode = 1;
 }
 
 main().catch(error => { console.error('[Cloudflare Doctor fatal]', error.stack || String(error)); process.exitCode = 2; });
