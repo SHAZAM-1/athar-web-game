@@ -17,6 +17,7 @@ const KNOWLEDGE_PATH = path.join(ROOT, 'tools/project-doctor/knowledge.json');
 const FIXES_PATH = path.join(ROOT, 'tools/project-doctor/safe-fixes.json');
 const REPORT_PATH = path.join(ROOT, 'project-doctor-report.json');
 const CLOUDFLARE_REPORT_PATH = path.join(ROOT, 'cloudflare-doctor-report.json');
+const CLOUDFLARE_HISTORY_PATH = path.join(ROOT, 'tools/project-doctor/cloudflare-incident-history.json');
 const PATCH_DIR = path.join(ROOT, 'project-doctor-patches');
 const ALL_BRANCHES = process.argv.includes('--all-branches');
 const CURRENT_ONLY = process.argv.includes('--current') || !ALL_BRANCHES;
@@ -38,6 +39,7 @@ const report = {
   ],
   branches: [],
   externalFindings: [],
+  cloudflareHistory: { total: 0, recent: [] },
   totals: { branches: 0, passed: 0, failed: 0, findings: 0, safeFixesApplied: 0 }
 };
 
@@ -277,10 +279,18 @@ function writeSummary() {
     `- Findings: **${report.totals.findings}**`,
     `- Safe-fix recipes applied in isolated worktrees: **${report.totals.safeFixesApplied}**`,
     `- Cloudflare external findings imported: **${report.externalFindings.length}**`,
+    `- Persistent Cloudflare incident records: **${report.cloudflareHistory.total}**`,
     '',
     '> The Doctor never writes to remote branches. Any generated patch is a proposal and must be reviewed before applying.',
     ''
   ];
+  if (report.cloudflareHistory.total) {
+    lines.push('## Persistent Cloudflare incident history', '', 'Historical evidence is retained in tools/project-doctor/cloudflare-incident-history.json. Recurring incidents update their occurrence count instead of creating duplicate records.', '');
+    for (const item of report.cloudflareHistory.recent) {
+      lines.push(`- [${item.latestSeverity || item.severity || 'unknown'}] ${item.title} — ${item.code}; seen ${item.occurrenceCount || 1} time(s); first ${item.firstSeen}; last ${item.lastSeen}; status ${item.status || 'unverified'}`);
+    }
+    lines.push('');
+  }
   if (report.externalFindings.length) {
     lines.push('## Cloudflare Doctor handoff', '', 'These deployment/runtime findings were imported from cloudflare-doctor-report.json. They are evidence, not automatic code fixes.', '');
     for (const item of report.externalFindings) {
@@ -314,6 +324,17 @@ function writeSummary() {
 
 async function main() {
   fs.rmSync(PATCH_DIR, { recursive: true, force: true });
+  if (fs.existsSync(CLOUDFLARE_HISTORY_PATH)) {
+    try {
+      const history = JSON.parse(fs.readFileSync(CLOUDFLARE_HISTORY_PATH, 'utf8'));
+      if (Array.isArray(history.incidents)) {
+        report.cloudflareHistory.total = history.incidents.length;
+        report.cloudflareHistory.recent = history.incidents.slice().sort((a, b) => String(b.lastSeen).localeCompare(String(a.lastSeen))).slice(0, 20);
+      }
+    } catch (error) {
+      report.externalFindings.push({ severity: 'medium', code: 'cloudflare-history-invalid', title: 'Persistent Cloudflare incident history could not be read', rootCause: error.message, nextStep: 'Validate tools/project-doctor/cloudflare-incident-history.json before using it as incident memory.' });
+    }
+  }
   if (fs.existsSync(CLOUDFLARE_REPORT_PATH)) {
     try {
       const cloudflareReport = JSON.parse(fs.readFileSync(CLOUDFLARE_REPORT_PATH, 'utf8'));
