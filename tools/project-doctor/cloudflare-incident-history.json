@@ -30,12 +30,46 @@
       "latestReportCheckedAt": "2026-10-27T16:13:52.173Z",
       "lastObservedStatus": "error",
       "latestSeverity": "critical"
+    },
+    {
+      "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
+      "code": "npm-edgesout",
+      "title": "Cloudflare Pages dependency install crashed in npm",
+      "severity": "high",
+      "rootCause": "Cloudflare deployment f87e6602 failed during dependency installation with npm error: Cannot read properties of null (reading 'edgesOut'). The log shows npm 10.9.9 on Node.js 22.23.4; the failure occurred before the production build. This identifies the failing phase but does not prove a single underlying package or npm bug.",
+      "firstSeen": "2026-10-27T16:00:02.644Z",
+      "lastSeen": "2026-10-27T16:00:02.644Z",
+      "occurrenceCount": 1,
+      "status": "mitigated-observed-not-root-cause-proven",
+      "source": "cloudflare-pages",
+      "deploymentId": "f87e6602-97b5-4ab3-a10a-253e4183b499",
+      "url": "https://f87e6602.athar-web-game.pages.dev",
+      "firstEvidence": {
+        "deploymentId": "f87e6602-97b5-4ab3-a10a-253e4183b499",
+        "branch": "dev/athar-full-project",
+        "commitHash": "6cdb783489dddba0efd227883228c1098ba2c553",
+        "node": "22.23.4",
+        "npm": "10.9.9",
+        "log": "npm error Cannot read properties of null (reading 'edgesOut')"
+      },
+      "latestEvidence": {
+        "deploymentId": "f87e6602-97b5-4ab3-a10a-253e4183b499",
+        "branch": "dev/athar-full-project",
+        "commitHash": "6cdb783489dddba0efd227883228c1098ba2c553",
+        "node": "22.23.4",
+        "npm": "10.9.9",
+        "log": "npm error Cannot read properties of null (reading 'edgesOut')"
+      },
+      "nextStep": "Keep the first failed deployment and the successful follow-up together. Verify clean dependency installs in Cloudflare and CI; if the crash recurs, compare npm versions and introduce a committed lockfile only after validating it.",
+      "latestNextStep": "A later deployment succeeded after the .npmrc mitigation was added, but the underlying cause is not yet proven.",
+      "latestReportCheckedAt": "2026-10-27T16:01:00.371Z",
+      "lastObservedStatus": "degraded"
     }
   ],
-  "updatedAt": "2026-10-27T16:13:52.331Z",
+  "updatedAt": "2026-10-27T16:14:00.818Z",
   "latestCloudflareStatus": "error",
   "latestReportCheckedAt": "2026-10-27T16:13:52.173Z",
   "latestDeploymentId": null,
   "latestLiveUrl": null,
-  "totalIncidentFingerprints": 1
+  "totalIncidentFingerprints": 2
 }
