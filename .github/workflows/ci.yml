@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [main, feat/hidden-quests-wind-cozy]
+    branches: [main, dev/athar-full-project, feat/hidden-quests-wind-cozy]
   workflow_dispatch:
 
 permissions:
