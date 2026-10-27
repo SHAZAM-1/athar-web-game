@@ -63,6 +63,7 @@ function collectRealmObject(){
   scene.remove(marker);realmQuestMarkers.splice(realmQuestMarkers.indexOf(marker),1);
   const quest=getRealmQuestByName(REALMS[activeRealmIndex].name);
   const complete=quest.objects.every(item=>foundQuestObjects[realmId].includes(item.id));
+  if(complete)totalQuestXP+=quest.completionXP;
   questTitle.textContent=complete?'Realm Quest Complete':quest.title;
   questText.textContent=complete?`All treasures found! +${quest.completionXP} completion XP · ${totalQuestXP} XP earned.`:`${object.name} found · +${object.xp} XP. ${quest.description}`;
   saveProgress();showToast(complete?`✦ ${quest.title} complete!`:`${object.name} found · +${object.xp} XP`);
