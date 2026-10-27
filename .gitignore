@@ -149,3 +149,7 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Cloudflare Doctor runtime reports (uploaded by CI as artifacts)
+cloudflare-doctor-report.json
+cloudflare-doctor-summary.md
