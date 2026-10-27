@@ -6,6 +6,12 @@ Athar (أثر) is an original, mobile-first browser puzzle game about hidden rul
 
 The first playable experiment is **The Whispering Realm**. Discover the hidden three-light sequence to reveal a luminous rune. The visuals are procedural placeholders while the core interaction is being validated. The first clue points players toward the mint light; the same light controls are available to touch, mouse, keyboard, and assistive technology through native buttons.
 
+## Hidden quests, treasures, and gentle wind
+
+The active Whispering Realm now has a quiet side quest, **Little Things in the Breeze**. Three tiny objects become easier to see as a slow, sine-like breeze passes through the scene. Floating motes drift with the wind; there is no timer, fail state, or pressure to hurry. Reduced-motion users see the treasures without the animated reveal.
+
+The content catalog defines one distinct hidden-object quest for each of the 12 planned realms. Only the Whispering Realm quest is currently rendered and playable; the other 11 entries are design data for future realms, not finished levels. Each hidden object gives 25 XP once, and completing the three-object quest gives a 100 XP bonus once. Found objects and quest rewards use the existing local progression storage to prevent repeat farming.
+
 ## XP and ranks
 
 The first discovery awards **100 XP** once and is recorded in browser local storage when available. The current rank ladder is:
@@ -20,7 +26,7 @@ The first discovery awards **100 XP** once and is recorded in browser local stor
 | Master | 1,500 |
 | Grandmaster | 2,500 |
 
-Repeating an already-recorded discovery does not award XP again. At this prototype stage, there is only one XP-earning discovery, so rank progression beyond Silver awaits future puzzles and realms. XP is stored on the current browser/device; it is not yet synced across devices or accounts.
+Repeating an already-recorded discovery does not award XP again. XP can now also come from the Whispering Realm's three hidden treasures and one-time quest completion. Additional rank progression will come from future legitimate discoveries in new puzzles and realms. XP is stored on the current browser/device; it is not yet synced across devices or accounts.
 
 ## Stack
 
@@ -28,6 +34,8 @@ Repeating an already-recorded discovery does not award XP again. At this prototy
 - Phaser 3
 - Vite
 - Vitest
+
+The realm quest catalog is covered by tests for all 12 realms, unique quest/object IDs, object positions, and quest completion.
 
 ## Requirements
 
