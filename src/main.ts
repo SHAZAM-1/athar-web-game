@@ -106,6 +106,7 @@ class WhisperingScene extends Phaser.Scene {
       const x = Phaser.Math.Between(18, Math.max(19, width - 18));
       const y = Phaser.Math.Between(18, Math.max(19, height - 18));
       const dot = this.add.circle(x, y, Phaser.Math.FloatBetween(0.6, 1.8), 0xb4fff3, Phaser.Math.FloatBetween(0.18, 0.7));
+      this.windMotes.push(dot);
       if (!this.reducedMotion) this.tweens.add({
         targets: dot, alpha: 0.08, duration: Phaser.Math.Between(900, 2400),
         yoyo: true, repeat: -1,
