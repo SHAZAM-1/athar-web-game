@@ -31,7 +31,7 @@
       "lastObservedStatus": "error",
       "latestSeverity": "critical",
       "resolution": "A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.",
-      "resolvedAt": "2026-10-28T01:02:30.333Z"
+      "resolvedAt": "2026-10-28T01:10:01.358Z"
     },
     {
       "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
@@ -510,12 +510,48 @@
       "lastObservedStatus": "warning",
       "resolution": "The deployment was skipped intentionally; an idle queued stage is expected for skipped deployments.",
       "resolvedAt": "2026-10-28T00:50:25.085Z"
+    },
+    {
+      "fingerprint": "deployment-skipped|cd5a870e-6b9f-434e-95e9-1063dbdbce6b||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped despite application changes",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
+      "firstSeen": "2026-10-28T01:10:01.358Z",
+      "lastSeen": "2026-10-28T01:10:06.800Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "cd5a870e-6b9f-434e-95e9-1063dbdbce6b",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "cd5a870e-6b9f-434e-95e9-1063dbdbce6b",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "0c2152ac605a855bcc281ebec56268de90127b7b",
+        "changedFiles": [
+          "3d-prototype/main.js"
+        ]
+      },
+      "latestEvidence": {
+        "deploymentId": "cd5a870e-6b9f-434e-95e9-1063dbdbce6b",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "0c2152ac605a855bcc281ebec56268de90127b7b",
+        "changedFiles": [
+          "3d-prototype/main.js"
+        ]
+      },
+      "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestReportCheckedAt": "2026-10-28T01:10:01.358Z",
+      "lastObservedStatus": "warning"
     }
   ],
-  "updatedAt": "2026-10-28T01:02:33.506Z",
-  "latestCloudflareStatus": "healthy",
-  "latestReportCheckedAt": "2026-10-28T01:02:30.333Z",
-  "latestDeploymentId": "a921ba7b-a3cd-4b2d-bcc7-ad98e26b8a98",
+  "updatedAt": "2026-10-28T01:10:06.800Z",
+  "latestCloudflareStatus": "warning",
+  "latestReportCheckedAt": "2026-10-28T01:10:01.358Z",
+  "latestDeploymentId": "cd5a870e-6b9f-434e-95e9-1063dbdbce6b",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
-  "totalIncidentFingerprints": 16
+  "totalIncidentFingerprints": 17
 }
