@@ -31,7 +31,7 @@
       "lastObservedStatus": "error",
       "latestSeverity": "critical",
       "resolution": "A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.",
-      "resolvedAt": "2026-10-28T00:54:44.445Z"
+      "resolvedAt": "2026-10-28T01:02:30.333Z"
     },
     {
       "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
@@ -169,7 +169,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 2,
-      "status": "open-unverified",
+      "status": "historical-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "05edac3e-9a31-42de-b445-fad3f8a44a50",
       "url": null,
@@ -187,7 +187,9 @@
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
-      "latestSeverity": "medium"
+      "latestSeverity": "medium",
+      "resolution": "Archived from active triage because this deployment is outside the current Cloudflare history window and is not present in current findings. This does not prove the historical skip was intentional.",
+      "archivedAt": "2026-10-28T01:02:30.333Z"
     },
     {
       "fingerprint": "deployment-skipped|9d1d53be-59d4-4723-8e1e-b9e5a8695ad6||",
@@ -198,7 +200,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 2,
-      "status": "open-unverified",
+      "status": "historical-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "9d1d53be-59d4-4723-8e1e-b9e5a8695ad6",
       "url": null,
@@ -216,7 +218,9 @@
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
-      "latestSeverity": "medium"
+      "latestSeverity": "medium",
+      "resolution": "Archived from active triage because this deployment is outside the current Cloudflare history window and is not present in current findings. This does not prove the historical skip was intentional.",
+      "archivedAt": "2026-10-28T01:02:30.333Z"
     },
     {
       "fingerprint": "deployment-skipped|272df86f-885a-4941-b566-2be7b0864ced||",
@@ -227,7 +231,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 2,
-      "status": "open-unverified",
+      "status": "historical-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "272df86f-885a-4941-b566-2be7b0864ced",
       "url": null,
@@ -245,7 +249,9 @@
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
-      "latestSeverity": "medium"
+      "latestSeverity": "medium",
+      "resolution": "Archived from active triage because this deployment is outside the current Cloudflare history window and is not present in current findings. This does not prove the historical skip was intentional.",
+      "archivedAt": "2026-10-28T01:02:30.333Z"
     },
     {
       "fingerprint": "deployment-skipped|bc294eb3-88d2-4fc0-8c5c-77d5f8fd1bdc||",
@@ -256,7 +262,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 2,
-      "status": "open-unverified",
+      "status": "historical-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "bc294eb3-88d2-4fc0-8c5c-77d5f8fd1bdc",
       "url": null,
@@ -274,7 +280,9 @@
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
-      "latestSeverity": "medium"
+      "latestSeverity": "medium",
+      "resolution": "Archived from active triage because this deployment is outside the current Cloudflare history window and is not present in current findings. This does not prove the historical skip was intentional.",
+      "archivedAt": "2026-10-28T01:02:30.333Z"
     },
     {
       "fingerprint": "deployment-skipped|ed85e9eb-7e53-4e58-b045-ea0872a51377||",
@@ -285,7 +293,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 2,
-      "status": "open-unverified",
+      "status": "historical-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "ed85e9eb-7e53-4e58-b045-ea0872a51377",
       "url": null,
@@ -303,7 +311,9 @@
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
-      "latestSeverity": "medium"
+      "latestSeverity": "medium",
+      "resolution": "Archived from active triage because this deployment is outside the current Cloudflare history window and is not present in current findings. This does not prove the historical skip was intentional.",
+      "archivedAt": "2026-10-28T01:02:30.333Z"
     },
     {
       "fingerprint": "deployment-skipped|de9106ae-7d32-4590-8cdf-ce009dc1c1da||",
@@ -314,7 +324,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T18:34:14.037Z",
       "occurrenceCount": 1,
-      "status": "open-unverified",
+      "status": "historical-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "de9106ae-7d32-4590-8cdf-ce009dc1c1da",
       "url": null,
@@ -331,7 +341,9 @@
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "lastObservedStatus": "warning",
+      "resolution": "Archived from active triage because this deployment is outside the current Cloudflare history window and is not present in current findings. This does not prove the historical skip was intentional.",
+      "archivedAt": "2026-10-28T01:02:30.333Z"
     },
     {
       "fingerprint": "deployment-skipped|aa521518-2fc3-4d53-81c3-456a67688991||",
@@ -342,7 +354,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T18:34:14.037Z",
       "occurrenceCount": 1,
-      "status": "open-unverified",
+      "status": "historical-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "aa521518-2fc3-4d53-81c3-456a67688991",
       "url": null,
@@ -359,7 +371,9 @@
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "lastObservedStatus": "warning",
+      "resolution": "Archived from active triage because this deployment is outside the current Cloudflare history window and is not present in current findings. This does not prove the historical skip was intentional.",
+      "archivedAt": "2026-10-28T01:02:30.333Z"
     },
     {
       "fingerprint": "deployment-in-progress|bcda498b-72e1-46f8-bf76-7a25f0a30479||",
@@ -498,10 +512,10 @@
       "resolvedAt": "2026-10-28T00:50:25.085Z"
     }
   ],
-  "updatedAt": "2026-10-28T00:54:46.902Z",
+  "updatedAt": "2026-10-28T01:02:33.506Z",
   "latestCloudflareStatus": "healthy",
-  "latestReportCheckedAt": "2026-10-28T00:54:44.445Z",
-  "latestDeploymentId": "e3167bfe-3b9d-4d25-8c8b-a4030adcd18d",
+  "latestReportCheckedAt": "2026-10-28T01:02:30.333Z",
+  "latestDeploymentId": "a921ba7b-a3cd-4b2d-bcc7-ad98e26b8a98",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
   "totalIncidentFingerprints": 16
 }
