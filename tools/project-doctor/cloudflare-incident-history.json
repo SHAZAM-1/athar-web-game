@@ -31,7 +31,7 @@
       "lastObservedStatus": "error",
       "latestSeverity": "critical",
       "resolution": "A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.",
-      "resolvedAt": "2026-10-28T00:49:53.706Z"
+      "resolvedAt": "2026-10-28T00:50:25.085Z"
     },
     {
       "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
@@ -427,7 +427,7 @@
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
       "resolution": "Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.",
-      "resolvedAt": "2026-10-28T00:49:53.706Z"
+      "resolvedAt": "2026-10-28T00:50:25.085Z"
     },
     {
       "fingerprint": "deployment-skipped|f858dd9b-339d-4baa-95c0-351150f23ad0||",
@@ -495,13 +495,13 @@
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
       "resolution": "The deployment was skipped intentionally; an idle queued stage is expected for skipped deployments.",
-      "resolvedAt": "2026-10-28T00:49:53.706Z"
+      "resolvedAt": "2026-10-28T00:50:25.085Z"
     }
   ],
-  "updatedAt": "2026-10-28T00:49:56.051Z",
+  "updatedAt": "2026-10-28T00:50:28.797Z",
   "latestCloudflareStatus": "healthy",
-  "latestReportCheckedAt": "2026-10-28T00:49:53.706Z",
-  "latestDeploymentId": "eb4b510f-5b14-4899-8b66-89faf694cb61",
+  "latestReportCheckedAt": "2026-10-28T00:50:25.085Z",
+  "latestDeploymentId": "afb2ef32-80ea-41a6-a6c0-667263b3e66d",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
   "totalIncidentFingerprints": 16
 }
