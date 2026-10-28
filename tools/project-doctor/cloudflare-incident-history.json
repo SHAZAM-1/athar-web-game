@@ -31,7 +31,7 @@
       "lastObservedStatus": "error",
       "latestSeverity": "critical",
       "resolution": "A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.",
-      "resolvedAt": "2026-10-28T01:56:09.841Z"
+      "resolvedAt": "2026-10-28T01:56:39.295Z"
     },
     {
       "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
@@ -1107,8 +1107,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config); changed files could not be verified: GitHub commit lookup returned HTTP 403",
       "firstSeen": "2026-10-28T01:55:44.184Z",
-      "lastSeen": "2026-10-28T01:56:16.404Z",
-      "occurrenceCount": 2,
+      "lastSeen": "2026-10-28T01:56:41.808Z",
+      "occurrenceCount": 3,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "2a2f2901-c149-477e-a099-57f456d3ca4f",
@@ -1130,7 +1130,7 @@
       },
       "nextStep": "Review Pages path filters and verify the commit file list.",
       "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
+      "latestReportCheckedAt": "2026-10-28T01:56:39.295Z",
       "lastObservedStatus": "warning",
       "latestSeverity": "medium"
     },
@@ -1164,7 +1164,7 @@
       "latestReportCheckedAt": "2026-10-28T01:55:44.184Z",
       "lastObservedStatus": "warning",
       "resolution": "Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.",
-      "resolvedAt": "2026-10-28T01:56:09.841Z"
+      "resolvedAt": "2026-10-28T01:56:39.295Z"
     },
     {
       "fingerprint": "deployment-skipped|6fd03ec8-8dcd-4fc6-a3c7-37b26a2a86d3||",
@@ -1203,8 +1203,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:56:09.841Z",
-      "lastSeen": "2026-10-28T01:56:16.404Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-28T01:56:41.808Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "8d9727aa-fcf7-4c80-a411-fee9a2090cbd",
@@ -1229,8 +1229,9 @@
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
       "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-28T01:56:39.295Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|20cb45f9-a185-4320-b12e-d034bf91141b||",
@@ -1239,8 +1240,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:56:09.841Z",
-      "lastSeen": "2026-10-28T01:56:16.404Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-28T01:56:41.808Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "20cb45f9-a185-4320-b12e-d034bf91141b",
@@ -1265,14 +1266,51 @@
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
       "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
+      "latestReportCheckedAt": "2026-10-28T01:56:39.295Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
+    },
+    {
+      "fingerprint": "deployment-skipped|dcd15248-4e32-4d6e-809e-19c3aa203fa0||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped despite application changes",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
+      "firstSeen": "2026-10-28T01:56:39.295Z",
+      "lastSeen": "2026-10-28T01:56:41.808Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "dcd15248-4e32-4d6e-809e-19c3aa203fa0",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "dcd15248-4e32-4d6e-809e-19c3aa203fa0",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "f9e289ec9e0527dbaf3e4751b173782ab0e12443",
+        "changedFiles": [
+          "3d-prototype/style.css"
+        ]
+      },
+      "latestEvidence": {
+        "deploymentId": "dcd15248-4e32-4d6e-809e-19c3aa203fa0",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "f9e289ec9e0527dbaf3e4751b173782ab0e12443",
+        "changedFiles": [
+          "3d-prototype/style.css"
+        ]
+      },
+      "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestReportCheckedAt": "2026-10-28T01:56:39.295Z",
       "lastObservedStatus": "warning"
     }
   ],
-  "updatedAt": "2026-10-28T01:56:16.404Z",
+  "updatedAt": "2026-10-28T01:56:41.808Z",
   "latestCloudflareStatus": "warning",
-  "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
-  "latestDeploymentId": "8d9727aa-fcf7-4c80-a411-fee9a2090cbd",
+  "latestReportCheckedAt": "2026-10-28T01:56:39.295Z",
+  "latestDeploymentId": "79014c86-1012-4732-a379-8fa1aa8a40fc",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
-  "totalIncidentFingerprints": 37
+  "totalIncidentFingerprints": 38
 }
