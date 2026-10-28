@@ -34,6 +34,13 @@ function main() {
   const expectedSkippedIds = new Set((report.checks || [])
     .filter(check => check.expectedSkip && check.deploymentId)
     .map(check => check.deploymentId));
+  const currentDeploymentIds = new Set((report.recentDeployments || [])
+    .filter(deployment => deployment.id)
+    .map(deployment => deployment.id));
+  const currentIncidentDeploymentIds = new Set((report.incidents || [])
+    .filter(item => item.deploymentId)
+    .map(item => item.deploymentId));
+
   for (const prior of history.incidents) {
     if (prior.code === 'deployment-skipped' && expectedSkippedIds.has(prior.deploymentId)) {
       prior.status = 'resolved-expected';
@@ -49,6 +56,22 @@ function main() {
       prior.status = 'resolved-observed';
       prior.resolution = 'A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.';
       prior.resolvedAt = report.checkedAt || now;
+    }
+
+    // A deployment skip that has aged out of the current Cloudflare history
+    // window is no longer an active triage item, but absence is not proof that
+    // the old skip was intentional. Archive it without falsely marking it fixed.
+    if (
+      prior.code === 'deployment-skipped' &&
+      prior.status === 'open-unverified' &&
+      prior.deploymentId &&
+      report.status === 'healthy' &&
+      !currentDeploymentIds.has(prior.deploymentId) &&
+      !currentIncidentDeploymentIds.has(prior.deploymentId)
+    ) {
+      prior.status = 'historical-unverified';
+      prior.resolution = 'Archived from active triage because this deployment is outside the current Cloudflare history window and is not present in current findings. This does not prove the historical skip was intentional.';
+      prior.archivedAt = report.checkedAt || now;
     }
   }
 
