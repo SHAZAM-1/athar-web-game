@@ -232,12 +232,14 @@ async function main() {
 
     const latestStatus = report.latestDeployment?.latest_stage?.status;
     const latestListed = report.recentDeployments.find(d => d.id === report.latestDeployment?.id);
+    // Cloudflare can expose an intentionally skipped deployment with an
+    // "idle" latest stage. Treat any explicit skip flag as non-failing stage
+    // status, while preserving a separate deployment-skipped incident above
+    // when the skip reason (for example path_config) needs investigation.
     const latestExpectedSkip = Boolean(
       report.latestDeployment?.is_skipped ||
-      latestListed?.skipped && (
-        latestListed.skipReason === 'commit_message' && /\\[(skip ci|ci skip|no ci)\\]/i.test(latestListed.commitMessage || '') ||
-        report.checks.some(check => check.expectedSkip && check.deploymentId === latestListed.id)
-      )
+      latestListed?.skipped ||
+      report.checks.some(check => check.expectedSkip && check.deploymentId === report.latestDeployment?.id)
     );
     report.checks.push({
       name: 'latest deployment stage',
