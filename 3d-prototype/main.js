@@ -7,14 +7,14 @@ import { parseSave } from './save/save-state.js';
 import { createPhysicsState, stepHorizontal, stepVertical } from './world/physics.js';
 const root=document.querySelector('#game'),countEl=document.querySelector('#crystal-count'),intro=document.querySelector('#intro-card'),startButton=document.querySelector('#start-button'),toast=document.querySelector('#toast'),hint=document.querySelector('#bottom-hint'),crosshair=document.querySelector('.crosshair'),questTitle=document.querySelector('.quest-card strong'),questText=document.querySelector('.quest-card p'),realmNameEl=document.querySelector('#realm-name'),realmIndexEl=document.querySelector('#realm-index');
 const scene=new THREE.Scene();scene.background=new THREE.Color('#91b8bb');scene.fog=new THREE.FogExp2('#91b8bb',.0035);
-const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,900);
+const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,1600);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;root.appendChild(renderer.domElement);
 const hemisphere=new THREE.HemisphereLight(0xc5f3ec,0x3b5143,2);scene.add(hemisphere);const sun=new THREE.DirectionalLight(0xffe7c2,3.2);sun.position.set(-90,130,55);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-110;sun.shadow.camera.right=110;sun.shadow.camera.top=110;sun.shadow.camera.bottom=-110;scene.add(sun);
-const groundGeo=new THREE.PlaneGeometry(620,620,150,150);groundGeo.rotateX(-Math.PI/2);const pos=groundGeo.attributes.position;for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i);pos.setY(i,groundY(x,z))}groundGeo.computeVertexNormals();const groundMaterial=mat('#597f61');const ground=new THREE.Mesh(groundGeo,groundMaterial);ground.receiveShadow=true;scene.add(ground);
-const hillMats=[mat('#678f83'),mat('#739c8d'),mat('#507b75')];for(let i=0;i<34;i++){const a=i/34*Math.PI*2,r=rand(235,310),x=Math.cos(a)*r,z=Math.sin(a)*r,h=rand(35,80),hill=new THREE.Mesh(new THREE.ConeGeometry(rand(20,38),h,7),hillMats[i%3]);hill.position.set(x,groundY(x,z)+h*.36,z);hill.rotation.y=rand(0,6);hill.scale.z=rand(.65,1.2);hill.castShadow=true;scene.add(hill)}
+const groundGeo=new THREE.PlaneGeometry(1000,1000,190,190);groundGeo.rotateX(-Math.PI/2);const pos=groundGeo.attributes.position;for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i);pos.setY(i,groundY(x,z))}groundGeo.computeVertexNormals();const groundMaterial=mat('#597f61');const ground=new THREE.Mesh(groundGeo,groundMaterial);ground.receiveShadow=true;scene.add(ground);
+const hillMats=[mat('#678f83'),mat('#739c8d'),mat('#507b75')];for(let i=0;i<42;i++){const a=i/42*Math.PI*2,r=rand(485,620),x=Math.cos(a)*r,z=Math.sin(a)*r,h=rand(35,80),hill=new THREE.Mesh(new THREE.ConeGeometry(rand(20,38),h,7),hillMats[i%3]);hill.position.set(x,groundY(x,z)+h*.36,z);hill.rotation.y=rand(0,6);hill.scale.z=rand(.65,1.2);hill.castShadow=true;scene.add(hill)}
 const obstacles=[];const trunkMat=mat('#594b3c'),leafMats=[mat('#315f50'),mat('#3c755c'),mat('#4f8764'),mat('#668f6a')],trunkGeo=new THREE.CylinderGeometry(.22,.42,3.2,7),treeGeo=new THREE.ConeGeometry(1,1,7);
-for(let i=0;i<390;i++){let x,z;do{x=rand(-285,285);z=rand(-285,285)}while(Math.hypot(x,z)<24||(Math.abs(x)<32&&z>-95&&z<35)||REALMS.some((_,index)=>{const a=-Math.PI/2+index*Math.PI*2/REALMS.length;return Math.hypot(x-Math.cos(a)*170,z-Math.sin(a)*170)<60;}));const y=groundY(x,z),s=rand(.7,2.2),g=new THREE.Group(),trunk=new THREE.Mesh(trunkGeo,trunkMat);trunk.position.y=1.4*s;trunk.scale.setScalar(s);trunk.castShadow=true;g.add(trunk);for(let j=0;j<3;j++){const crown=new THREE.Mesh(treeGeo,leafMats[Math.floor(rand(0,4))]);crown.position.y=(2.5+j*1.05)*s;crown.scale.set((1.7-j*.24)*s,(2.4-j*.12)*s,(1.6-j*.16)*s);crown.rotation.y=rand(0,6);crown.castShadow=true;g.add(crown)}g.position.set(x,y,z);g.rotation.y=rand(0,6);scene.add(g);obstacles.push({x,z,r:Math.max(1.15,1.1*s)})}
-const rockMats=[mat('#687c79'),mat('#7c8d82'),mat('#4e6b67')];for(let i=0;i<210;i++){const x=rand(-290,290),z=rand(-290,290);if(Math.hypot(x,z)<18||REALMS.some((_,index)=>{const a=-Math.PI/2+index*Math.PI*2/REALMS.length;return Math.hypot(x-Math.cos(a)*170,z-Math.sin(a)*170)<58;}))continue;const radius=rand(.4,2.2),rock=new THREE.Mesh(new THREE.DodecahedronGeometry(radius,0),rockMats[i%3]);rock.position.set(x,groundY(x,z)+.3,z);rock.scale.y=rand(.5,1.4);rock.rotation.set(rand(0,2),rand(0,6),rand(0,2));rock.castShadow=true;rock.receiveShadow=true;scene.add(rock);obstacles.push({x,z,r:radius+.45})}
+for(let i=0;i<520;i++){let x,z;do{x=rand(-480,480);z=rand(-480,480)}while(Math.hypot(x,z)<28||(Math.abs(x)<38&&z>-110&&z<42)||REALMS.some((_,index)=>{const a=-Math.PI/2+index*Math.PI*2/REALMS.length;return Math.hypot(x-Math.cos(a)*360,z-Math.sin(a)*360)<105;});const y=groundY(x,z),s=rand(.7,2.2),g=new THREE.Group(),trunk=new THREE.Mesh(trunkGeo,trunkMat);trunk.position.y=1.4*s;trunk.scale.setScalar(s);trunk.castShadow=true;g.add(trunk);for(let j=0;j<3;j++){const crown=new THREE.Mesh(treeGeo,leafMats[Math.floor(rand(0,4))]);crown.position.y=(2.5+j*1.05)*s;crown.scale.set((1.7-j*.24)*s,(2.4-j*.12)*s,(1.6-j*.16)*s);crown.rotation.y=rand(0,6);crown.castShadow=true;g.add(crown)}g.position.set(x,y,z);g.rotation.y=rand(0,6);scene.add(g);obstacles.push({x,z,r:Math.max(1.15,1.1*s)})}
+const rockMats=[mat('#687c79'),mat('#7c8d82'),mat('#4e6b67')];for(let i=0;i<280;i++){const x=rand(-480,480),z=rand(-480,480);if(Math.hypot(x,z)<22||REALMS.some((_,index)=>{const a=-Math.PI/2+index*Math.PI*2/REALMS.length;return Math.hypot(x-Math.cos(a)*360,z-Math.sin(a)*360)<100;}))continue;const radius=rand(.4,2.2),rock=new THREE.Mesh(new THREE.DodecahedronGeometry(radius,0),rockMats[i%3]);rock.position.set(x,groundY(x,z)+.3,z);rock.scale.y=rand(.5,1.4);rock.rotation.set(rand(0,2),rand(0,6),rand(0,2));rock.castShadow=true;rock.receiveShadow=true;scene.add(rock);obstacles.push({x,z,r:radius+.45})}
 const flowerMats=[mat('#a7f0ce',.6,{emissive:'#2d8069',emissiveIntensity:.4}),mat('#e9c9a4',.7,{emissive:'#75553a',emissiveIntensity:.25}),mat('#b3bdf6',.6,{emissive:'#4e5d9e',emissiveIntensity:.45})];const stemMat=mat('#507c5c');for(let i=0;i<180;i++){const x=rand(-180,180),z=rand(-180,180);if(Math.hypot(x,z)<14)continue;const stem=new THREE.Mesh(new THREE.CylinderGeometry(.035,.06,rand(.3,.8),5),stemMat);stem.position.set(x,groundY(x,z)+.25,z);scene.add(stem);const bloom=new THREE.Mesh(new THREE.IcosahedronGeometry(rand(.12,.25),1),flowerMats[i%3]);bloom.position.set(x,stem.position.y+.25,z);bloom.scale.y=1.3;scene.add(bloom)}
 const fireflyMat=mat('#c9ffe7',.22,{emissive:'#6fffc9',emissiveIntensity:2.8});const fireflies=[];for(let i=0;i<72;i++){const orb=new THREE.Mesh(new THREE.SphereGeometry(rand(.035,.085),6,5),fireflyMat);orb.userData={x:rand(-145,145),z:rand(-145,145),y:rand(1.2,5.5),phase:rand(0,Math.PI*2),speed:rand(.4,1.4)};orb.position.set(orb.userData.x,orb.userData.y,orb.userData.z);scene.add(orb);fireflies.push(orb)}
 const stone=mat('#a9b4a0'),dark=mat('#6c847d'),glow=mat('#8bf4d6',.25,{emissive:'#43dfb4',emissiveIntensity:1.5});const base=new THREE.Mesh(new THREE.CylinderGeometry(13,15,1.4,12),dark);base.position.set(0,groundY(0,-82)+.3,-82);base.receiveShadow=true;scene.add(base);
@@ -52,7 +52,9 @@ bindHold(riseButton,'Space');bindHold(descendButton,'ControlLeft');
 const luma=new THREE.Group();luma.visible=false;const lumaCore=new THREE.Mesh(new THREE.IcosahedronGeometry(1.25,2),mat('#d8fff4',.18,{emissive:'#6affdc',emissiveIntensity:2.4,transparent:true,opacity:.92}));luma.add(lumaCore);const lumaHalo=new THREE.Mesh(new THREE.TorusGeometry(2.1,.075,8,48),mat('#b7fff0',.2,{emissive:'#62f3d3',emissiveIntensity:2}));lumaHalo.rotation.x=Math.PI/2.5;luma.add(lumaHalo);const lumaLight=new THREE.PointLight('#80ffe1',18,42,1.8);luma.add(lumaLight);luma.position.set(0,groundY(0,-82)+5,-82);scene.add(luma);
 let activeRealmIndex=0;
 const realmQuestMarkers=[];
-const realmCenters=REALMS.map((realm,index)=>{const angle=-Math.PI/2+index*Math.PI*2/REALMS.length;return {x:Math.cos(angle)*170,z:Math.sin(angle)*170};});
+const REALM_ORBIT_RADIUS=360;
+const REALM_LAND_RADIUS=104;
+const realmCenters=REALMS.map((realm,index)=>{const angle=-Math.PI/2+index*Math.PI*2/REALMS.length;return {x:Math.cos(angle)*REALM_ORBIT_RADIUS,z:Math.sin(angle)*REALM_ORBIT_RADIUS};});
 const roadMaterial=mat('#b5a47d',.8);
 const roadEdges=mat('#e4d4a5',.55,{emissive:'#7c6b45',emissiveIntensity:.15});
 const crossroads=new THREE.Mesh(new THREE.CylinderGeometry(19,22,.7,12),roadMaterial);
@@ -88,7 +90,7 @@ function mountRealmQuest(index){
   quest.objects.forEach((object,i)=>{
     if(found.has(object.id))return;
     const center=realmCenters[index];
-    const x=center.x+(object.x-.5)*178,z=center.z+(object.y-.5)*178;
+    const x=center.x+(object.x-.5)*210,z=center.z+(object.y-.5)*210;
     const marker=new THREE.Group();marker.position.set(x,groundY(x,z)+1.2,z);
     const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.8,1),questGemMaterial);
     gem.scale.set(.75,1.25,.75);marker.add(gem);
@@ -173,14 +175,14 @@ function buildRealmLandmarks(index,realm){
   }
   const center=realmCenters[index];
   group.position.set(center.x,0,center.z);
-  const district=new THREE.Mesh(new THREE.CircleGeometry(57,48),new THREE.MeshStandardMaterial({color:realm.nearLand,roughness:.92}));
+  const district=new THREE.Mesh(new THREE.CircleGeometry(REALM_LAND_RADIUS,64),new THREE.MeshStandardMaterial({color:realm.nearLand,roughness:.92}));
   district.rotation.x=-Math.PI/2;district.position.set(0,groundY(center.x,center.z)+.035,0);district.receiveShadow=true;group.add(district);
-  const plaza=new THREE.Mesh(new THREE.CircleGeometry(13,32),new THREE.MeshStandardMaterial({color:realm.grainPrimary,roughness:.8,emissive:realm.oceanGlow,emissiveIntensity:.12}));
+  const plaza=new THREE.Mesh(new THREE.CircleGeometry(22,40),new THREE.MeshStandardMaterial({color:realm.grainPrimary,roughness:.8,emissive:realm.oceanGlow,emissiveIntensity:.12}));
   plaza.rotation.x=-Math.PI/2;plaza.position.set(0,groundY(center.x,center.z)+.08,0);group.add(plaza);
   // Permanent city buildings make each realm a district in the shared world.
-  for(let b=0;b<9;b++){
-    const a=b/9*Math.PI*2,radius=29+(b%3)*5,x=Math.cos(a)*radius,z=Math.sin(a)*radius;
-    const width=5+(b%3)*1.4,height=8+(b%4)*3.5,depth=5+(b%2)*2;
+  for(let b=0;b<22;b++){
+    const a=b/22*Math.PI*2+(b%2)*.12,radius=48+(b%4)*13,x=Math.cos(a)*radius,z=Math.sin(a)*radius;
+    const width=5.5+(b%3)*1.8,height=7+(b%5)*2.4,depth=5+(b%2)*2.5;
     const building=new THREE.Mesh(new THREE.BoxGeometry(width,height,depth),b%3===0?accent:(b%2===0?stoneMat:darkMat));
     building.position.set(x,groundY(center.x+x,center.z+z)+height/2,z);
     building.rotation.y=-a*.2;building.castShadow=true;building.receiveShadow=true;group.add(building);
@@ -190,8 +192,8 @@ function buildRealmLandmarks(index,realm){
     windowMesh.position.set(x,building.position.y,z+depth/2+.11);group.add(windowMesh);
     obstacles.push({x:center.x+x,z:center.z+z,r:Math.max(width,depth)*.58});
   }
-  const gate=new THREE.Mesh(new THREE.TorusGeometry(7,.8,8,32,Math.PI),accent);
-  gate.position.set(0,groundY(center.x,center.z)+7,center.z<0?43:-43);gate.rotation.z=Math.PI;group.add(gate);
+  const gate=new THREE.Mesh(new THREE.TorusGeometry(8,.8,8,32,Math.PI),accent);
+   gate.position.set(0,groundY(center.x,center.z)+8,center.z<0?REALM_LAND_RADIUS*.72:-REALM_LAND_RADIUS*.72);gate.rotation.z=Math.PI;group.add(gate);
   group.visible=true;scene.add(group);realmLandmarks.push(group);
 }
 REALMS.forEach((realm,index)=>buildRealmLandmarks(index,realm));
@@ -206,7 +208,7 @@ function applyRealmPalette(index, announce=true){
 function updateRealmFromPosition(){
   let nearest=-1,nearestDistance=Infinity;
   realmCenters.forEach((center,index)=>{const distance=Math.hypot(player.position.x-center.x,player.position.z-center.z);if(distance<nearestDistance){nearestDistance=distance;nearest=index;}});
-  if(nearest>=0&&nearestDistance<62&&nearest!==activeRealmIndex)applyRealmPalette(nearest,true);
+  if(nearest>=0&&nearestDistance<REALM_LAND_RADIUS&&nearest!==activeRealmIndex)applyRealmPalette(nearest,true);
 }
 document.querySelector('#realm-prev')?.addEventListener('click',()=>applyRealmPalette(activeRealmIndex-1));
 document.querySelector('#realm-next')?.addEventListener('click',()=>applyRealmPalette(activeRealmIndex+1));
@@ -253,5 +255,5 @@ if(gameWon){luma.visible=true;luma.position.y=groundY(0,-82)+5+Math.sin(now*.001
  if(keys.KeyW||keys.ArrowUp)desired.add(forward);if(keys.KeyS||keys.ArrowDown)desired.sub(forward);if(keys.KeyD||keys.ArrowRight)desired.add(right);if(keys.KeyA||keys.ArrowLeft)desired.sub(right);
  if(padLookX||padLookY){yaw-=padLookX*2.2*dt;pitch=THREE.MathUtils.clamp(pitch+padLookY*1.5*dt,-.05,.65)}
  if(padInteract&&!gamepadInteractWasDown)interact();gamepadInteractWasDown=padInteract;
- const running=keys.ShiftLeft||keys.ShiftRight||padRun;stepHorizontal(physicsState,desired.x,desired.z,dt,{running,flying:flightMode==='wings',obstacles});player.position.x=physicsState.x;player.position.z=physicsState.z;if(desired.lengthSq()>0.001){player.rotation.y=Math.atan2(desired.x,desired.z);body.position.y=1.2+Math.sin(now*.012)*.045}stepVertical(physicsState,dt,{mode:flightMode,rise:!!keys.Space,descend:!!(keys.ControlLeft||keys.ControlRight),hasForwardMotion:desired.lengthSq()>0.001});flightAltitude=physicsState.altitude;verticalVelocity=physicsState.verticalVelocity;balloonLift=physicsState.balloonLift;const groundHeight=groundY(player.position.x,player.position.z);player.position.y=groundHeight+flightAltitude;wingRig.rotation.z=Math.sin(now*.008)*.035;balloonRig.position.y=Math.sin(now*.0015)*.18;cameraTarget.set(player.position.x,player.position.y+2,player.position.z);const distance=8.5;cameraOffset.set(Math.sin(yaw)*distance,3.1+pitch*4,Math.cos(yaw)*distance);desired.copy(cameraTarget).add(cameraOffset);camera.position.lerp(desired,1-Math.pow(.001,dt));camera.lookAt(cameraTarget)}else{camera.position.set(0,10,24);camera.lookAt(0,1,-20);player.rotation.y=Math.sin(now*.0004)*.15}if(started&&Math.floor(now/1500)!==Math.floor((now-dt*1000)/1500))saveProgress();if(toastTimer>0){toastTimer-=dt;if(toastTimer<=0)toast.classList.remove('show')}renderer.render(scene,camera)}
+ const running=keys.ShiftLeft||keys.ShiftRight||padRun;stepHorizontal(physicsState,desired.x,desired.z,dt,{running,flying:flightMode==='wings',obstacles});player.position.x=physicsState.x;player.position.z=physicsState.z;if(desired.lengthSq()>0.001){player.rotation.y=Math.atan2(desired.x,desired.z);body.position.y=1.2+Math.sin(now*.012)*.045}stepVertical(physicsState,dt,{mode:flightMode,rise:!!keys.Space,descend:!!(keys.ControlLeft||keys.ControlRight),hasForwardMotion:desired.lengthSq()>0.001});flightAltitude=physicsState.altitude;verticalVelocity=physicsState.verticalVelocity;balloonLift=physicsState.balloonLift;const groundHeight=groundY(player.position.x,player.position.z);player.position.y=groundHeight+flightAltitude;wingRig.rotation.z=Math.sin(now*.008)*.035;balloonRig.position.y=Math.sin(now*.0015)*.18;cameraTarget.set(player.position.x,player.position.y+2,player.position.z);const distance=8.5;cameraOffset.set(Math.sin(yaw)*distance,3.1+pitch*4,Math.cos(yaw)*distance);desired.copy(cameraTarget).add(cameraOffset);camera.position.lerp(desired,1-Math.pow(.001,dt));camera.lookAt(cameraTarget)}else{camera.position.set(0,18,42);camera.lookAt(0,1,-35);player.rotation.y=Math.sin(now*.0004)*.15}if(started&&Math.floor(now/1500)!==Math.floor((now-dt*1000)/1500))saveProgress();if(toastTimer>0){toastTimer-=dt;if(toastTimer<=0)toast.classList.remove('show')}renderer.render(scene,camera)}
 camera.position.set(0,10,24);camera.lookAt(0,1,-20);requestAnimationFrame(animate);
