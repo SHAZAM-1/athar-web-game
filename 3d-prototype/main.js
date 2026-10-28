@@ -53,6 +53,24 @@ const luma=new THREE.Group();luma.visible=false;const lumaCore=new THREE.Mesh(ne
 let activeRealmIndex=0;
 const realmQuestMarkers=[];
 const realmCenters=REALMS.map((realm,index)=>{const angle=-Math.PI/2+index*Math.PI*2/REALMS.length;return {x:Math.cos(angle)*170,z:Math.sin(angle)*170};});
+const roadMaterial=mat('#b5a47d',.8);
+const roadEdges=mat('#e4d4a5',.55,{emissive:'#7c6b45',emissiveIntensity:.15});
+const crossroads=new THREE.Mesh(new THREE.CylinderGeometry(19,22,.7,12),roadMaterial);
+crossroads.position.set(0,groundY(0,0)+.12,0);crossroads.receiveShadow=true;scene.add(crossroads);
+const crossroadsRing=new THREE.Mesh(new THREE.TorusGeometry(15,.35,6,48),roadEdges);
+crossroadsRing.rotation.x=Math.PI/2;crossroadsRing.position.set(0,groundY(0,0)+.55,0);scene.add(crossroadsRing);
+realmCenters.forEach((center,index)=>{
+  const length=Math.hypot(center.x,center.z)-24;
+  const road=new THREE.Mesh(new THREE.BoxGeometry(11,.16,length),roadMaterial);
+  road.position.set(center.x*.5,groundY(center.x*.5,center.z*.5)+.08,center.z*.5);
+  road.rotation.y=Math.atan2(center.x,center.z);road.receiveShadow=true;scene.add(road);
+  const edgeGeometry=new THREE.BoxGeometry(.35,.19,length);
+  for(const side of [-1,1]){
+    const edge=new THREE.Mesh(edgeGeometry,roadEdges);
+    edge.position.set(center.x*.5+Math.cos(Math.atan2(center.x,center.z))*side*5.3,road.position.y+.05,center.z*.5-Math.sin(Math.atan2(center.x,center.z))*side*5.3);
+    edge.rotation.y=road.rotation.y;scene.add(edge);
+  }
+});
 const foundQuestObjects={};
 let totalQuestXP=0;
 const questGemMaterial=mat('#fff0b8',.2,{emissive:'#f5c96d',emissiveIntensity:2});
