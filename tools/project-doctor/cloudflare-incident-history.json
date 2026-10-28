@@ -31,7 +31,7 @@
       "lastObservedStatus": "error",
       "latestSeverity": "critical",
       "resolution": "A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.",
-      "resolvedAt": "2026-10-28T01:45:06.191Z"
+      "resolvedAt": "2026-10-28T01:45:43.855Z"
     },
     {
       "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
@@ -851,8 +851,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:37:49.508Z",
-      "lastSeen": "2026-10-28T01:45:09.837Z",
-      "occurrenceCount": 3,
+      "lastSeen": "2026-10-28T01:45:46.929Z",
+      "occurrenceCount": 4,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "38ed5671-73ff-4a17-ac67-000483fd2e42",
@@ -877,7 +877,7 @@
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
       "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestReportCheckedAt": "2026-10-28T01:45:06.191Z",
+      "latestReportCheckedAt": "2026-10-28T01:45:43.855Z",
       "lastObservedStatus": "warning",
       "latestSeverity": "medium"
     },
@@ -888,8 +888,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:37:49.508Z",
-      "lastSeen": "2026-10-28T01:45:09.837Z",
-      "occurrenceCount": 3,
+      "lastSeen": "2026-10-28T01:45:46.929Z",
+      "occurrenceCount": 4,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "dad144f2-b357-4f3d-9e00-aaf7385cfffe",
@@ -914,7 +914,7 @@
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
       "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestReportCheckedAt": "2026-10-28T01:45:06.191Z",
+      "latestReportCheckedAt": "2026-10-28T01:45:43.855Z",
       "lastObservedStatus": "warning",
       "latestSeverity": "medium"
     },
@@ -925,8 +925,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:44:36.965Z",
-      "lastSeen": "2026-10-28T01:45:09.837Z",
-      "occurrenceCount": 2,
+      "lastSeen": "2026-10-28T01:45:46.929Z",
+      "occurrenceCount": 3,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "7bccd3e8-596f-4ad4-92c3-015377f71eba",
@@ -951,7 +951,7 @@
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
       "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestReportCheckedAt": "2026-10-28T01:45:06.191Z",
+      "latestReportCheckedAt": "2026-10-28T01:45:43.855Z",
       "lastObservedStatus": "warning",
       "latestSeverity": "medium"
     },
@@ -962,8 +962,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:45:06.191Z",
-      "lastSeen": "2026-10-28T01:45:09.837Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-28T01:45:46.929Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "3d5e72e0-a279-44ba-9e4e-a61cf4e9709e",
@@ -988,8 +988,9 @@
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
       "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestReportCheckedAt": "2026-10-28T01:45:06.191Z",
-      "lastObservedStatus": "warning"
+      "latestReportCheckedAt": "2026-10-28T01:45:43.855Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|415d0a26-7a19-4ae7-ac65-86ae2cd12387||",
@@ -998,8 +999,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:45:06.191Z",
-      "lastSeen": "2026-10-28T01:45:09.837Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-28T01:45:46.929Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "415d0a26-7a19-4ae7-ac65-86ae2cd12387",
@@ -1024,14 +1025,51 @@
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
       "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestReportCheckedAt": "2026-10-28T01:45:06.191Z",
+      "latestReportCheckedAt": "2026-10-28T01:45:43.855Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
+    },
+    {
+      "fingerprint": "deployment-skipped|75cbdaee-374e-469a-864f-d2e7e03809e0||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped despite application changes",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
+      "firstSeen": "2026-10-28T01:45:43.855Z",
+      "lastSeen": "2026-10-28T01:45:46.929Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "75cbdaee-374e-469a-864f-d2e7e03809e0",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "75cbdaee-374e-469a-864f-d2e7e03809e0",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "076838b200e2450e5525f8d6143cbc6f4c5d9d27",
+        "changedFiles": [
+          "3d-prototype/main.js"
+        ]
+      },
+      "latestEvidence": {
+        "deploymentId": "75cbdaee-374e-469a-864f-d2e7e03809e0",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "076838b200e2450e5525f8d6143cbc6f4c5d9d27",
+        "changedFiles": [
+          "3d-prototype/main.js"
+        ]
+      },
+      "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestReportCheckedAt": "2026-10-28T01:45:43.855Z",
       "lastObservedStatus": "warning"
     }
   ],
-  "updatedAt": "2026-10-28T01:45:09.837Z",
+  "updatedAt": "2026-10-28T01:45:46.929Z",
   "latestCloudflareStatus": "warning",
-  "latestReportCheckedAt": "2026-10-28T01:45:06.191Z",
-  "latestDeploymentId": "3d5e72e0-a279-44ba-9e4e-a61cf4e9709e",
+  "latestReportCheckedAt": "2026-10-28T01:45:43.855Z",
+  "latestDeploymentId": "75cbdaee-374e-469a-864f-d2e7e03809e0",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
-  "totalIncidentFingerprints": 30
+  "totalIncidentFingerprints": 31
 }
