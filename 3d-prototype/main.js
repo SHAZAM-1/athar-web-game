@@ -5,7 +5,7 @@ import { getRealmQuestByName } from './realms/realm-quests.js';
 import { applyQuestPickup } from './quest/quest-progress.js';
 import { parseSave } from './save/save-state.js';
 import { createPhysicsState, stepHorizontal, stepVertical } from './world/physics.js';
-const root=document.querySelector('#game'),countEl=document.querySelector('#crystal-count'),intro=document.querySelector('#intro-card'),startButton=document.querySelector('#start-button'),toast=document.querySelector('#toast'),hint=document.querySelector('#bottom-hint'),crosshair=document.querySelector('.crosshair'),questTitle=document.querySelector('.quest-card strong'),questText=document.querySelector('.quest-card p'),realmNameEl=document.querySelector('#realm-name'),realmIndexEl=document.querySelector('#realm-index');
+const root=document.querySelector('#game'),countEl=document.querySelector('#crystal-count'),intro=document.querySelector('#intro-card'),startButton=document.querySelector('#start-button'),toast=document.querySelector('#toast'),hint=document.querySelector('#bottom-hint'),crosshair=document.querySelector('.crosshair'),questTitle=document.querySelector('.quest-card strong'),questText=document.querySelector('.quest-card p'),realmNameEl=document.querySelector('#realm-name'),realmIndexEl=document.querySelector('#realm-index'),realmTraitEl=document.querySelector('#realm-trait');
 const scene=new THREE.Scene();scene.background=new THREE.Color('#91b8bb');scene.fog=new THREE.FogExp2('#91b8bb',.0035);
 const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,1600);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;root.appendChild(renderer.domElement);
@@ -202,6 +202,7 @@ function applyRealmPalette(index, announce=true){
   const realm=REALMS[activeRealmIndex];
   realmNameEl.textContent=realm.name.toUpperCase();
   realmIndexEl.textContent=String(activeRealmIndex+1).padStart(2,'0');
+  if(realmTraitEl)realmTraitEl.textContent=`UNIQUE TRAIT · ${realm.trait}: ${realm.traitRule}`;
   mountRealmQuest(activeRealmIndex);
   if(announce)showToast('Entered '+realm.name);
 }
