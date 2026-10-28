@@ -204,7 +204,7 @@ function interact(){
  else showToast('Find a rune stone or return to the ancient ring.');
 }
 const interactCodes=new Set(['KeyE','Enter','Space','GamepadInteract']);
-addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)&&started)e.preventDefault();if(!e.repeat&&e.code==='Digit1'){setFlightMode('walk');return}if(!e.repeat&&e.code==='Digit2'){setFlightMode('wings');return}if(!e.repeat&&e.code==='Digit3'){setFlightMode('balloon');return}if(!e.repeat&&interactCodes.has(e.code)){interact();return}keys[e.code]=true});
+addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)&&started)e.preventDefault();if(!e.repeat&&e.code==='Digit1'){setFlightMode('walk');return}if(!e.repeat&&e.code==='Digit2'){setFlightMode('wings');return}if(!e.repeat&&e.code==='Digit3'){setFlightMode('balloon');return}if(!e.repeat&&interactCodes.has(e.code)&&(e.code!=='Space'||flightMode==='walk')){interact();return}keys[e.code]=true});
 addEventListener('keyup',e=>{keys[e.code]=false});
 addEventListener('blur',clearInputs);
 document.addEventListener('pointerlockchange',()=>{if(!document.pointerLockElement)clearInputs()});
