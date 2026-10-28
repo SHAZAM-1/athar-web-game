@@ -31,7 +31,7 @@
       "lastObservedStatus": "error",
       "latestSeverity": "critical",
       "resolution": "A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.",
-      "resolvedAt": "2026-10-28T01:55:44.184Z"
+      "resolvedAt": "2026-10-28T01:56:09.841Z"
     },
     {
       "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
@@ -1033,8 +1033,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:45:43.855Z",
-      "lastSeen": "2026-10-28T01:55:46.121Z",
-      "occurrenceCount": 4,
+      "lastSeen": "2026-10-28T01:56:16.404Z",
+      "occurrenceCount": 5,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "75cbdaee-374e-469a-864f-d2e7e03809e0",
@@ -1052,11 +1052,14 @@
         "deploymentId": "75cbdaee-374e-469a-864f-d2e7e03809e0",
         "skipReason": "path_config",
         "branch": "dev/athar-full-project",
-        "commitHash": "076838b200e2450e5525f8d6143cbc6f4c5d9d27"
+        "commitHash": "076838b200e2450e5525f8d6143cbc6f4c5d9d27",
+        "changedFiles": [
+          "3d-prototype/main.js"
+        ]
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestNextStep": "Review Pages path filters and verify the commit file list.",
-      "latestReportCheckedAt": "2026-10-28T01:55:44.184Z",
+      "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
       "lastObservedStatus": "warning",
       "latestSeverity": "medium"
     },
@@ -1067,8 +1070,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
       "firstSeen": "2026-10-28T01:50:27.678Z",
-      "lastSeen": "2026-10-28T01:55:46.121Z",
-      "occurrenceCount": 3,
+      "lastSeen": "2026-10-28T01:56:16.404Z",
+      "occurrenceCount": 4,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "6cadcb5e-9847-4487-82e4-296610d33de0",
@@ -1086,11 +1089,14 @@
         "deploymentId": "6cadcb5e-9847-4487-82e4-296610d33de0",
         "skipReason": "path_config",
         "branch": "dev/athar-full-project",
-        "commitHash": "246af41724b14f82af9288996930b8fd80658a8f"
+        "commitHash": "246af41724b14f82af9288996930b8fd80658a8f",
+        "changedFiles": [
+          "3d-prototype/main.js"
+        ]
       },
       "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
-      "latestNextStep": "Review Pages path filters and verify the commit file list.",
-      "latestReportCheckedAt": "2026-10-28T01:55:44.184Z",
+      "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
       "lastObservedStatus": "warning",
       "latestSeverity": "medium"
     },
@@ -1101,8 +1107,8 @@
       "severity": "medium",
       "rootCause": "Cloudflare skipped this deployment (path_config); changed files could not be verified: GitHub commit lookup returned HTTP 403",
       "firstSeen": "2026-10-28T01:55:44.184Z",
-      "lastSeen": "2026-10-28T01:55:46.121Z",
-      "occurrenceCount": 1,
+      "lastSeen": "2026-10-28T01:56:16.404Z",
+      "occurrenceCount": 2,
       "status": "open-unverified",
       "source": "cloudflare-pages",
       "deploymentId": "2a2f2901-c149-477e-a099-57f456d3ca4f",
@@ -1117,12 +1123,16 @@
         "deploymentId": "2a2f2901-c149-477e-a099-57f456d3ca4f",
         "skipReason": "path_config",
         "branch": "dev/athar-full-project",
-        "commitHash": "00d2a5baa1592251c26d207c994b897c42431c40"
+        "commitHash": "00d2a5baa1592251c26d207c994b897c42431c40",
+        "changedFiles": [
+          "3d-prototype/realms/realm-registry.js"
+        ]
       },
       "nextStep": "Review Pages path filters and verify the commit file list.",
-      "latestNextStep": "Review Pages path filters and verify the commit file list.",
-      "latestReportCheckedAt": "2026-10-28T01:55:44.184Z",
-      "lastObservedStatus": "warning"
+      "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
+      "lastObservedStatus": "warning",
+      "latestSeverity": "medium"
     },
     {
       "fingerprint": "deployment-skipped|6796e1cd-c22e-4deb-a6c6-47baa0e65aed||",
@@ -1133,7 +1143,7 @@
       "firstSeen": "2026-10-28T01:55:44.184Z",
       "lastSeen": "2026-10-28T01:55:46.121Z",
       "occurrenceCount": 1,
-      "status": "open-unverified",
+      "status": "resolved-expected",
       "source": "cloudflare-pages",
       "deploymentId": "6796e1cd-c22e-4deb-a6c6-47baa0e65aed",
       "url": null,
@@ -1152,7 +1162,9 @@
       "nextStep": "Review Pages path filters and verify the commit file list.",
       "latestNextStep": "Review Pages path filters and verify the commit file list.",
       "latestReportCheckedAt": "2026-10-28T01:55:44.184Z",
-      "lastObservedStatus": "warning"
+      "lastObservedStatus": "warning",
+      "resolution": "Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.",
+      "resolvedAt": "2026-10-28T01:56:09.841Z"
     },
     {
       "fingerprint": "deployment-skipped|6fd03ec8-8dcd-4fc6-a3c7-37b26a2a86d3||",
@@ -1183,12 +1195,84 @@
       "latestNextStep": "Review Pages path filters and verify the commit file list.",
       "latestReportCheckedAt": "2026-10-28T01:55:44.184Z",
       "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|8d9727aa-fcf7-4c80-a411-fee9a2090cbd||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped despite application changes",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
+      "firstSeen": "2026-10-28T01:56:09.841Z",
+      "lastSeen": "2026-10-28T01:56:16.404Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "8d9727aa-fcf7-4c80-a411-fee9a2090cbd",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "8d9727aa-fcf7-4c80-a411-fee9a2090cbd",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "66de7a3f5acbfc5139a73af45c935bdf3fcc9a47",
+        "changedFiles": [
+          "3d-prototype/main.js"
+        ]
+      },
+      "latestEvidence": {
+        "deploymentId": "8d9727aa-fcf7-4c80-a411-fee9a2090cbd",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "66de7a3f5acbfc5139a73af45c935bdf3fcc9a47",
+        "changedFiles": [
+          "3d-prototype/main.js"
+        ]
+      },
+      "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
+      "lastObservedStatus": "warning"
+    },
+    {
+      "fingerprint": "deployment-skipped|20cb45f9-a185-4320-b12e-d034bf91141b||",
+      "code": "deployment-skipped",
+      "title": "A Git-triggered deployment was skipped despite application changes",
+      "severity": "medium",
+      "rootCause": "Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.",
+      "firstSeen": "2026-10-28T01:56:09.841Z",
+      "lastSeen": "2026-10-28T01:56:16.404Z",
+      "occurrenceCount": 1,
+      "status": "open-unverified",
+      "source": "cloudflare-pages",
+      "deploymentId": "20cb45f9-a185-4320-b12e-d034bf91141b",
+      "url": null,
+      "firstEvidence": {
+        "deploymentId": "20cb45f9-a185-4320-b12e-d034bf91141b",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "6c7a690f2a1807632275107b7589a2faf60b2c2c",
+        "changedFiles": [
+          "index.html"
+        ]
+      },
+      "latestEvidence": {
+        "deploymentId": "20cb45f9-a185-4320-b12e-d034bf91141b",
+        "skipReason": "path_config",
+        "branch": "dev/athar-full-project",
+        "commitHash": "6c7a690f2a1807632275107b7589a2faf60b2c2c",
+        "changedFiles": [
+          "index.html"
+        ]
+      },
+      "nextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestNextStep": "Review Cloudflare Pages build path filters and ensure app paths are included.",
+      "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
+      "lastObservedStatus": "warning"
     }
   ],
-  "updatedAt": "2026-10-28T01:55:46.121Z",
+  "updatedAt": "2026-10-28T01:56:16.404Z",
   "latestCloudflareStatus": "warning",
-  "latestReportCheckedAt": "2026-10-28T01:55:44.184Z",
-  "latestDeploymentId": "2a2f2901-c149-477e-a099-57f456d3ca4f",
+  "latestReportCheckedAt": "2026-10-28T01:56:09.841Z",
+  "latestDeploymentId": "8d9727aa-fcf7-4c80-a411-fee9a2090cbd",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
-  "totalIncidentFingerprints": 35
+  "totalIncidentFingerprints": 37
 }
