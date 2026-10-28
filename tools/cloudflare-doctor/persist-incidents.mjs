@@ -28,6 +28,30 @@ function main() {
   const byFingerprint = new Map(history.incidents.map(item => [item.fingerprint, item]));
   let added = 0;
   let updated = 0;
+
+  // Close historical alerts that the current read-only inspection has now
+  // verified as expected behavior. Keep the records and evidence for audit.
+  const expectedSkippedIds = new Set((report.checks || [])
+    .filter(check => check.expectedSkip && check.deploymentId)
+    .map(check => check.deploymentId));
+  for (const prior of history.incidents) {
+    if (prior.code === 'deployment-skipped' && expectedSkippedIds.has(prior.deploymentId)) {
+      prior.status = 'resolved-expected';
+      prior.resolution = 'Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.';
+      prior.resolvedAt = report.checkedAt || now;
+    }
+    if (prior.code === 'deployment-in-progress' && prior.deploymentId && expectedSkippedIds.has(prior.deploymentId)) {
+      prior.status = 'resolved-expected';
+      prior.resolution = 'The deployment was skipped intentionally; an idle queued stage is expected for skipped deployments.';
+      prior.resolvedAt = report.checkedAt || now;
+    }
+    if (prior.code === 'cloudflare-doctor-api-failed' && report.status !== 'error') {
+      prior.status = 'resolved-observed';
+      prior.resolution = 'A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.';
+      prior.resolvedAt = report.checkedAt || now;
+    }
+  }
+
   for (const item of report.incidents || []) {
     const key = fingerprint(item);
     const prior = byFingerprint.get(key);
