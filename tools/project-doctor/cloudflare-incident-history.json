@@ -31,7 +31,7 @@
       "lastObservedStatus": "error",
       "latestSeverity": "critical",
       "resolution": "A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.",
-      "resolvedAt": "2026-10-28T00:50:25.085Z"
+      "resolvedAt": "2026-10-28T00:54:44.445Z"
     },
     {
       "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
@@ -498,10 +498,10 @@
       "resolvedAt": "2026-10-28T00:50:25.085Z"
     }
   ],
-  "updatedAt": "2026-10-28T00:50:28.797Z",
+  "updatedAt": "2026-10-28T00:54:46.902Z",
   "latestCloudflareStatus": "healthy",
-  "latestReportCheckedAt": "2026-10-28T00:50:25.085Z",
-  "latestDeploymentId": "afb2ef32-80ea-41a6-a6c0-667263b3e66d",
+  "latestReportCheckedAt": "2026-10-28T00:54:44.445Z",
+  "latestDeploymentId": "e3167bfe-3b9d-4d25-8c8b-a4030adcd18d",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
   "totalIncidentFingerprints": 16
 }
