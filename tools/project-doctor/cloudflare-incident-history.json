@@ -482,10 +482,10 @@
       "lastObservedStatus": "warning"
     }
   ],
-  "updatedAt": "2026-10-27T19:48:54.450Z",
-  "latestCloudflareStatus": "warning",
-  "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
-  "latestDeploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
+  "updatedAt": "2026-10-28T00:33:00.967Z",
+  "latestCloudflareStatus": "healthy",
+  "latestReportCheckedAt": "2026-10-28T00:32:57.302Z",
+  "latestDeploymentId": "1a035bf4-703f-4dff-9218-86a3cfd95f90",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
   "totalIncidentFingerprints": 16
 }
