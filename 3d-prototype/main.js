@@ -52,6 +52,7 @@ bindHold(riseButton,'Space');bindHold(descendButton,'ControlLeft');
 const luma=new THREE.Group();luma.visible=false;const lumaCore=new THREE.Mesh(new THREE.IcosahedronGeometry(1.25,2),mat('#d8fff4',.18,{emissive:'#6affdc',emissiveIntensity:2.4,transparent:true,opacity:.92}));luma.add(lumaCore);const lumaHalo=new THREE.Mesh(new THREE.TorusGeometry(2.1,.075,8,48),mat('#b7fff0',.2,{emissive:'#62f3d3',emissiveIntensity:2}));lumaHalo.rotation.x=Math.PI/2.5;luma.add(lumaHalo);const lumaLight=new THREE.PointLight('#80ffe1',18,42,1.8);luma.add(lumaLight);luma.position.set(0,groundY(0,-82)+5,-82);scene.add(luma);
 let activeRealmIndex=0;
 const realmQuestMarkers=[];
+const realmCenters=REALMS.map((realm,index)=>{const angle=-Math.PI/2+index*Math.PI*2/REALMS.length;return {x:Math.cos(angle)*170,z:Math.sin(angle)*170};});
 const foundQuestObjects={};
 let totalQuestXP=0;
 const questGemMaterial=mat('#fff0b8',.2,{emissive:'#f5c96d',emissiveIntensity:2});
@@ -68,7 +69,8 @@ function mountRealmQuest(index){
   questText.textContent=`${quest.description} Found ${count}/${quest.objects.length} · ${totalQuestXP} XP.`;
   quest.objects.forEach((object,i)=>{
     if(found.has(object.id))return;
-    const x=(object.x-.5)*280,z=(object.y-.5)*280;
+    const center=realmCenters[index];
+    const x=center.x+(object.x-.5)*178,z=center.z+(object.y-.5)*178;
     const marker=new THREE.Group();marker.position.set(x,groundY(x,z)+1.2,z);
     const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.8,1),questGemMaterial);
     gem.scale.set(.75,1.25,.75);marker.add(gem);
@@ -151,34 +153,45 @@ function buildRealmLandmarks(index,realm){
   }else{
     for(let i=0;i<7;i++){const p=place(-32+i*10,-48-(i%2)*6);addLandmarkMesh(group,new THREE.ConeGeometry(1.8,8+(i%3)*2,5),darkMat,p.x,4,p.z);addLandmarkMesh(group,new THREE.SphereGeometry(1.2,8,6),accent,p.x,8+(i%3)*2,p.z);}
   }
-  group.visible=false;scene.add(group);realmLandmarks.push(group);
+  const center=realmCenters[index];
+  group.position.set(center.x,0,center.z);
+  const district=new THREE.Mesh(new THREE.CircleGeometry(57,48),new THREE.MeshStandardMaterial({color:realm.nearLand,roughness:.92}));
+  district.rotation.x=-Math.PI/2;district.position.set(0,groundY(center.x,center.z)+.035,0);district.receiveShadow=true;group.add(district);
+  const plaza=new THREE.Mesh(new THREE.CircleGeometry(13,32),new THREE.MeshStandardMaterial({color:realm.grainPrimary,roughness:.8,emissive:realm.oceanGlow,emissiveIntensity:.12}));
+  plaza.rotation.x=-Math.PI/2;plaza.position.set(0,groundY(center.x,center.z)+.08,0);group.add(plaza);
+  // Permanent city buildings make each realm a district in the shared world.
+  for(let b=0;b<9;b++){
+    const a=b/9*Math.PI*2,radius=29+(b%3)*5,x=Math.cos(a)*radius,z=Math.sin(a)*radius;
+    const width=5+(b%3)*1.4,height=8+(b%4)*3.5,depth=5+(b%2)*2;
+    const building=new THREE.Mesh(new THREE.BoxGeometry(width,height,depth),b%3===0?accent:(b%2===0?stoneMat:darkMat));
+    building.position.set(x,groundY(center.x+x,center.z+z)+height/2,z);
+    building.rotation.y=-a*.2;building.castShadow=true;building.receiveShadow=true;group.add(building);
+    const roof=new THREE.Mesh(new THREE.ConeGeometry(width*.8,3.5,5),accent);
+    roof.position.set(x,building.position.y+height/2+1.4,z);roof.rotation.y=a;roof.castShadow=true;group.add(roof);
+    const windowMesh=new THREE.Mesh(new THREE.BoxGeometry(width*.18,1.25,.18),new THREE.MeshBasicMaterial({color:realm.oceanGlow}));
+    windowMesh.position.set(x,building.position.y,z+depth/2+.11);group.add(windowMesh);
+    obstacles.push({x:center.x+x,z:center.z+z,r:Math.max(width,depth)*.58});
+  }
+  const gate=new THREE.Mesh(new THREE.TorusGeometry(7,.8,8,32,Math.PI),accent);
+  gate.position.set(0,groundY(center.x,center.z)+7,center.z<0?43:-43);gate.rotation.z=Math.PI;group.add(gate);
+  group.visible=true;scene.add(group);realmLandmarks.push(group);
 }
 REALMS.forEach((realm,index)=>buildRealmLandmarks(index,realm));
 function applyRealmPalette(index, announce=true){
   activeRealmIndex=(index+REALMS.length)%REALMS.length;
   const realm=REALMS[activeRealmIndex];
-  const atmosphere=realmAtmospheres[activeRealmIndex];
-  realmLandmarks.forEach((group,i)=>{group.visible=i===activeRealmIndex;});
-  scene.background.setHex(realm.farLand);
-  scene.fog.color.setHex(realm.farLand);
-  scene.fog.density=atmosphere.fog;
-  renderer.toneMappingExposure=atmosphere.exposure;
-  sun.intensity=atmosphere.sun;
-  hemisphere.intensity=atmosphere.hemisphere;
-  groundMaterial.color.setHex(realm.nearLand);
-  hillMats.forEach((material,i)=>material.color.setHex(i===0?realm.farLand:(i===1?realm.nearLand:realm.grassAlternate)));
-  leafMats.forEach((material,i)=>material.color.setHex(i%2===0?realm.grassPrimary:realm.grassAlternate));
-  flowerMats.forEach((material,i)=>material.color.setHex(i===0?realm.oceanGlow:(i===1?realm.grainPrimary:realm.oceanLight)));
-  sun.color.setHex(realm.grainPrimary);
-  hemisphere.color.setHex(realm.oceanGlow);
-  hemisphere.groundColor.setHex(realm.nearLand);
   realmNameEl.textContent=realm.name.toUpperCase();
   realmIndexEl.textContent=String(activeRealmIndex+1).padStart(2,'0');
   mountRealmQuest(activeRealmIndex);
-  if(announce)showToast(`Realm palette preview · ${realm.name}`);
+  if(announce)showToast('Entered '+realm.name);
 }
-document.querySelector('#realm-prev').addEventListener('click',()=>applyRealmPalette(activeRealmIndex-1));
-document.querySelector('#realm-next').addEventListener('click',()=>applyRealmPalette(activeRealmIndex+1));
+function updateRealmFromPosition(){
+  let nearest=-1,nearestDistance=Infinity;
+  realmCenters.forEach((center,index)=>{const distance=Math.hypot(player.position.x-center.x,player.position.z-center.z);if(distance<nearestDistance){nearestDistance=distance;nearest=index;}});
+  if(nearest>=0&&nearestDistance<62&&nearest!==activeRealmIndex)applyRealmPalette(nearest,true);
+}
+document.querySelector('#realm-prev')?.addEventListener('click',()=>applyRealmPalette(activeRealmIndex-1));
+document.querySelector('#realm-next')?.addEventListener('click',()=>applyRealmPalette(activeRealmIndex+1));
 applyRealmPalette(0,false);
 const SAVE_KEY='athar-whispering-wilds-v1';
 function readSave(){try{const value=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');return value&&typeof value==='object'?value:null}catch{return null}}
@@ -215,7 +228,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput
 addEventListener('mousemove',e=>{if(started&&document.pointerLockElement===renderer.domElement){yaw-=e.movementX*.0022;pitch=THREE.MathUtils.clamp(pitch-e.movementY*.0018,-.05,.65)}});addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 const forward=new THREE.Vector3(),right=new THREE.Vector3(),desired=new THREE.Vector3(),cameraTarget=new THREE.Vector3(),cameraOffset=new THREE.Vector3();
 function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-lastTime)/1000||0,.04);lastTime=now;for(const marker of realmQuestMarkers){marker.rotation.y+=dt*.45;marker.position.y=groundY(marker.position.x,marker.position.z)+1.2+Math.sin(now*.0017+marker.userData.phase)*.2;}for(const f of fireflies){const u=f.userData;f.position.x=u.x+Math.sin(now*.00035*u.speed+u.phase)*1.8;f.position.y=u.y+Math.sin(now*.001*u.speed+u.phase)*.7;f.position.z=u.z+Math.cos(now*.0003*u.speed+u.phase)*1.8;f.visible=Math.sin(now*.0014+u.phase)>.02;}for(const shard of shards){if(shard.userData.found)continue;shard.rotation.y+=dt*.65;shard.position.y=groundY(shard.position.x,shard.position.z)+1.5+Math.sin(now*.0018+shard.userData.phase)*.22;shard.children[1].rotation.z+=dt*.4;if(started&&player.position.distanceTo(shard.position)<3){shard.userData.found=true;scene.remove(shard);collected++;countEl.textContent=collected;saveProgress();showToast(collected===5?'All shards gathered — Luma has heard you!':`Shard found · ${collected} of 5`);hint.textContent=collected===5?'Return to the ancient ring. Tune the three rune stones to 2 · 1 · 3, then press E at the ring.':'Keep exploring; another shard is hidden nearby.'}}
-if(gameWon){luma.visible=true;luma.position.y=groundY(0,-82)+5+Math.sin(now*.0015)*.45;luma.rotation.y+=dt*.35;lumaCore.rotation.x+=dt*.22;lumaCore.rotation.y+=dt*.55;lumaHalo.rotation.z+=dt*.3;lumaLight.intensity=16+Math.sin(now*.003)*3;}if(started){forward.set(-Math.sin(yaw),0,-Math.cos(yaw));right.set(Math.cos(yaw),0,-Math.sin(yaw));desired.set(0,0,0);
+if(gameWon){luma.visible=true;luma.position.y=groundY(0,-82)+5+Math.sin(now*.0015)*.45;luma.rotation.y+=dt*.35;lumaCore.rotation.x+=dt*.22;lumaCore.rotation.y+=dt*.55;lumaHalo.rotation.z+=dt*.3;lumaLight.intensity=16+Math.sin(now*.003)*3;}if(started){updateRealmFromPosition();forward.set(-Math.sin(yaw),0,-Math.cos(yaw));right.set(Math.cos(yaw),0,-Math.sin(yaw));desired.set(0,0,0);
  let padX=0,padY=0,padLookX=0,padLookY=0,padRun=false,padInteract=false;
  try{for(const pad of navigator.getGamepads?.()||[]){if(!pad)continue;const axis=(i)=>{const v=pad.axes[i]||0;return Math.abs(v)<.18?0:v};padX=axis(0);padY=axis(1);padLookX=axis(2);padLookY=axis(3);padRun=!!(pad.buttons[4]?.pressed||pad.buttons[10]?.pressed);padInteract=!!(pad.buttons[0]?.pressed||pad.buttons[2]?.pressed);break}}catch{/* Gamepad API can be unavailable in restricted contexts. */}
  if(padX||padY){desired.addScaledVector(right,padX);desired.addScaledVector(forward,-padY)}
