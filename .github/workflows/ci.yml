@@ -42,6 +42,7 @@ jobs:
           node --check 3d-prototype/world/terrain.js
           node --check 3d-prototype/realms/realm-registry.js
           node --check 3d-prototype/realms/realm-quests.js
+          node --input-type=module -e "import { REALMS } from './3d-prototype/realms/realm-registry.js'; if (REALMS.length !== 12 || REALMS.some(r => !r.trait || !r.traitRule) || new Set(REALMS.map(r => r.trait)).size !== 12) { console.error('Each of the twelve realms must define a unique gameplay trait and rule.'); process.exit(1); } console.log('All 12 realms have distinct gameplay traits.');"
           npm run doctor:self-test
           npm run cloudflare:doctor:self-test
       - name: Security audit
