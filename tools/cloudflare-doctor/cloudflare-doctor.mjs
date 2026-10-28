@@ -179,6 +179,7 @@ async function main() {
       latestStage: d.latest_stage, stages: d.stages || [],
       branch: d.deployment_trigger?.metadata?.branch || d.source?.config?.production_branch || null,
       commitHash: d.deployment_trigger?.metadata?.commit_hash || null,
+      commitMessage: d.deployment_trigger?.metadata?.commit_message || null,
       skipped: Boolean(d.is_skipped), skipReason: d.skip_reason || null
     }));
 
@@ -186,7 +187,36 @@ async function main() {
     for (const d of candidates) {
       const stages = d.stages || [];
       for (const s of stages) if (s.status === 'failure') report.incidents.push(incident('deployment-stage-failed', 'high', 'Deployment stage failed: ' + s.name, 'Cloudflare reports stage ' + s.name + ' as failed.', { deploymentId: d.id, stage: s }, 'Inspect the build log and route the earliest actionable failure to Project Doctor.', { deploymentId: d.id, stageName: s.name }));
-      if (d.skipped) report.incidents.push(incident('deployment-skipped', 'medium', 'A Git-triggered deployment was skipped', 'Cloudflare skipped this deployment' + (d.skipReason ? ' (' + d.skipReason + ')' : '') + '.', { deploymentId: d.id, skipReason: d.skipReason, branch: d.branch }, 'Check Pages path filters and changed-file matching.', { deploymentId: d.id }));
+      if (d.skipped) {
+        // Cloudflare intentionally skips commits marked [skip ci]. This is not a
+        // failed deployment and must not make the Pages health status noisy.
+        if (d.skipReason === 'commit_message' && /\[(skip ci|ci skip|no ci)\]/i.test(d.commitMessage || '')) {
+          report.checks.push({ name: 'expected skipped deployment', ok: true, status: d.skipReason, commitHash: d.commitHash, detail: 'Commit explicitly requested CI/deployment skip.' });
+        } else if (d.skipReason === 'path_config' && d.commitHash) {
+          // Verify whether the commit only touched tooling/docs. A path-filter
+          // skip is expected for non-app changes; app changes remain incidents.
+          try {
+            const response = await fetch('https://api.github.com/repos/SHAZAM-1/athar-web-game/commits/' + encodeURIComponent(d.commitHash), {
+              headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
+              signal: AbortSignal.timeout(10000)
+            });
+            if (!response.ok) throw new Error('GitHub commit lookup returned HTTP ' + response.status);
+            const commit = await response.json();
+            const files = (commit.files || []).map(file => file.filename || '');
+            const appPath = /^(index\.html|src\/|3d-prototype\/|public\/|package\.json|package-lock\.json|vite\.config\.|tsconfig|\.npmrc$|\.nvmrc$)/i;
+            const appChanged = files.some(file => appPath.test(file));
+            if (files.length && !appChanged) {
+              report.checks.push({ name: 'expected path-filter skip', ok: true, status: d.skipReason, commitHash: d.commitHash, changedFiles: files, detail: 'Commit changed tooling/docs only; no deployable app paths were changed.' });
+            } else {
+              report.incidents.push(incident('deployment-skipped', 'medium', 'A Git-triggered deployment was skipped despite application changes', 'Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.', { deploymentId: d.id, skipReason: d.skipReason, branch: d.branch, commitHash: d.commitHash, changedFiles: files }, 'Review Cloudflare Pages build path filters and ensure app paths are included.', { deploymentId: d.id }));
+            }
+          } catch (error) {
+            report.incidents.push(incident('deployment-skipped', 'medium', 'A Git-triggered deployment was skipped and could not be verified', 'Cloudflare skipped this deployment (path_config); changed files could not be verified: ' + error.message, { deploymentId: d.id, skipReason: d.skipReason, branch: d.branch, commitHash: d.commitHash }, 'Review Pages path filters and verify the commit file list.', { deploymentId: d.id }));
+          }
+        } else {
+          report.incidents.push(incident('deployment-skipped', 'medium', 'A Git-triggered deployment was skipped', 'Cloudflare skipped this deployment' + (d.skipReason ? ' (' + d.skipReason + ')' : '') + '.', { deploymentId: d.id, skipReason: d.skipReason, branch: d.branch, commitHash: d.commitHash, commitMessage: d.commitMessage }, 'Check Pages path filters and changed-file matching.', { deploymentId: d.id }));
+        }
+      }
       if (stages.some(s => s.status === 'failure') || d.id === report.latestDeployment?.id) {
         try {
           const logs = await get(base + '/deployments/' + encodeURIComponent(d.id) + '/history/logs');
@@ -204,7 +234,7 @@ async function main() {
     report.checks.push({ name: 'latest deployment stage', ok: latestStatus === 'success', status: latestStatus || 'no-deployment' });
     if (!report.latestDeployment) report.incidents.push(incident('no-deployment', 'high', 'No Pages deployment exists', 'The project has no latest deployment recorded.', {}, 'Verify repository integration and trigger a deployment.'));
     else if (latestStatus === 'failure') report.incidents.push(incident('latest-deployment-failed', 'critical', 'Latest deployment failed', 'Cloudflare reports latest stage status failure.', { deploymentId: report.latestDeployment.id, stage: report.latestDeployment.latest_stage }, 'Use captured logs to identify the root cause before retrying.', { deploymentId: report.latestDeployment.id }));
-    else if (latestStatus !== 'success') report.incidents.push(incident('deployment-in-progress', 'low', 'Latest deployment is not finished', 'Current status is ' + latestStatus + '.', { deploymentId: report.latestDeployment.id, stage: report.latestDeployment.latest_stage }, 'Poll again after deployment finishes.', { deploymentId: report.latestDeployment.id }));
+    else if (latestStatus !== 'success' && !report.latestDeployment.is_skipped) report.incidents.push(incident('deployment-in-progress', 'low', 'Latest deployment is not finished', 'Current status is ' + latestStatus + '.', { deploymentId: report.latestDeployment.id, stage: report.latestDeployment.latest_stage }, 'Poll again after deployment finishes.', { deploymentId: report.latestDeployment.id }));
     await inspectLive(report.liveUrl, report.incidents, report.checks);
   } catch (error) {
     report.status = 'error';
