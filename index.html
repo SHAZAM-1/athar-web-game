@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#09172a">
-<meta name="description" content="Athar is a third-person 3D fantasy adventure. Explore the Whispering Wilds, collect lost shards, solve ancient runes, and awaken Luma.">
-<title>Athar — The Whispering Wilds</title>
+<meta name="description" content="Explore one connected 3D fantasy world with twelve living realm-cities, shared roads, hidden treasures, and ancient mysteries.">
+<title>Athar — The Twelve Realms</title>
 <link rel="stylesheet" href="./3d-prototype/style.css">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"}}</script>
 </head>
@@ -13,14 +13,14 @@
 <div id="game"></div>
 <header class="hud-top">
   <a class="brand" href="./">ATHAR <span>✦</span></a>
-  <div class="realm-label"><small>REALM <span id="realm-index">01</span> · PALETTE PREVIEW</small><strong id="realm-name">THE WHISPERING REALM</strong><div class="realm-switch"><button id="realm-prev" type="button" aria-label="Previous realm palette">‹</button><button id="realm-next" type="button" aria-label="Next realm palette">›</button></div></div>
+  <div class="realm-label"><small>CONNECTED WORLD · REALM <span id="realm-index">01</span> / 12</small><strong id="realm-name">THE WHISPERING REALM</strong></div>
   <div class="crystal-counter">✧ <span id="crystal-count">0</span><small> / 5 SHARDS</small></div>
 </header>
 <section class="intro-card" id="intro-card">
   <p class="eyebrow">A WORLD WAITING TO BE FOUND</p>
-  <h1>The Whispering<br><em>Wilds</em></h1>
-  <p>Explore a living 3D wilderness. Follow the lights, discover ancient ruins, and gather the five lost shards.</p>
-  <button id="start-button">ENTER THE WILDS <span>→</span></button>
+  <h1>The Twelve<br><em>Realms</em></h1>
+  <p>One vast connected world. Twelve realm-cities stand around the central crossroads, each with its own skyline, colours, treasures, and secrets. Travel between them on foot—no realm selection, no separate maps.</p>
+  <button id="start-button">ENTER THE WORLD <span>→</span></button>
   <small class="controls-note">WASD / ARROWS MOVE · MOUSE LOOK · SHIFT RUN · E INTERACT · GAMEPAD: LEFT STICK MOVE / RIGHT STICK LOOK / A INTERACT / LB RUN</small>
 </section>
 <aside class="quest-card">
@@ -34,7 +34,7 @@
   <button id="touch-interact" class="touch-interact">INTERACT · E</button>
 </div>
 <div class="crosshair" aria-hidden="true">+</div>
-<div class="bottom-hint" id="bottom-hint">Explore the wilds. Something ancient sleeps beyond the trees.</div>
+<div class="bottom-hint" id="bottom-hint">Follow the roads from the central crossroads to discover all twelve realm-cities.</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="module" src="./3d-prototype/main.js"></script>
 </body>
