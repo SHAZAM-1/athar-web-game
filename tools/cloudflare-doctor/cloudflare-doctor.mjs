@@ -231,10 +231,23 @@ async function main() {
     }
 
     const latestStatus = report.latestDeployment?.latest_stage?.status;
-    report.checks.push({ name: 'latest deployment stage', ok: latestStatus === 'success', status: latestStatus || 'no-deployment' });
+    const latestListed = report.recentDeployments.find(d => d.id === report.latestDeployment?.id);
+    const latestExpectedSkip = Boolean(
+      report.latestDeployment?.is_skipped ||
+      latestListed?.skipped && (
+        latestListed.skipReason === 'commit_message' && /\\[(skip ci|ci skip|no ci)\\]/i.test(latestListed.commitMessage || '') ||
+        report.checks.some(check => check.expectedSkip && check.deploymentId === latestListed.id)
+      )
+    );
+    report.checks.push({
+      name: 'latest deployment stage',
+      ok: latestStatus === 'success' || latestExpectedSkip,
+      status: latestExpectedSkip ? 'expected skipped deployment' : (latestStatus || 'no-deployment'),
+      deploymentId: report.latestDeployment?.id || null
+    });
     if (!report.latestDeployment) report.incidents.push(incident('no-deployment', 'high', 'No Pages deployment exists', 'The project has no latest deployment recorded.', {}, 'Verify repository integration and trigger a deployment.'));
     else if (latestStatus === 'failure') report.incidents.push(incident('latest-deployment-failed', 'critical', 'Latest deployment failed', 'Cloudflare reports latest stage status failure.', { deploymentId: report.latestDeployment.id, stage: report.latestDeployment.latest_stage }, 'Use captured logs to identify the root cause before retrying.', { deploymentId: report.latestDeployment.id }));
-    else if (latestStatus !== 'success' && !report.latestDeployment.is_skipped) report.incidents.push(incident('deployment-in-progress', 'low', 'Latest deployment is not finished', 'Current status is ' + latestStatus + '.', { deploymentId: report.latestDeployment.id, stage: report.latestDeployment.latest_stage }, 'Poll again after deployment finishes.', { deploymentId: report.latestDeployment.id }));
+    else if (latestStatus !== 'success' && !latestExpectedSkip) report.incidents.push(incident('deployment-in-progress', 'low', 'Latest deployment is not finished', 'Current status is ' + latestStatus + '.', { deploymentId: report.latestDeployment.id, stage: report.latestDeployment.latest_stage }, 'Poll again after deployment finishes.', { deploymentId: report.latestDeployment.id }));
     await inspectLive(report.liveUrl, report.incidents, report.checks);
   } catch (error) {
     report.status = 'error';
