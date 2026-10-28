@@ -191,7 +191,7 @@ async function main() {
         // Cloudflare intentionally skips commits marked [skip ci]. This is not a
         // failed deployment and must not make the Pages health status noisy.
         if (d.skipReason === 'commit_message' && /\[(skip ci|ci skip|no ci)\]/i.test(d.commitMessage || '')) {
-          report.checks.push({ name: 'expected skipped deployment', ok: true, status: d.skipReason, commitHash: d.commitHash, detail: 'Commit explicitly requested CI/deployment skip.' });
+          report.checks.push({ name: 'expected skipped deployment', ok: true, expectedSkip: true, deploymentId: d.id, status: d.skipReason, commitHash: d.commitHash, detail: 'Commit explicitly requested CI/deployment skip.' });
         } else if (d.skipReason === 'path_config' && d.commitHash) {
           // Verify whether the commit only touched tooling/docs. A path-filter
           // skip is expected for non-app changes; app changes remain incidents.
@@ -206,7 +206,7 @@ async function main() {
             const appPath = /^(index\.html|src\/|3d-prototype\/|public\/|package\.json|package-lock\.json|vite\.config\.|tsconfig|\.npmrc$|\.nvmrc$)/i;
             const appChanged = files.some(file => appPath.test(file));
             if (files.length && !appChanged) {
-              report.checks.push({ name: 'expected path-filter skip', ok: true, status: d.skipReason, commitHash: d.commitHash, changedFiles: files, detail: 'Commit changed tooling/docs only; no deployable app paths were changed.' });
+              report.checks.push({ name: 'expected path-filter skip', ok: true, expectedSkip: true, deploymentId: d.id, status: d.skipReason, commitHash: d.commitHash, changedFiles: files, detail: 'Commit changed tooling/docs only; no deployable app paths were changed.' });
             } else {
               report.incidents.push(incident('deployment-skipped', 'medium', 'A Git-triggered deployment was skipped despite application changes', 'Cloudflare skipped this deployment (path_config) and the commit changes deployable application paths or its changed files could not be verified.', { deploymentId: d.id, skipReason: d.skipReason, branch: d.branch, commitHash: d.commitHash, changedFiles: files }, 'Review Cloudflare Pages build path filters and ensure app paths are included.', { deploymentId: d.id }));
             }
