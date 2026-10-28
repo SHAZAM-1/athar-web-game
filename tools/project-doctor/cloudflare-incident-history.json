@@ -13,7 +13,7 @@
       "firstSeen": "2026-10-27T16:12:41.739Z",
       "lastSeen": "2026-10-27T16:14:45.299Z",
       "occurrenceCount": 4,
-      "status": "open-unverified",
+      "status": "resolved-observed",
       "source": "cloudflare-pages",
       "deploymentId": null,
       "url": null,
@@ -29,7 +29,9 @@
       "latestNextStep": "Create a CLOUDFLARE_API_TOKEN secret with Cloudflare Pages read access; the account ID is configured in the workflow.",
       "latestReportCheckedAt": "2026-10-27T16:14:45.140Z",
       "lastObservedStatus": "error",
-      "latestSeverity": "critical"
+      "latestSeverity": "critical",
+      "resolution": "A later Cloudflare Doctor inspection completed successfully; historical failure evidence retained.",
+      "resolvedAt": "2026-10-28T00:33:30.222Z"
     },
     {
       "fingerprint": "npm-edgesout|f87e6602-97b5-4ab3-a10a-253e4183b499||Cannot read properties of null (reading 'edgesOut')",
@@ -74,7 +76,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 2,
-      "status": "open-unverified",
+      "status": "resolved-expected",
       "source": "cloudflare-pages",
       "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
       "url": null,
@@ -92,7 +94,9 @@
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
-      "latestSeverity": "medium"
+      "latestSeverity": "medium",
+      "resolution": "Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.",
+      "resolvedAt": "2026-10-28T00:33:30.222Z"
     },
     {
       "fingerprint": "deployment-skipped|15a26ab0-a350-42e6-b9aa-492f3ae7dac9||",
@@ -103,7 +107,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 2,
-      "status": "open-unverified",
+      "status": "resolved-expected",
       "source": "cloudflare-pages",
       "deploymentId": "15a26ab0-a350-42e6-b9aa-492f3ae7dac9",
       "url": null,
@@ -121,7 +125,9 @@
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
-      "latestSeverity": "medium"
+      "latestSeverity": "medium",
+      "resolution": "Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.",
+      "resolvedAt": "2026-10-28T00:33:30.222Z"
     },
     {
       "fingerprint": "deployment-skipped|37fbdfe7-fd2b-479e-bf61-5c03e55ba771||",
@@ -132,7 +138,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 2,
-      "status": "open-unverified",
+      "status": "resolved-expected",
       "source": "cloudflare-pages",
       "deploymentId": "37fbdfe7-fd2b-479e-bf61-5c03e55ba771",
       "url": null,
@@ -150,7 +156,9 @@
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
       "lastObservedStatus": "warning",
-      "latestSeverity": "medium"
+      "latestSeverity": "medium",
+      "resolution": "Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.",
+      "resolvedAt": "2026-10-28T00:33:30.222Z"
     },
     {
       "fingerprint": "deployment-skipped|05edac3e-9a31-42de-b445-fad3f8a44a50||",
@@ -362,7 +370,7 @@
       "firstSeen": "2026-10-27T18:34:12.123Z",
       "lastSeen": "2026-10-27T18:34:14.037Z",
       "occurrenceCount": 1,
-      "status": "open-unverified",
+      "status": "resolved-expected",
       "source": "cloudflare-pages",
       "deploymentId": "bcda498b-72e1-46f8-bf76-7a25f0a30479",
       "url": null,
@@ -387,7 +395,9 @@
       "nextStep": "Poll again after deployment finishes.",
       "latestNextStep": "Poll again after deployment finishes.",
       "latestReportCheckedAt": "2026-10-27T18:34:12.123Z",
-      "lastObservedStatus": "warning"
+      "lastObservedStatus": "warning",
+      "resolution": "The deployment was skipped intentionally; an idle queued stage is expected for skipped deployments.",
+      "resolvedAt": "2026-10-28T00:33:30.222Z"
     },
     {
       "fingerprint": "deployment-skipped|3ec5a0ef-33ef-471d-9fea-5ff8daa527c5||",
@@ -398,7 +408,7 @@
       "firstSeen": "2026-10-27T19:48:53.039Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 1,
-      "status": "open-unverified",
+      "status": "resolved-expected",
       "source": "cloudflare-pages",
       "deploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
       "url": null,
@@ -415,7 +425,9 @@
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
-      "lastObservedStatus": "warning"
+      "lastObservedStatus": "warning",
+      "resolution": "Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.",
+      "resolvedAt": "2026-10-28T00:33:30.222Z"
     },
     {
       "fingerprint": "deployment-skipped|f858dd9b-339d-4baa-95c0-351150f23ad0||",
@@ -426,7 +438,7 @@
       "firstSeen": "2026-10-27T19:48:53.039Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 1,
-      "status": "open-unverified",
+      "status": "resolved-expected",
       "source": "cloudflare-pages",
       "deploymentId": "f858dd9b-339d-4baa-95c0-351150f23ad0",
       "url": null,
@@ -443,7 +455,9 @@
       "nextStep": "Check Pages path filters and changed-file matching.",
       "latestNextStep": "Check Pages path filters and changed-file matching.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
-      "lastObservedStatus": "warning"
+      "lastObservedStatus": "warning",
+      "resolution": "Cloudflare confirmed this was an intentional [skip ci] commit or a path_config skip for tooling/docs-only changes.",
+      "resolvedAt": "2026-10-28T00:33:30.222Z"
     },
     {
       "fingerprint": "deployment-in-progress|3ec5a0ef-33ef-471d-9fea-5ff8daa527c5||",
@@ -454,7 +468,7 @@
       "firstSeen": "2026-10-27T19:48:53.039Z",
       "lastSeen": "2026-10-27T19:48:54.450Z",
       "occurrenceCount": 1,
-      "status": "open-unverified",
+      "status": "resolved-expected",
       "source": "cloudflare-pages",
       "deploymentId": "3ec5a0ef-33ef-471d-9fea-5ff8daa527c5",
       "url": null,
@@ -479,13 +493,15 @@
       "nextStep": "Poll again after deployment finishes.",
       "latestNextStep": "Poll again after deployment finishes.",
       "latestReportCheckedAt": "2026-10-27T19:48:53.039Z",
-      "lastObservedStatus": "warning"
+      "lastObservedStatus": "warning",
+      "resolution": "The deployment was skipped intentionally; an idle queued stage is expected for skipped deployments.",
+      "resolvedAt": "2026-10-28T00:33:30.222Z"
     }
   ],
-  "updatedAt": "2026-10-28T00:33:00.967Z",
+  "updatedAt": "2026-10-28T00:33:33.019Z",
   "latestCloudflareStatus": "healthy",
-  "latestReportCheckedAt": "2026-10-28T00:32:57.302Z",
-  "latestDeploymentId": "1a035bf4-703f-4dff-9218-86a3cfd95f90",
+  "latestReportCheckedAt": "2026-10-28T00:33:30.222Z",
+  "latestDeploymentId": "0886840a-29fe-4e21-a3b5-dc198cb02c3a",
   "latestLiveUrl": "https://athar-web-game.pages.dev",
   "totalIncidentFingerprints": 16
 }
