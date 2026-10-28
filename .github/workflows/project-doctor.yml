@@ -22,12 +22,12 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Check out repository and branch history
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
       - name: Update npm to the supported current major
@@ -45,7 +45,7 @@ jobs:
         run: node tools/project-doctor/doctor.mjs --all-branches
       - name: Upload diagnostic report and safe-fix proposals
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: athar-project-doctor-${{ github.run_id }}
           path: |
